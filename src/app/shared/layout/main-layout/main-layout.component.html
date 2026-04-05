@@ -1,0 +1,27 @@
+<div class="d-flex flex-column min-vh-100">
+  <header class="navbar navbar-light bg-white shadow-sm px-4 py-3 sticky-top">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+      <a (click)="navigateTo('/')" style="cursor: pointer;"><img src="images/logo-clean.png" height="45" alt="TechBridge Logo"></a>
+      
+      <div class="d-flex align-items-center gap-3">
+        <span class="badge rounded-pill bg-light text-primary border p-2 px-3 d-none d-md-block" style="font-size: 16px;">
+          {{ userRole }}
+        </span>
+        <button (click)="logout()" class="btn btn-outline-danger btn-md d-flex align-items-center gap-2">
+          <i class="bi bi-box-arrow-right"></i> Salir
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow-1">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="bg-dark text-white py-4 mt-5">
+    <div class="container text-center">
+      <p class="mb-1 fw-bold">TechBridge © 2026</p>
+      <small >Conectando generaciones a través de la tecnología.</small>
+    </div>
+  </footer>
+</div>

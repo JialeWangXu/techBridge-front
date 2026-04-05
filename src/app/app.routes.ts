@@ -2,9 +2,19 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { LoginCallbackComponent } from './features/auth/pages/LoginCallbackComponent';
 import { RegisterComponent } from './features/register/register.component';
+import { AutoLoginPartialRoutesGuard } from 'angular-auth-oidc-client';
+import { MainLayoutComponent } from './shared/layout/main-layout/main-layout.component';
 
 export const routes: Routes = [
-  {path: '', component:HomeComponent},
+  {
+    path:'',
+    component:MainLayoutComponent,
+    canActivate: [AutoLoginPartialRoutesGuard],
+    children:[
+      {path: 'home', component: HomeComponent},
+      {path:'',redirectTo:'home',pathMatch:'full'}
+    ]
+  },
   {path: 'callback', component: LoginCallbackComponent},
   {path:'register', component:RegisterComponent}
 ];

@@ -14,12 +14,12 @@ export class AuthService {
     this.oidcSecurityService.authorize();
   }
 
-    logout(): void {
-        this.oidcSecurityService.logoff().subscribe(() => {
-            this.firstname = '';
-            this.email = '';
-            this.role = '';
-            this.authenticated = false;
-        });
-    }
+  logout(): void {
+      this.oidcSecurityService.logoff().subscribe(() => {
+          this.firstname = '';
+          this.email = '';
+          this.role = '';
+          this.authenticated = false;
+      });
+  }
 }
