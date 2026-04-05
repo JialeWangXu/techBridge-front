@@ -60,8 +60,6 @@ export class RegisterComponent {
         role: this.rol
         } as UserDto;
 
-        console.log(userDto);
-
         this.registerService.create(userDto).subscribe({
           next:(response)=>{
             console.log('Usuario registrado con éxito', response);
@@ -73,7 +71,6 @@ export class RegisterComponent {
             console.error('Error al registrar el usuario', e);
           }
         });
-        console.log(this.registerForm.value);
       }else{
         return
       }

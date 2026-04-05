@@ -15,9 +15,14 @@ export class MainLayoutComponent implements OnInit {
   userRole: string = '';
 
   ngOnInit() {
-    this.userRole = this.authService.role;
-  }
 
+    const userData = this.authService.getUserData();
+    if (userData) {
+      this.userRole = userData['role'];
+    }
+    
+  };
+  
   logout(): void {
       this.authService.logout();
   }
