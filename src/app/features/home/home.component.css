@@ -1,0 +1,39 @@
+.btn-option {
+  background: white;
+  border: 3px solid #8EBFFB;
+  border-radius: 20px;
+  padding: 2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #003366;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  text-align: left;
+
+  i {
+    font-size: 2rem;
+    color: #8EBFFB;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    background-color: #f0f7ff;
+    border-color: #003366;
+  }
+
+  &.volunteer {
+    border-color: #a2cf6e;
+    i { color: #a2cf6e; }
+    &:hover { background-color: #f4faf0; border-color: #4e7a17; }
+  }
+}
+
+@media (max-width: 768px) {
+  .btn-option {
+    padding: 1.2rem;
+    font-size: 1.1rem;
+    i { font-size: 1.5rem; }
+  }
+}

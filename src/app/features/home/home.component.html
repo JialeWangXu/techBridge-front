@@ -1,3 +1,58 @@
-<div >
-    Homeeee
+<div class="container py-5">
+    <div class="row mb-5">
+        <div class="col-12 text-center text-md-start">
+        <h1 class="display-5 fw-bold" style="color: #003366;">
+            {{greetingMessage}}<span class="text-primary">{{ userName }}</span>
+        </h1>
+        @if (userRole === "SENIOR") {
+            <p class="lead text-muted">¿Cómo le puedo ayudar hoy?</p>
+        } @else {
+            <p class="lead text-muted">¡Gracias por acercar la tecnología a todos!</p>
+        }
+        </div>
+    </div>
+
+    <div class="row align-items-center g-5">
+        <div class="col-md-6 text-center">
+            @if(userRole === 'SENIOR'){
+                <img src="images/senior.png" class="img-fluid rounded-5 shadow-sm" 
+                    style="max-height: 450px;" alt="Bienvenida">
+            }@else{
+                <img src="images/volunteer.png" class="img-fluid rounded-5 shadow-sm" 
+                style="max-height: 450px;" alt="Bienvenida">
+            }
+        </div>
+
+        <div class="col-md-6">
+            <div class="d-grid gap-4">
+            @if (userRole === 'SENIOR') {
+                <button (click)="navigateTo('new-request')" class="btn-option shadow-sm">
+                    <span>Solicitar nueva Ayuda</span>
+                    <i class="bi bi-plus-circle-fill"></i>
+                </button>
+                <button (click)="navigateTo('my-requests')" class="btn-option shadow-sm text-start">
+                    <span>Mis solicitudes</span>
+                    <i class="bi bi-calendar-event"></i>
+                </button>
+                <button (click)="navigateTo('profile')" class="btn-option shadow-sm text-start">
+                    <span>Mi perfil</span>
+                    <i class="bi bi-person-gear"></i>
+                </button>
+            }@else{
+                <button (click)="navigateTo('available-requests')" class="btn-option shadow-sm volunteer">
+                    <span>Ayudas disponibles</span>
+                    <i class="bi bi-search"></i>
+                </button>
+                <button (click)="navigateTo('my-tasks')" class="btn-option shadow-sm volunteer">
+                    <span>Mis ayudas realizadas</span>
+                    <i class="bi bi-hand-thumbs-up"></i>
+                </button>
+                <button (click)="navigateTo('profile')" class="btn-option shadow-sm volunteer">
+                    <span>Mi perfil</span>
+                    <i class="bi bi-person-gear"></i>
+                </button>  
+            }
+            </div>
+        </div>
+    </div>
 </div>
