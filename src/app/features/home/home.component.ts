@@ -14,17 +14,21 @@ export class HomeComponent implements OnInit {
   userEmail: string = '';
 
   ngOnInit() {
-    this.userName = this.authService.firstname;
-    this.userRole = this.authService.role;
-    this.userEmail = this.authService.email;
+
+    const userData =this.authService.getUserData();
+    if (userData) {
+      this.userRole = userData['role'];
+      this.userEmail = userData['email'];
+      this.userName = userData['firstname'];
+    }
 
     console.log('User Info:', {
       name: this.userName,
       role: this.userRole,
       email: this.userEmail
     });
-  }
-
+  };
+    
   navigateTo(rute: string) {
     this.router.navigate([rute]);
   }

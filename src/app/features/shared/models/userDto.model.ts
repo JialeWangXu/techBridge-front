@@ -6,7 +6,7 @@ export interface UserDto {
     password?: string;
     telephone?: string;
     contactPreference?: string;
-    skills?:string;
+    specialties?:string;
     isAvailable?:boolean;
     active?:boolean;
     address?: string;

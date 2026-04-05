@@ -1,0 +1,41 @@
+.form-control:disabled {
+  background-color: transparent;
+  border-color: transparent;
+  color: #333;
+  font-weight: 500;
+  padding-left: 0.5rem;
+}
+
+.editable-input {
+  border: 2px solid #8EBFFB !important;
+  background-color: #fff !important;
+  &:hover {
+    background-color: #7ab2f0;
+  }
+}
+
+.form-control:disabled, .form-select:disabled {
+  border-color: transparent;
+  background-color: #f8f9fa; 
+  cursor: default;
+}
+
+.badge {
+  border: 1px solid #003366;
+  transition: all 0.2s;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.btn-close {
+  filter: brightness(0);
+  &:hover {
+    opacity: 1;
+  }
+}
+
+select.editable-input {
+  cursor: pointer;
+  border: 2px solid #8EBFFB !important;
+}

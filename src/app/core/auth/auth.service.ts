@@ -4,22 +4,28 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly oidcSecurityService = inject(OidcSecurityService);
-  authenticated: boolean = false;
-  email: string = '';
-  firstname:string ='';
-  role: string = '';
 
   // Este método lanzará la redirección al login de Spring
   login() {
     this.oidcSecurityService.authorize();
   }
 
+  getUserData(): { email: string, firstname: string, role: string } | null {
+    // Obtenemos el payload decodificado del Access Token
+    const data ={
+      email: '',
+      firstname: '',
+      role: ''
+    };
+    this.oidcSecurityService.getPayloadFromAccessToken().subscribe(payload => {
+      data['email'] = payload['sub'];
+      data['firstname'] = payload['name'];
+      data['role'] = payload['role'];
+    });
+    return data;
+  }
+
   logout(): void {
-      this.oidcSecurityService.logoff().subscribe(() => {
-          this.firstname = '';
-          this.email = '';
-          this.role = '';
-          this.authenticated = false;
-      });
+      this.oidcSecurityService.logoff().subscribe();
   }
 }

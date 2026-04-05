@@ -16,15 +16,7 @@ export class LoginCallbackComponent implements OnInit {
 
     ngOnInit(): void {
         this.oidcSecurityService.checkAuth().subscribe(({isAuthenticated}) => {
-            this.authService.authenticated = isAuthenticated;
             if (isAuthenticated) {
-                this.oidcSecurityService.getPayloadFromAccessToken().subscribe(
-                    data => {
-                        this.authService.email = data['sub'];
-                        this.authService.firstname = data['name'];
-                        this.authService.role = data['role'];
-                    },
-                );
                 this.router.navigate(['/']);
             }
         });
