@@ -1,0 +1,36 @@
+/* Heredamos el estilo de los inputs del perfil */
+.form-control {
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+  border: 2px solid transparent !important;
+}
+
+.form-control:focus {
+  border: 2px solid #8EBFFB !important;
+  box-shadow: 0 0 10px rgba(142, 191, 251, 0.2) !important;
+  background-color: #fff;
+}
+
+/* Estilo para los botones consistente con el Home */
+.btn-lg {
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.btn-lg:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+.btn-lg:active {
+  transform: translateY(0);
+}
+
+/* Animación suave para la card */
+.card {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
