@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component} from '@angular/core';
 import {  FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HelpRequestService } from '../help-request.service';
 import { HelpRequestCreate } from '../../../../shared/models/helpRequest.model';
+import { HelpRequestService } from '../../../help-requests/help-request.service';
 
 @Component({
   selector: 'app-help-request',

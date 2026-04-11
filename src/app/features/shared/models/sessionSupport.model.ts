@@ -16,7 +16,7 @@ export interface SessionSupport {
     status: HelpStatus;
     createdAt: Date;
     updatedAt: Date;
-    helpRequest:HelpStatus;
+    helpRequest?:HelpStatus;
 }
 
 export enum HelpStatus {
