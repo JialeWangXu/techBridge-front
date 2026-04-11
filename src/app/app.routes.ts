@@ -6,6 +6,7 @@ import { AutoLoginPartialRoutesGuard } from 'angular-auth-oidc-client';
 import { MainLayoutComponent } from './shared/layout/main-layout/main-layout.component';
 import { ProfileComponent } from './features/home/profile/profile.component';
 import { HelpRequestCreateComponent } from './features/home/senior/help-request/create/help-request-create.component';
+import { ListHelpRequestsComponent } from './features/home/senior/help-request/my-requests/my-requests.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,7 @@ export const routes: Routes = [
       {path: 'home', component: HomeComponent},
       {path: 'profile', component: ProfileComponent},
       {path: 'help-request-posting', component:HelpRequestCreateComponent},
+      {path: 'my-requests', component: ListHelpRequestsComponent},
       {path:'',redirectTo:'home',pathMatch:'full'}
     ]
   },

@@ -1,0 +1,55 @@
+<div class="container py-5">
+  <h2 class="fw-bold mb-4" style="color: #003366;">
+    <i class="bi bi-calendar-event me-2"></i>Mis Solicitudes de Ayuda
+  </h2>
+
+  <div class="d-flex gap-2 mb-4 overflow-auto pb-2">
+    <button (click)="updateCategortOrStatus('ALL', status)" class="btn btn-category" [class.active]="category === 'ALL'">Todas</button>
+    <button (click)="updateCategortOrStatus('AI_ONLY', status)" class="btn btn-category" [class.active]="category === 'AI_ONLY'">Solo Tutorial IA</button>
+    <button (click)="updateCategortOrStatus('VOLUNTEER', status)" class="btn btn-category" [class.active]="category === 'VOLUNTEER'">Con Voluntario</button>
+  </div>
+
+  <div class="d-flex gap-2 mb-5 overflow-auto pb-2 filter-row">   
+    <button (click)="updateCategortOrStatus(category, RequestStatus.OPEN)" class="btn btn-filter" [class.active]="status === RequestStatus.OPEN">Abiertas</button>
+    <button (click)="updateCategortOrStatus(category, RequestStatus.ACCEPTED)" class="btn btn-filter" [class.active]="status === RequestStatus.ACCEPTED">Aceptadas</button>
+    <button (click)="updateCategortOrStatus(category, RequestStatus.IN_PROGRESS)" class="btn btn-filter" [class.active]="status === RequestStatus.IN_PROGRESS">En curso</button>
+    <button (click)="updateCategortOrStatus(category, RequestStatus.COMPLETED)" class="btn btn-filter" [class.active]="status === RequestStatus.COMPLETED">Finalizadas</button>
+    <button (click)="updateCategortOrStatus(category, RequestStatus.CANCELLED)" class="btn btn-filter" [class.active]="status === RequestStatus.CANCELLED">Canceladas</button>    
+  </div>
+
+  <div class="row g-3">
+    @for (req of helpRequests; track req.id) {
+      <div class="col-12">
+        <div class="card request-card shadow-sm border-0 rounded-4 overflow-hidden">
+          <div class="d-flex align-items-center p-4">
+            
+            <div class="status-indicator me-4 d-flex align-items-center justify-content-center rounded-3" 
+                  [style.background-color]="statusConfig[req.status].color">
+              <i class="bi" [class]="statusConfig[req.status].icon" style="color: white; font-size: 1.5rem;"></i>
+            </div>
+
+            <div class="flex-grow-1">
+              <h4 class="fw-bold mb-1" style="color: #003366;">{{req.title}}</h4>
+              <p class="text-muted mb-0 small">
+                <i class="bi bi-clock me-1"></i> Publicado: {{req.createdAt | date:'dd/MM/yyyy HH:mm'}}
+              </p>
+            </div>
+
+            <div class="text-end">
+              <span class="badge rounded-pill mb-2 px-3 py-2" 
+                    [style.border-color]="statusConfig[req.status].color"
+                    [style.color]="statusConfig[req.status].color"
+                    style="border: 1px solid; font-size: 0.9rem;">
+                {{statusConfig[req.status].text}}
+              </span>
+              <button class="btn btn-view d-block mt-2">
+                Ver detalle <i class="bi bi-arrow-right-short"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
