@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HelpRequestService } from '../../../help-requests/help-request.service';
 import { HelpRequest, RequestStatus } from '../../../../shared/models/helpRequest.model';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-help-requests',
@@ -12,7 +13,7 @@ import { CommonModule } from '@angular/common';
 export class ListHelpRequestsComponent implements OnInit {
 
 
-  constructor(private readonly helpRequestService: HelpRequestService) { }
+  constructor(private readonly helpRequestService: HelpRequestService, private readonly router: Router) { }
 
   helpRequests: HelpRequest[] = [];
   category: 'ALL'|'AI_ONLY'|'VOLUNTEER' = 'ALL';
@@ -54,6 +55,10 @@ export class ListHelpRequestsComponent implements OnInit {
       requests = requests.filter(request => request.supportSession);
     }
     return requests.filter(request => request.status === status );
+  }
+
+  navigateToDetail(requestId: string) {
+    this.router.navigate(['/my-requests', requestId]);
   }
 
 }
