@@ -18,9 +18,14 @@ export class HelpRequestService{
   }
 
   getAllBySeniorEmail():Observable<HelpRequest[]>{
-    console.log('Obteniendo solicitudes de ayuda para el senior');
-    const result = this.http.get<HelpRequest[]>(this.apiUrl);
-    console.log('Resultado de la solicitud HTTP:', result);
-    return result;
+    return  this.http.get<HelpRequest[]>(this.apiUrl);
+  }
+
+  getById(id:string):Observable<HelpRequest>{
+    return this.http.get<HelpRequest>(`${this.apiUrl}/${id}`);
+  }
+
+  deleteById(id:string):Observable<void>{
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

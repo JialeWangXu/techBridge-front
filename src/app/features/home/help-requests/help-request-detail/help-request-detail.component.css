@@ -1,0 +1,56 @@
+.container {
+  min-height: 100vh;
+}
+
+/* Botones selectores superiores */
+.btn-view-toggle {
+  background-color: white;
+  border: 3px solid #8EBFFB;
+  color: #003366;
+  border-radius: 15px;
+  padding: 1rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.btn-view-toggle.active {
+  background-color: #003366;
+  color: #8EBFFB;
+  border-color: #003366;
+}
+
+/* Círculo de avatar del voluntario */
+.avatar-circle {
+  width: 65px;
+  height: 65px;
+  background-color: #8EBFFB;
+  color: #003366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Estilo del contenido del tutorial */
+.tutorial-steps {
+  white-space: pre-line;
+  line-height: 1.8;
+  color: #2c3e50;
+}
+
+/* Consistencia con tarjetas de Perfil */
+.card {
+  transition: transform 0.2s ease;
+}
+
+.tutorial-container {
+  border-top: 6px solid #8EBFFB !important;
+}
+
+/* Botón eliminar estilo senior */
+.btn-danger {
+  font-weight: 600;
+  border: none;
+}

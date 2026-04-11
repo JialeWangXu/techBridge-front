@@ -22,11 +22,6 @@ export class HomeComponent implements OnInit {
       this.userName = userData['firstname'];
     }
 
-    console.log('User Info:', {
-      name: this.userName,
-      role: this.userRole,
-      email: this.userEmail
-    });
   };
     
   navigateTo(rute: string) {
