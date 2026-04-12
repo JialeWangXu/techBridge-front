@@ -18,7 +18,7 @@ export interface HelpRequest extends HelpRequestCreate {
 
 export enum RequestStatus{
   OPEN = "OPEN",
-  ACCEPTED = "ACCEPTED",
+  FINDING_VOLUNTEER = "FINDING_VOLUNTEER",
   IN_PROGRESS = "IN_PROGRESS",
   COMPLETED = "COMPLETED",
   CANCELLED = "CANCELLED"

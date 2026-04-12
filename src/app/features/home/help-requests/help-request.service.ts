@@ -28,4 +28,8 @@ export class HelpRequestService{
   deleteById(id:string):Observable<void>{
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  getAllAvailable():Observable<HelpRequest[]>{
+    return this.http.get<HelpRequest[]>(`${this.apiUrl}/available`);
+  }
 }

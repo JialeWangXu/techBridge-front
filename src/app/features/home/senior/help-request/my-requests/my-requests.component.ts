@@ -3,6 +3,7 @@ import { HelpRequestService } from '../../../help-requests/help-request.service'
 import { HelpRequest, RequestStatus } from '../../../../shared/models/helpRequest.model';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-my-help-requests',
@@ -13,19 +14,24 @@ import { Router } from '@angular/router';
 export class ListHelpRequestsComponent implements OnInit {
 
 
-  constructor(private readonly helpRequestService: HelpRequestService, private readonly router: Router) { }
+  constructor(private readonly helpRequestService: HelpRequestService, private readonly router: Router, 
+    private readonly authService:AuthService
+  ) { }
 
   helpRequests: HelpRequest[] = [];
   category: 'ALL'|'AI_ONLY'|'VOLUNTEER' = 'ALL';
   status:RequestStatus = RequestStatus.OPEN;
   public RequestStatus = RequestStatus;
   ngOnInit() {
+    if(this.authService.getUserData()?.role!== 'SENIOR' ){
+      this.router.navigate(['/']);
+    }
     this.updateCategortOrStatus('ALL', RequestStatus.OPEN);
   }
 
   statusConfig: any = {
     'OPEN': { color: '#28a745', icon: 'bi-door-open-fill', text: 'Abierta' },
-    'ACCEPTED': { color: '#0d6efd', icon: 'bi-person-check-fill', text: 'Aceptada' },
+    'FINDING_VOLUNTEER': { color: '#0d6efd', icon: 'bi-person-check-fill', text: 'Encontrando voluntario' },
     'IN_PROGRESS': { color: '#ffc107', icon: 'bi-hourglass-split', text: 'En curso' },
     'COMPLETED': { color: '#6c757d', icon: 'bi-check-circle-fill', text: 'Completada' },
     'CANCELLED': { color: '#dc3545', icon: 'bi-x-circle-fill', text: 'Cancelada' }
