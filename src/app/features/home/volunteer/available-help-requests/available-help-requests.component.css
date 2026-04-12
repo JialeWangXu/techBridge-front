@@ -1,0 +1,37 @@
+.search-box {
+  background-color: #fdfdff;
+  border-color: #c9e1fd !important;
+}
+
+.method-strip {
+  width: 120px;
+  min-width: 120px;
+}
+
+.avatar-mini {
+  width: 32px;
+  height: 32px;
+  background-color: #8EBFFB;
+  color: #003366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.request-card-volunteer {
+  border: 1px solid #c9e1fd !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.request-card-volunteer:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 51, 102, 0.12) !important;
+}
+
+.btn-primary {
+  background-color: #003366;
+  border: none;
+}

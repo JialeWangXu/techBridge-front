@@ -38,7 +38,7 @@ export class HelpRequestDetailComponent implements OnInit {
 
   statusConfig: any = {
   'OPEN': { color: '#28a745', icon: 'bi-door-open-fill', text: 'Abierta' },
-  'ACCEPTED': { color: '#0d6efd', icon: 'bi-person-check-fill', text: 'Aceptada' },
+  'FINDING_VOLUNTEER': { color: '#0d6efd', icon: 'bi-person-check-fill', text: 'Encontrando voluntario' },
   'IN_PROGRESS': { color: '#ffc107', icon: 'bi-hourglass-split', text: 'En curso' },
   'COMPLETED': { color: '#6c757d', icon: 'bi-check-circle-fill', text: 'Completada' },
   'CANCELLED': { color: '#dc3545', icon: 'bi-x-circle-fill', text: 'Cancelada' }

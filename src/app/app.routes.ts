@@ -8,6 +8,7 @@ import { ProfileComponent } from './features/home/profile/profile.component';
 import { HelpRequestCreateComponent } from './features/home/senior/help-request/create/help-request-create.component';
 import { ListHelpRequestsComponent } from './features/home/senior/help-request/my-requests/my-requests.component';
 import { HelpRequestDetailComponent } from './features/home/help-requests/help-request-detail/help-request-detail.component';
+import { AvailableHelpRequestsComponent } from './features/home/volunteer/available-help-requests/available-help-requests.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,7 @@ export const routes: Routes = [
       {path: 'help-request-posting', component:HelpRequestCreateComponent},
       {path: 'my-requests', component: ListHelpRequestsComponent},
       {path: 'my-requests/:id', component: HelpRequestDetailComponent},
+      {path: 'available-requests', component: AvailableHelpRequestsComponent},
       {path:'',redirectTo:'home',pathMatch:'full'}
     ]
   },

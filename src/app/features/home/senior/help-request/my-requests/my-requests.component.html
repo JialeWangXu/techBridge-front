@@ -11,7 +11,7 @@
 
   <div class="d-flex gap-2 mb-5 overflow-auto pb-2 filter-row">   
     <button (click)="updateCategortOrStatus(category, RequestStatus.OPEN)" class="btn btn-filter" [class.active]="status === RequestStatus.OPEN">Abiertas</button>
-    <button (click)="updateCategortOrStatus(category, RequestStatus.ACCEPTED)" class="btn btn-filter" [class.active]="status === RequestStatus.ACCEPTED">Aceptadas</button>
+    <button (click)="updateCategortOrStatus(category, RequestStatus.FINDING_VOLUNTEER)" class="btn btn-filter" [class.active]="status === RequestStatus.FINDING_VOLUNTEER">Encontrando voluntario</button>
     <button (click)="updateCategortOrStatus(category, RequestStatus.IN_PROGRESS)" class="btn btn-filter" [class.active]="status === RequestStatus.IN_PROGRESS">En curso</button>
     <button (click)="updateCategortOrStatus(category, RequestStatus.COMPLETED)" class="btn btn-filter" [class.active]="status === RequestStatus.COMPLETED">Finalizadas</button>
     <button (click)="updateCategortOrStatus(category, RequestStatus.CANCELLED)" class="btn btn-filter" [class.active]="status === RequestStatus.CANCELLED">Canceladas</button>    
