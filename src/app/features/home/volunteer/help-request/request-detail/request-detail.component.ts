@@ -57,6 +57,7 @@ export class RequestDetailComponent implements OnInit {
       next: (data) => {
         console.log('Detalle de solicitud de ayuda obtenido:', data);
         this.helpRequest = data;
+        this.selectedSessionMethod = this.helpRequest.senior.contactPreference as SessionMethods;
       },
       error: (err) => {
         console.error('Error al obtener el detalle de la solicitud de ayuda:', err);
@@ -68,11 +69,29 @@ export class RequestDetailComponent implements OnInit {
   saveSessionMethod() {
   throw new Error('Method not implemented.');
   }
+
   acceptRequest() {
-  throw new Error('Method not implemented.');
+    this.helpRequestService.updateRequestStatus(this.requestId, RequestStatus.IN_PROGRESS).subscribe({
+      next: (updatedRequest) => {
+        console.log('Solicitud aceptada:', updatedRequest); 
+        this.helpRequest = updatedRequest;
+      },
+      error: (err) => {
+        console.error('Error al aceptar la solicitud:', err);
+      }
+    });
   }
+
   updateStatus(newStatus: HelpStatus) {
-    throw new Error('Method not implemented.');
+    this.helpRequestService.updateRequestStatus(this.requestId, newStatus as unknown as RequestStatus).subscribe({
+      next: (updatedRequest) => {
+        console.log('Estado actualizado:', updatedRequest);
+        this.helpRequest = updatedRequest;
+      },
+      error: (err) => {
+        console.error('Error al actualizar el estado:', err);
+      }
+    });
   }
 
   formatSeniorAddress(){

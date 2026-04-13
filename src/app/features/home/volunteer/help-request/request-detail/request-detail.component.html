@@ -87,7 +87,6 @@
               <p class="small text-primary"><i class="bi bi-info-circle me-2"></i>El Senior prefiere: <strong>{{ helpRequest.senior.contactPreference }}</strong></p>
               
               <select class="form-select mb-3" [(ngModel)]="selectedSessionMethod">
-                <option [value]="">Seleccionar método</option>
                 <option [value]="SessionMethods.TELEPHONE">Por Teléfono</option>
                 <option [value]="SessionMethods.ONLINE_MEETING">Video Llamada (Google Meet)</option>
                 <option [value]="SessionMethods.IN_PERSON">Presencial (Cita previa)</option>
