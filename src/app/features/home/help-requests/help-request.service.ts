@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { HelpRequest, HelpRequestCreate } from "../../shared/models/helpRequest.model";
+import { HelpRequest, HelpRequestCreate, RequestStatus } from "../../shared/models/helpRequest.model";
 
 
 
@@ -31,5 +31,9 @@ export class HelpRequestService{
 
   getAllAvailable():Observable<HelpRequest[]>{
     return this.http.get<HelpRequest[]>(`${this.apiUrl}/available`);
+  }
+
+  updateRequestStatus(id:string, status:RequestStatus):Observable<HelpRequest>{
+    return this.http.put<HelpRequest>(`${this.apiUrl}/${id}`, {status});
   }
 }
