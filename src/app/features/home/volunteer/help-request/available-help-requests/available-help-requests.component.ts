@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { HelpRequestService } from '../../help-requests/help-request.service';
+import { HelpRequestService } from '../../../help-requests/help-request.service';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../../core/auth/auth.service';
-import { HelpRequest } from '../../../shared/models/helpRequest.model';
+import { AuthService } from '../../../../../core/auth/auth.service';
+import { HelpRequest } from '../../../../shared/models/helpRequest.model';
 import { Router } from '@angular/router';
-import { ProfileService } from '../../profile/profile.service';
-import { UserDto } from '../../../shared/models/userDto.model';
+import { ProfileService } from '../../../profile/profile.service';
+import { UserDto } from '../../../../shared/models/userDto.model';
 
 @Component({
   selector: 'app-available-help-requests',
@@ -72,7 +72,7 @@ export class AvailableHelpRequestsComponent implements OnInit {
   }
 
   goToDetail(id: string) {
-    this.router.navigate(['/home/volunteer/help-request', id]);
+    this.router.navigate(['/available-requests', id]);
   }
 
   ngOnInit() {
@@ -80,6 +80,7 @@ export class AvailableHelpRequestsComponent implements OnInit {
       this.router.navigate(['/']);
     }
     this.helpRequestService.getAllAvailable().subscribe((requests) => {
+      console.log('Solicitudes de ayuda disponibles obtenidas:', requests);
       this.availableHelpRequests = requests;
       this.filteredRequests = requests;
     });

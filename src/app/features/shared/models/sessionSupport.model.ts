@@ -20,8 +20,8 @@ export interface SessionSupport {
 }
 
 export enum HelpStatus {
-    PENDING = "PENDING",
     ACTIVE = "ACTIVE",
+    CANCELLED = "CANCELLED",
     FINISHED = "FINISHED"
 }
 
