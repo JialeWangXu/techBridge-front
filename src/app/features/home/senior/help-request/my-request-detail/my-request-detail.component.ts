@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { HelpRequestService } from '../help-request.service';
+import { HelpRequestService } from '../../../help-requests/help-request.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../../../core/auth/auth.service';
-import { HelpRequest, RequestStatus } from '../../../shared/models/helpRequest.model';
+import { AuthService } from '../../../../../core/auth/auth.service';
+import { HelpRequest, RequestStatus } from '../../../../shared/models/helpRequest.model';
 
 @Component({
   selector: 'app-help-request-detail',
-  templateUrl: './help-request-detail.component.html',
-  styleUrls: ['./help-request-detail.component.css'],
+  templateUrl: './my-request-detail.component.html',
+  styleUrls: ['./my-request-detail.component.css'],
   imports: [CommonModule]
 })
-export class HelpRequestDetailComponent implements OnInit {
+export class MyRequestDetailComponent implements OnInit {
   constructor(private readonly helpRequestService: HelpRequestService, 
     private readonly route:ActivatedRoute,
     private readonly authService: AuthService,
