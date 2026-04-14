@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HelpRequestService } from '../../../help-requests/help-request.service';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HelpRequest, RequestStatus } from '../../../../shared/models/helpRequest.model';
-import { HelpStatus, SessionMethods } from '../../../../shared/models/sessionSupport.model';
+import { HelpStatus, SessionMethods } from '../../../../shared/models/supportSession.model';
 import { FormsModule } from '@angular/forms';
+import { ModalComponent } from '../../../../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-request-detail',
   templateUrl: './request-detail.component.html',
   styleUrls: ['./request-detail.component.css'],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, ModalComponent]
 })
 export class RequestDetailComponent implements OnInit {
+  @ViewChild(ModalComponent) confirmModal!: ModalComponent;
 
   constructor(private readonly helpRequestService: HelpRequestService,
     private readonly route:ActivatedRoute, private readonly authService: AuthService,
@@ -46,6 +48,17 @@ export class RequestDetailComponent implements OnInit {
   selectedSessionMethod: SessionMethods= SessionMethods.TELEPHONE;
   public SessionMethods = SessionMethods;
   public HelpStatus = HelpStatus; 
+  public RequestStatus = RequestStatus;
+  modalConfig = {
+  title: '',
+  message: '',
+  type: 'info' as 'danger' | 'success' | 'info'
+  };
+
+  hasMethod(req: HelpRequest): boolean {
+  let hasMethod = !!( req.supportSession?.sessionMethod && req.supportSession?.sessionMethod.trim() !== '');
+  return hasMethod;
+  }
 
   ngOnInit() {
     if(this.authService.getUserData()?.role!== 'VOLUNTEER' ){
@@ -70,23 +83,12 @@ export class RequestDetailComponent implements OnInit {
   throw new Error('Method not implemented.');
   }
 
-  acceptRequest() {
-    this.helpRequestService.updateRequestStatus(this.requestId, RequestStatus.IN_PROGRESS).subscribe({
-      next: (updatedRequest) => {
-        console.log('Solicitud aceptada:', updatedRequest); 
-        this.helpRequest = updatedRequest;
-      },
-      error: (err) => {
-        console.error('Error al aceptar la solicitud:', err);
-      }
-    });
-  }
-
-  updateStatus(newStatus: HelpStatus) {
-    this.helpRequestService.updateRequestStatus(this.requestId, newStatus as unknown as RequestStatus).subscribe({
+  updateStatus(newStatus: RequestStatus) {
+    this.helpRequestService.updateRequestStatus(this.requestId, newStatus).subscribe({
       next: (updatedRequest) => {
         console.log('Estado actualizado:', updatedRequest);
         this.helpRequest = updatedRequest;
+        console.log('Estado actualizado en el componente:', this.helpRequest);
       },
       error: (err) => {
         console.error('Error al actualizar el estado:', err);
@@ -105,6 +107,15 @@ export class RequestDetailComponent implements OnInit {
 
   goBack() {
     this.router.navigate(['/available-requests']);
+  }
+
+  handleCancel() {
+    this.modalConfig = {
+      title: '¿Deseas cancelar?',
+      message: 'Esta acción liberará la petición para otros voluntarios.',
+      type: 'danger'
+    };
+    this.confirmModal.show();
   }
 
 }

@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HelpRequest, HelpRequestCreate, RequestStatus } from "../../shared/models/helpRequest.model";
+import { HelpStatus, SupportSession } from "../../shared/models/supportSession.model";
 
 
 
@@ -36,4 +37,15 @@ export class HelpRequestService{
   updateRequestStatus(id:string, status:RequestStatus):Observable<HelpRequest>{
     return this.http.put<HelpRequest>(`${this.apiUrl}/${id}`, {status});
   }
+
+}
+
+export class SupportSessionService{
+  apiUrl = 'http://localhost:8080/api/techbridge-helprequest/supportsession';
+  constructor(private readonly http: HttpClient) { }
+
+  updateHelpStatus(id:string, status:HelpStatus):Observable<SupportSession>{
+    return this.http.put<SupportSession>(`${this.apiUrl}/${id}`, {status});
+  }
+
 }

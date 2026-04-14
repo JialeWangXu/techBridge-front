@@ -1,4 +1,4 @@
-import { SessionSupport } from "./sessionSupport.model";
+import { SupportSession } from "./supportSession.model";
 import { UserDto } from "./userDto.model";
 
 export interface HelpRequestCreate {
@@ -11,7 +11,7 @@ export interface HelpRequest extends HelpRequestCreate {
   id: string;
   createdAt: Date;
   updatedAt: Date;
-  supportSession?:SessionSupport;
+  supportSession?:SupportSession;
   senior:UserDto;
   volunteer?:UserDto;
 }

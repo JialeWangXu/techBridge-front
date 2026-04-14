@@ -1,13 +1,13 @@
 
 
-export interface SessionSupportCreate {
+export interface SupportSessionCreate {
     sessionMethod:SessionMethods;
     recordingConsent: boolean;  
     volunteerNotes?: string;
     helpRequestId: string;
 }
 
-export interface SessionSupport {
+export interface SupportSession {
     id: string;
     sessionMethod:SessionMethods;
     s3RecordingUrl?: string;

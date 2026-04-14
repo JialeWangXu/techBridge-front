@@ -35,3 +35,23 @@
   border-color: #8EBFFB;
   box-shadow: none;
 }
+
+/* Animación suave para la aparición de los bloques de estado final */
+.animate__fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.icon-box-cancelled {
+  width: 100px;
+  height: 100px;
+  background-color: #fff5f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
