@@ -6,8 +6,10 @@
     
     @if (helpRequest.supportSession?.status === HelpStatus.ACTIVE) {
       <div class="d-flex gap-2">
-        <button class="btn btn-outline-danger rounded-pill px-3" (click)="updateStatus(HelpStatus.CANCELLED)">Cancelar Ayuda</button>
-        <button class="btn btn-success rounded-pill px-4 shadow-sm" (click)="updateStatus(HelpStatus.FINISHED)">Finalizar y Completar</button>
+        <button class="btn btn-outline-danger rounded-pill px-3" (click)="handleCancel()">Cancelar Ayuda</button>
+        @if(hasMethod(helpRequest)){
+          <button class="btn btn-success rounded-pill px-4 shadow-sm" (click)="updateStatus(RequestStatus.COMPLETED)">Finalizar y Completar</button>
+        }
       </div>
     }
   </div>
@@ -43,7 +45,7 @@
             </div>
           </div>
           
-          @if (helpRequest.status == 'IN_PROGRESS') {
+          @if (helpRequest.status == RequestStatus.IN_PROGRESS) {
             <div class="bg-light p-3 rounded-3">
               <p class="mb-1"><strong>Email:</strong> {{ helpRequest.senior.email }}</p>
               @if (helpRequest.senior.telephone) {
@@ -72,16 +74,16 @@
       @if (currentView === 'MANAGE') {
         <div class="d-flex flex-column gap-4">
           
-          @if (helpRequest.status === 'FINDING_VOLUNTEER') {
+        @if (helpRequest.status == RequestStatus.FINDING_VOLUNTEER) {
             <div class="card shadow border-0 rounded-4 p-5 text-center">
               <i class="bi bi-hand-thumbs-up fs-1 text-primary mb-3"></i>
               <h4>¿Puedes ayudar con esto?</h4>
               <p class="text-muted">Al aceptar, usted se compromete a contactar con el solicitante</p>
-              <button class="btn btn-primary btn-lg rounded-pill px-5" (click)="acceptRequest()">Aceptar Petición</button>
+              <button class="btn btn-primary btn-lg rounded-pill px-5" (click)="updateStatus(RequestStatus.IN_PROGRESS)">Aceptar Petición</button>
             </div>
           }
 
-          @if (helpRequest.status === 'IN_PROGRESS' && !helpRequest.supportSession?.sessionMethod) {
+          @if (helpRequest.status == RequestStatus.IN_PROGRESS && !hasMethod(helpRequest)) {
             <div class="card shadow border-0 rounded-4 p-4">
               <h5 class="fw-bold mb-3">Confirmar método de ayuda</h5>
               <p class="small text-primary"><i class="bi bi-info-circle me-2"></i>El Senior prefiere: <strong>{{ helpRequest.senior.contactPreference }}</strong></p>
@@ -95,7 +97,7 @@
             </div>
           }
 
-          @if (helpRequest.supportSession?.sessionMethod) {
+          @if (helpRequest.status == RequestStatus.IN_PROGRESS && hasMethod(helpRequest)) {
             <div class="card shadow border-0 rounded-4 p-4 bg-white border-start border-5 border-primary">
               <h5 class="fw-bold mb-3">Sesión en curso: {{ helpRequest.supportSession?.sessionMethod }}</h5>
               
@@ -117,6 +119,53 @@
               </div>
             </div>
           }
+          @if (helpRequest.status== RequestStatus.CANCELLED) {
+            <div class="card shadow border-0 rounded-4 p-5 text-center animate__animated animate__fadeIn">
+              <div class="mb-4">
+                <div class="icon-box-cancelled mx-auto mb-3">
+                  <i class="bi bi-x-circle text-danger" style="font-size: 4rem;"></i>
+                </div>
+              </div>
+              <h3 class="fw-bold" style="color: #003366;">Ayuda Cancelada</h3>
+              <p class="text-muted fs-5">
+                Has cancelado tu participación en esta solicitud. <br>
+                La petición volverá a aparecer como <strong>disponible</strong> para otros voluntarios.
+              </p>
+              
+              <div class="alert alert-warning d-inline-block border-0 rounded-3 mt-3">
+                <i class="bi bi-info-circle me-2"></i>
+                Recuerda que puedes explorar otras dudas en el listado general.
+              </div>
+
+              <div class="mt-4">
+                <button class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm" (click)="goBack()">
+                  Volver al listado de ayudas
+                </button>
+              </div>
+            </div>
+          }
+
+        @if (helpRequest.status === 'COMPLETED') {
+          <div class="card shadow border-0 rounded-4 p-5 text-center animate__animated animate__fadeIn">
+            <div class="mb-4">
+              <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+            </div>
+            <h2 class="fw-bold" style="color: #003366;">¡Ayuda Finalizada con Éxito!</h2>
+            <p class="text-muted fs-5">Gracias por tu tiempo. Has ayudado a que <strong>{{helpRequest.senior.firstName}}</strong> esté más conectado.</p>
+            
+            <div class="bg-light p-4 rounded-4 mb-4 text-start">
+              <h6 class="fw-bold"><i class="bi bi-journal-text me-2"></i>Resumen de la sesión:</h6>
+              <ul class="list-unstyled mb-0">
+                <li><i class="bi bi-dot"></i> Método: {{helpRequest.supportSession?.sessionMethod}}</li>
+                <li><i class="bi bi-dot"></i> Notas enviadas: {{helpRequest.supportSession?.volunteerNotes ? 'Sí' : 'No'}}</li>
+              </ul>
+            </div>
+
+            <button class="btn btn-primary btn-lg rounded-pill px-5" (click)="goBack()">
+              Volver al Panel Principal
+            </button>
+          </div>
+        }
         </div>
       }
 
@@ -133,3 +182,10 @@
     </div>
   </div>
 </div>
+<app-modal 
+  [title]="modalConfig.title"
+  [message]="modalConfig.message"
+  [type]="modalConfig.type"
+  [confirmText]="'Sí, confirmar'"
+  (Confirm)="updateStatus(RequestStatus.CANCELLED)">
+</app-modal>

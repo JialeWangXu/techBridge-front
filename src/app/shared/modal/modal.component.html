@@ -1,0 +1,34 @@
+<div #modalElement class="modal fade" id="genericModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow rounded-4">
+      <div class="modal-body text-center p-4">
+        <div class="mb-3">
+          @if (type === 'danger') {
+            <i class="bi bi-exclamation-triangle-fill text-danger fs-1"></i>
+          } @else if (type === 'success') {
+            <i class="bi bi-check-circle-fill text-success fs-1"></i>
+          } @else {
+            <i class="bi bi-info-circle-fill text-primary fs-1"></i>
+          }
+        </div>
+        
+        <h4 class="fw-bold" style="color: #003366;">{{ title }}</h4>
+        <p class="text-muted">{{ message }}</p>
+
+        <div class="d-flex gap-2 justify-content-center mt-4">
+          <button type="button" class="btn btn-light rounded-pill px-4" 
+                  data-bs-dismiss="modal" (click)="cancel()">
+            {{ cancelText }}
+          </button>
+          <button type="button" 
+                  [class]="'btn btn-' + type" 
+                  class="rounded-pill px-4 shadow-sm"
+                  data-bs-dismiss="modal"
+                  (click)="confirm()">
+            {{ confirmText }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
