@@ -8,14 +8,15 @@ export interface SupportSessionCreate {
 }
 
 export interface SupportSession {
-    id: string;
-    sessionMethod:SessionMethods;
+    id?: string;
+    sessionMethod?:SessionMethods;
     s3RecordingUrl?: string;
-    recordingConsent: boolean;
+    meetingUrl?: string;
+    recordingConsent?: boolean;
     volunteerNotes?: string;
-    status: HelpStatus;
-    createdAt: Date;
-    updatedAt: Date;
+    status?: HelpStatus;
+    createdAt?: Date;
+    updatedAt?: Date;
     helpRequest?:HelpStatus;
 }
 
