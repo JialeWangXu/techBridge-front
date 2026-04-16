@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HelpRequest, HelpRequestCreate, RequestStatus } from "../../shared/models/helpRequest.model";
-import { HelpStatus, SupportSession } from "../../shared/models/supportSession.model";
+import { SessionMethods, SupportSession } from "../../shared/models/supportSession.model";
 
 
 
@@ -40,12 +40,19 @@ export class HelpRequestService{
 
 }
 
+@Injectable({
+    providedIn: 'root'
+})
 export class SupportSessionService{
   apiUrl = 'http://localhost:8080/api/techbridge-helprequest/supportsession';
   constructor(private readonly http: HttpClient) { }
 
-  updateHelpStatus(id:string, status:HelpStatus):Observable<SupportSession>{
-    return this.http.put<SupportSession>(`${this.apiUrl}/${id}`, {status});
+  updateSupportSession(supportSessionId:string, supportSession: SupportSession): Observable<SupportSession>{
+    return this.http.put<SupportSession>(`${this.apiUrl}/${supportSessionId}`, supportSession);
+  }
+
+  saveSessionMethod(supportSessionId:string, sessionMethod: SessionMethods): Observable<SupportSession>{
+    return this.http.put<SupportSession>(`${this.apiUrl}/${supportSessionId}`, {sessionMethod});
   }
 
 }
