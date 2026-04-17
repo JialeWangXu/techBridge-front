@@ -11,7 +11,7 @@ import { AuthService } from '../../../../../core/auth/auth.service';
   styleUrls: ['./my-requests.component.css'],
   imports: [CommonModule]
 })
-export class ListHelpRequestsComponent implements OnInit {
+export class ListSeniorHelpRequestsComponent implements OnInit {
 
 
   constructor(private readonly helpRequestService: HelpRequestService, private readonly router: Router, 

@@ -1,0 +1,62 @@
+.btn-filter {
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  color: #666;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+}
+
+.btn-filter.active {
+  border-color: #003366;
+  color: #003366;
+  background: #eef6ff;
+}
+
+.request-card {
+  /* Fondo sutilmente coloreado para diferenciar del gris claro de la pantalla */
+  background-color: #fdfdff; /* Consistente con el formulario de registro */
+  
+  /* Sombra más pronunciada para "elevar" la tarjeta */
+  box-shadow: 0 6px 15px rgba(0, 51, 102, 0.1) !important; /* Usamos azul oscuro en la sombra */
+  
+  /* Borde de contraste con el azul claro corporativo */
+  border: 1px solid #c9e1fd !important; /* Tono muy suave de #8EBFFB */
+  
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  /* Marca visual lateral de TechBridge (más ancha para personas mayores) */
+  border-left: 8px solid #003366 !important; 
+}
+
+.request-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 51, 102, 0.15) !important;
+  background-color: #ffffff; /* Se vuelve blanca pura al pasar el ratón */
+  cursor: pointer;
+}
+
+.status-indicator {
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+}
+
+.btn-view {
+  color: #003366;
+  font-weight: 700;
+  padding: 0;
+  text-decoration: underline;
+  border: none;
+  background: none;
+}
+
+/* Mejora de accesibilidad para vista móvil */
+@media (max-width: 576px) {
+  .status-indicator {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+  }
+  h4 { font-size: 1.1rem; }
+}
