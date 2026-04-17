@@ -52,8 +52,7 @@ export class HelpRequestCreateComponent implements OnInit {
   }
 
   onCancel() {
-    this.loading = false;
-    this.submitted = false;
+    this.router.navigate(['/home']);
   }
 
 }

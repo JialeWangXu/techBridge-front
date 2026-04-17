@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { ListSeniorHelpRequestsComponent } from './my-requests.component';
+import { ListVolunteerHelpRequestsComponent } from './my-helps.component';
 
-describe('ListHelpRequestsComponent', () => {
-  let component: ListSeniorHelpRequestsComponent;
-  let fixture: ComponentFixture<ListSeniorHelpRequestsComponent>;
+describe('MyHelpsComponent', () => {
+  let component: ListVolunteerHelpRequestsComponent;
+  let fixture: ComponentFixture<ListVolunteerHelpRequestsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListSeniorHelpRequestsComponent ]
+      declarations: [ ListVolunteerHelpRequestsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListSeniorHelpRequestsComponent);
+    fixture = TestBed.createComponent(ListVolunteerHelpRequestsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

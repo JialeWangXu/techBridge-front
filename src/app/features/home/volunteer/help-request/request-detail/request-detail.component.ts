@@ -22,7 +22,10 @@ export class RequestDetailComponent implements OnInit {
     private readonly route:ActivatedRoute, private readonly authService: AuthService,
     private readonly router: Router,
     private readonly supportSessionService: SupportSessionService
-  ) { }
+  ) {
+      this.cameFrom = history.state?.cameFrom || 'available-requests';
+      console.log('Came from:', this.cameFrom);
+  }
 
   requestId:string = '';
   helpRequest:HelpRequest = {
@@ -67,6 +70,7 @@ export class RequestDetailComponent implements OnInit {
   selectedFile: File | null = null;
   fileErrorMessage: string | null = null;
   volunteerNotes: string = this.helpRequest.supportSession?.volunteerNotes || '';
+  cameFrom:string = '';
 
   hasMethod(req: HelpRequest): boolean {
   let hasMethod = !!( req.supportSession?.sessionMethod && req.supportSession?.sessionMethod.trim() !== '');
@@ -90,7 +94,6 @@ export class RequestDetailComponent implements OnInit {
         console.error('Error al obtener el detalle de la solicitud de ayuda:', err);
       }
     });
-    
   }
 
   updateStatus(newStatus: RequestStatus) {
@@ -255,7 +258,11 @@ export class RequestDetailComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/available-requests']);
+    if(this.cameFrom === 'my-helps'){
+      this.router.navigate(['/my-helps']);
+    }else if(this.cameFrom === 'available-requests'){
+      this.router.navigate(['/available-requests']);
+    }
   }
 
   handleCancel() {

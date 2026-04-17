@@ -72,7 +72,7 @@ export class AvailableHelpRequestsComponent implements OnInit {
   }
 
   goToDetail(id: string) {
-    this.router.navigate(['/available-requests', id]);
+    this.router.navigate(['/request-detail', id], {state:{cameFrom:'available-requests'}});
   }
 
   ngOnInit() {

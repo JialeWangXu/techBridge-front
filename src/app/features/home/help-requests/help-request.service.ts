@@ -19,7 +19,11 @@ export class HelpRequestService{
   }
 
   getAllBySeniorEmail():Observable<HelpRequest[]>{
-    return  this.http.get<HelpRequest[]>(this.apiUrl);
+    return  this.http.get<HelpRequest[]>(this.apiUrl+'/senior/my');
+  }
+
+  getAllByVolunteerEmail():Observable<HelpRequest[]>{
+    return  this.http.get<HelpRequest[]>(this.apiUrl+'/volunteer/my');
   }
 
   getById(id:string):Observable<HelpRequest>{
