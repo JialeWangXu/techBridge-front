@@ -4,6 +4,7 @@ import { HelpRequestService } from '../../../help-requests/help-request.service'
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { HelpRequest, RequestStatus } from '../../../../shared/models/helpRequest.model';
+import { sessionMethodTranslations } from '../../../../shared/models/supportSession.model';
 
 @Component({
   selector: 'app-help-request-detail',
@@ -35,6 +36,7 @@ export class MyRequestDetailComponent implements OnInit {
   currentView: 'TUTORIAL'|'VOLUNTEER' = 'TUTORIAL';
   role:string ='';
   public RequestStatus = RequestStatus;
+  public sessionMethodTranslations = sessionMethodTranslations;
 
   statusConfig: any = {
   'OPEN': { color: '#28a745', icon: 'bi-door-open-fill', text: 'Abierta' },
@@ -90,9 +92,18 @@ export class MyRequestDetailComponent implements OnInit {
     this.router.navigate(['/my-requests']);
   }
 
-  requestVolunteerHelp() {
-    // TODO: Implementar la lógica para solicitar ayuda de un voluntario
-    throw new Error('Method not implemented.');
+  updateRequestStatus(newStatus: RequestStatus) {
+    if(this.requestId){
+      this.helpRequestService.updateRequestStatus(this.requestId, newStatus).subscribe({
+        next: (updatedRequest) => {
+          console.log('Solicitud de ayuda actualizada:', updatedRequest);
+          this.helpRequest = updatedRequest;
+        },
+        error: (err) => {
+          console.error('Error al actualizar la solicitud de ayuda:', err);
+        }
+      });
+    }
   }
 
 }

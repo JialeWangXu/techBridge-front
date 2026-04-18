@@ -20,6 +20,12 @@ export interface SupportSession {
     helpRequest?:HelpStatus;
 }
 
+export const sessionMethodTranslations: Record<SessionMethods, string> = {
+    TELEPHONE: 'Teléfono',
+    ONLINE_MEETING: 'Reunión Online',
+    IN_PERSON: 'Presencial'
+};
+
 export enum HelpStatus {
     ACTIVE = "ACTIVE",
     CANCELLED = "CANCELLED",

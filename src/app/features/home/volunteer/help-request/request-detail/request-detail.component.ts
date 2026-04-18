@@ -4,7 +4,7 @@ import { AuthService } from '../../../../../core/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HelpRequest, RequestStatus } from '../../../../shared/models/helpRequest.model';
-import { HelpStatus, SessionMethods } from '../../../../shared/models/supportSession.model';
+import { HelpStatus, SessionMethods, sessionMethodTranslations } from '../../../../shared/models/supportSession.model';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../../../../../shared/modal/modal.component';
 
@@ -51,11 +51,7 @@ export class RequestDetailComponent implements OnInit {
     'CANCELLED': { color: '#dc3545', icon: 'bi-x-circle-fill', text: 'Cancelada' }
   };
 
-  sessionMethodTranslations: any ={
-    'TELEPHONE': 'Teléfono',
-    'ONLINE_MEETING': 'Reunión online',
-    'IN_PERSON': 'Presencial'
-  };
+  public sessionMethodTranslations = sessionMethodTranslations;
   currentView: 'TUTORIAL'|'MANAGE' = 'MANAGE';
   selectedSessionMethod: SessionMethods= SessionMethods.TELEPHONE;
   public SessionMethods = SessionMethods;
