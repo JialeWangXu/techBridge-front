@@ -16,7 +16,7 @@ export class HelpRequestCreateComponent implements OnInit {
 
   submitted:boolean = false;
   loading: boolean = false;
-
+  isGenerating: boolean = false;
   constructor(private readonly helpRequestService: HelpRequestService, private readonly router: Router, 
     private readonly authService:AuthService
   ) { }
@@ -35,16 +35,20 @@ export class HelpRequestCreateComponent implements OnInit {
 
   onSubmit(){
     this.submitted = true;
+    this.isGenerating = true;
     if(this.helpRequestForm.valid){
       this.helpRequestService.create(this.helpRequestForm.getRawValue() as HelpRequestCreate).subscribe({
-        next: () => {
-          alert('Tu solicitud de ayuda ha sido creada exitosamente.');
+        next: (helpRequest) => {
           this.helpRequestForm.reset({ status: 'OPEN' });
           this.submitted = false;
+          this.isGenerating = false;
+          console.log('Solicitud de ayuda creada:', helpRequest);
+          this.router.navigate(['/my-requests', helpRequest.id]);
         },
         error: (err) => {
           console.error('Error al crear la solicitud de ayuda:', err);
           this.submitted = false;
+          this.isGenerating = false;
         }
       });
       

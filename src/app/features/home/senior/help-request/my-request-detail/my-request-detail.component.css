@@ -2,10 +2,9 @@
   min-height: 100vh;
 }
 
-/* Botones selectores superiores */
 .btn-view-toggle {
   background-color: white;
-  border: 3px solid #8EBFFB;
+  border: 3px solid #8ebffb;
   color: #003366;
   border-radius: 15px;
   padding: 1rem;
@@ -15,15 +14,14 @@
 
 .btn-view-toggle.active {
   background-color: #003366;
-  color: #8EBFFB;
+  color: #8ebffb;
   border-color: #003366;
 }
 
-/* Círculo de avatar del voluntario */
 .avatar-circle {
   width: 65px;
   height: 65px;
-  background-color: #8EBFFB;
+  background-color: #8ebffb;
   color: #003366;
   border-radius: 50%;
   display: flex;
@@ -33,23 +31,20 @@
   font-weight: bold;
 }
 
-/* Estilo del contenido del tutorial */
 .tutorial-steps {
   white-space: pre-line;
   line-height: 1.8;
   color: #2c3e50;
 }
 
-/* Consistencia con tarjetas de Perfil */
 .card {
   transition: transform 0.2s ease;
 }
 
 .tutorial-container {
-  border-top: 6px solid #8EBFFB !important;
+  border-top: 6px solid #8ebffb !important;
 }
 
-/* Botón eliminar estilo senior */
 .btn-danger {
   font-weight: 600;
   border: none;
@@ -57,8 +52,8 @@
 
 .hover-shadow:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-  border-color: #0d6efd !important; /* Resalta el borde al pasar el ratón */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+  border-color: #0d6efd !important;
   cursor: pointer;
 }
 
@@ -74,4 +69,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.fs-4 {
+  line-height: 1.4;
+}
+
+.border-warning {
+  border-color: #ffc107 !important;
+}
+
+.spinner-status {
+  width: 3rem;
+  height: 3rem;
+  display: block;
+  margin: 0 auto;
 }

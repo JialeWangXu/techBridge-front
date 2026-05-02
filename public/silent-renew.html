@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
     <base href="./" />
     <meta charset="utf-8" />
@@ -14,9 +14,9 @@
 
         var event = new CustomEvent('oidc-silent-renew-message', {
           detail: {
-            url: window.location,
-            srcFrameId: window.frameElement ? window.frameElement.id : undefined
-          }
+            url: globalThis.location,
+            srcFrameId: window.frameElement ? window.frameElement.id : undefined,
+          },
         });
 
         parent.dispatchEvent(event);

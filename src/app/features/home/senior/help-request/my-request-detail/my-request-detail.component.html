@@ -5,16 +5,21 @@
     </button>
 
     <div class="d-flex gap-2 mb-0 overflow-auto pb-2 filter-row">
-      @if (helpRequest.status == RequestStatus.FINDING_VOLUNTEER || helpRequest.status == RequestStatus.IN_PROGRESS) {
-        <button class="btn btn-outline-warning rounded-pill px-4 shadow-sm" (click)="updateRequestStatus(RequestStatus.CANCELLED)">
+      @if (
+        helpRequest.status == RequestStatus.FINDING_VOLUNTEER ||
+        helpRequest.status == RequestStatus.IN_PROGRESS
+      ) {
+        <button
+          class="btn btn-outline-warning rounded-pill px-4 shadow-sm"
+          (click)="updateRequestStatus(RequestStatus.CANCELLED)"
+        >
           <i class="bi bi-trash3-fill me-2"></i>Cancelar Petición
         </button>
-      }  
+      }
       <button class="btn btn-danger rounded-pill px-4 shadow-sm" (click)="deleteRequest()">
         <i class="bi bi-trash3-fill me-2"></i>Eliminar Petición
       </button>
     </div>
-
   </div>
 
   <div class="row g-4">
@@ -54,26 +59,67 @@
         >
           <i class="bi bi-robot me-2"></i>Ver Tutorial IA
         </button>
-          <button
-            class="btn btn-view-toggle flex-fill shadow-sm"
-            [class.active]="currentView === 'VOLUNTEER'"
-            (click)="currentView = 'VOLUNTEER'"
-          >
-            <i class="bi bi-people-fill me-2"></i>Ayuda Voluntaria
-          </button>
+        <button
+          class="btn btn-view-toggle flex-fill shadow-sm"
+          [class.active]="currentView === 'VOLUNTEER'"
+          (click)="currentView = 'VOLUNTEER'"
+        >
+          <i class="bi bi-people-fill me-2"></i>Ayuda Voluntaria
+        </button>
       </div>
 
       @if (currentView === 'TUTORIAL') {
-        <div class="card shadow border-0 rounded-4 p-4 tutorial-container">
-          <h4 class="fw-bold mb-4" style="color: #003366">
-            <i class="bi bi-stars me-2 text-primary"></i>Pasos a seguir
-          </h4>
-          <div class="tutorial-steps fs-5">
-            {{
-              'El tutorial IA se generará automáticamente al crear la solicitud de ayuda. Si no ves los pasos aquí, es posible que aún se esté procesando tu solicitud. ¡Gracias por tu paciencia!'
-            }}
+        @if (isGenerating) {
+          <div class="card shadow border-0 rounded-4 p-5 text-center">
+            <output class="spinner-border text-primary mb-4 spinner-status">
+              <span class="visually-hidden">Cargando...</span>
+            </output>
+            <h4 class="fw-bold" style="color: #003366">Generando tu guía paso a paso...</h4>
+            <p class="text-muted">
+              Estamos preparando las instrucciones para que te resulte muy fácil. Unos segundos, por
+              favor.
+            </p>
           </div>
-        </div>
+        } @else {
+          <div class="card shadow border-0 rounded-4 p-4 tutorial-container">
+            <div class="mb-4">
+              <h3 class="fw-bold" style="color: #003366">{{ helpRequest.aiTutorial?.title }}</h3>
+              <p class="fs-5 text-secondary">{{ helpRequest.aiTutorial?.generalDescription }}</p>
+            </div>
+
+            <div class="d-flex flex-column gap-3">
+              @for (step of helpRequest.aiTutorial?.steps; track step.number) {
+                <div class="card shadow-sm border-0 rounded-4 p-4">
+                  <div class="d-flex align-items-start">
+                    <div
+                      class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3"
+                      style="width: 40px; height: 40px; flex-shrink: 0; font-weight: bold"
+                    >
+                      {{ step.number }}
+                    </div>
+
+                    <div class="w-100">
+                      <p class="fs-4 mb-2" style="color: #003366; font-weight: 500">
+                        {{ step.instruction }}
+                      </p>
+
+                      @if (step.advice) {
+                        <div
+                          class="mt-3 p-3 rounded-3 bg-light border-start border-4 border-warning"
+                        >
+                          <small class="text-uppercase fw-bold text-warning d-block mb-1">
+                            <i class="bi bi-lightbulb-fill me-1"></i>Consejo
+                          </small>
+                          <p class="mb-0 text-dark fs-6">{{ step.advice }}</p>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
       }
 
       @if (currentView === 'VOLUNTEER') {
@@ -127,50 +173,61 @@
                   paciencia, un voluntario se pondrá en contacto con usted pronto para ayudarle.
                 </p>
               } @else if (helpRequest.status === RequestStatus.CANCELLED) {
-                <div class="card shadow-lg border-0 rounded-4 overflow-hidden animate__animated animate__fadeIn">
-                <div class="p-5 text-center bg-white ">
-                <div class="mb-4">
-                  <div class="icon-box-cancelled mx-auto mb-3">
-                    <i class="bi bi-x-circle text-danger" style="font-size: 4rem;"></i>
-                  </div>
-                </div>
-                  
-                  <h2 class="fw-bold mb-3" style="color: #003366">Solicitud Cancelada</h2>
-                  <p class="text-muted mx-auto mb-5" style="max-width: 400px;">
-                    Esta solicitud ya no está activa. ¿Qué te gustaría hacer ahora? Selecciona una opción para continuar.
-                  </p>
-
-                  <div class="row g-3 justify-content-center">
-                    
-                    <div class="col-md-5">
-                      <a style="text-decoration: none;" (click)="updateRequestStatus(RequestStatus.FINDING_VOLUNTEER)">
-                        <div class="p-4 border rounded-4 h-100 hover-shadow transition-all" >
-                          <i class="bi bi-person-plus-fill text-primary fs-2 mb-2"></i>
-                          <h6 class="fw-bold mb-3">Buscar de nuevo</h6>
-                          <p class="small text-muted mb-3">Volver a publicar la solicitud para encontrar un nuevo voluntario.</p>
-                        </div>
-                      </a>
+                <div
+                  class="card shadow-lg border-0 rounded-4 overflow-hidden animate__animated animate__fadeIn"
+                >
+                  <div class="p-5 text-center bg-white">
+                    <div class="mb-4">
+                      <div class="icon-box-cancelled mx-auto mb-3">
+                        <i class="bi bi-x-circle text-danger" style="font-size: 4rem"></i>
+                      </div>
                     </div>
 
-                    <div class="col-md-5">
-                      <a style="text-decoration: none;" (click)="updateRequestStatus(RequestStatus.COMPLETED)">
-                        <div class="p-4 border rounded-4 h-100 hover-shadow transition-all">
-                          <i class="bi bi-check2-circle text-secondary fs-2 mb-2"></i>
-                          <h6 class="fw-bold mb-3">Ya estoy ayudado</h6>
-                          <p class="small text-muted mb-3">Si el problema se resolvió o ya no necesitas el apoyo.</p>
-                        </div>
-                      </a>
+                    <h2 class="fw-bold mb-3" style="color: #003366">Solicitud Cancelada</h2>
+                    <p class="text-muted mx-auto mb-5" style="max-width: 400px">
+                      Esta solicitud ya no está activa. ¿Qué te gustaría hacer ahora? Selecciona una
+                      opción para continuar.
+                    </p>
+
+                    <div class="row g-3 justify-content-center">
+                      <div class="col-md-5">
+                        <a
+                          style="text-decoration: none"
+                          (click)="updateRequestStatus(RequestStatus.FINDING_VOLUNTEER)"
+                        >
+                          <div class="p-4 border rounded-4 h-100 hover-shadow transition-all">
+                            <i class="bi bi-person-plus-fill text-primary fs-2 mb-2"></i>
+                            <h6 class="fw-bold mb-3">Buscar de nuevo</h6>
+                            <p class="small text-muted mb-3">
+                              Volver a publicar la solicitud para encontrar un nuevo voluntario.
+                            </p>
+                          </div>
+                        </a>
+                      </div>
+
+                      <div class="col-md-5">
+                        <a
+                          style="text-decoration: none"
+                          (click)="updateRequestStatus(RequestStatus.COMPLETED)"
+                        >
+                          <div class="p-4 border rounded-4 h-100 hover-shadow transition-all">
+                            <i class="bi bi-check2-circle text-secondary fs-2 mb-2"></i>
+                            <h6 class="fw-bold mb-3">Ya estoy ayudado</h6>
+                            <p class="small text-muted mb-3">
+                              Si el problema se resolvió o ya no necesitas el apoyo.
+                            </p>
+                          </div>
+                        </a>
+                      </div>
                     </div>
 
-                  </div>
-
-                  <div class="mt-5">
-                    <button class="btn btn-primary btn-lg rounded-pill px-5" (click)="goBack()">
-                      Volver al Panel Principal
-                    </button>
+                    <div class="mt-5">
+                      <button class="btn btn-primary btn-lg rounded-pill px-5" (click)="goBack()">
+                        Volver al Panel Principal
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
               } @else if (helpRequest.status === RequestStatus.COMPLETED) {
                 <div
                   class="card shadow border-0 rounded-4 p-5 text-center animate__animated animate__fadeIn"
@@ -197,13 +254,16 @@
               </h5>
               <div class="row g-3">
                 <div class="col-6">
-                  @if(helpRequest.supportSession.sessionMethod){
+                  @if (helpRequest.supportSession.sessionMethod) {
                     <span class="text-muted small d-block">Método elegido</span>
-                    <span class="fw-bold">{{ sessionMethodTranslations[helpRequest.supportSession.sessionMethod] }}</span>
-                  }@else {
-                    <span class="text-muted small d-block">El método de la sesión está pendiente de confirmación</span>
+                    <span class="fw-bold">{{
+                      sessionMethodTranslations[helpRequest.supportSession.sessionMethod]
+                    }}</span>
+                  } @else {
+                    <span class="text-muted small d-block"
+                      >El método de la sesión está pendiente de confirmación</span
+                    >
                   }
-
                 </div>
                 <div class="col-6 text-end">
                   <span class="text-muted small d-block">Estado</span>
@@ -211,7 +271,10 @@
                     helpRequest.supportSession.status
                   }}</span>
                 </div>
-                @if(helpRequest.supportSession.meetingUrl && helpRequest.supportSession.status === 'ACTIVE') {
+                @if (
+                  helpRequest.supportSession.meetingUrl &&
+                  helpRequest.supportSession.status === 'ACTIVE'
+                ) {
                   <div class="col-12">
                     <a
                       [href]="helpRequest.supportSession.meetingUrl"
@@ -221,23 +284,42 @@
                       <i class="bi bi-camera-video-fill me-2"></i>Unirme a la sesión de ayuda
                     </a>
                   </div>
-                }@else if (helpRequest.supportSession.status === 'ACTIVE' &&helpRequest.supportSession.sessionMethod == 'ONLINE_MEETING' && !helpRequest.supportSession.meetingUrl) {
+                } @else if (
+                  helpRequest.supportSession.status === 'ACTIVE' &&
+                  helpRequest.supportSession.sessionMethod == 'ONLINE_MEETING' &&
+                  !helpRequest.supportSession.meetingUrl
+                ) {
                   <div class="col-12">
-                    <p class="text-muted small fw-bold">Cuando el voluntario esté listo, se aparecerá el botón para unirse a la reunión.</p>
+                    <p class="text-muted small fw-bold">
+                      Cuando el voluntario esté listo, se aparecerá el botón para unirse a la
+                      reunión.
+                    </p>
                   </div>
-                }@else if (helpRequest.supportSession.status === 'ACTIVE' && helpRequest.supportSession.sessionMethod == 'IN_PERSON') {
+                } @else if (
+                  helpRequest.supportSession.status === 'ACTIVE' &&
+                  helpRequest.supportSession.sessionMethod == 'IN_PERSON'
+                ) {
                   <div class="col-12">
-                    <p class="text-muted small fw-bold">Esta ayuda se realizará de forma presencial. El voluntario se pondrá en contacto contigo para concretar los detalles.</p>
+                    <p class="text-muted small fw-bold">
+                      Esta ayuda se realizará de forma presencial. El voluntario se pondrá en
+                      contacto contigo para concretar los detalles.
+                    </p>
                   </div>
-                }
-                @else if (helpRequest.supportSession.status === 'ACTIVE' && helpRequest.supportSession.sessionMethod == 'TELEPHONE') {
+                } @else if (
+                  helpRequest.supportSession.status === 'ACTIVE' &&
+                  helpRequest.supportSession.sessionMethod == 'TELEPHONE'
+                ) {
                   <div class="col-12">
-                    <p class="text-muted small fw-bold">Esta ayuda se realizará por teléfono. El voluntario se pondrá en contacto contigo para concretar los detalles.</p>
+                    <p class="text-muted small fw-bold">
+                      Esta ayuda se realizará por teléfono. El voluntario se pondrá en contacto
+                      contigo para concretar los detalles.
+                    </p>
                   </div>
                 }
                 @if (helpRequest.supportSession.s3RecordingUrl) {
                   <div class="col-12 mt-3 pt-3 border-top">
-                    <i class="bi bi-archive me-2"></i>Descargar el recurso subido por {{ helpRequest.volunteer?.firstName }}:
+                    <i class="bi bi-archive me-2"></i>Descargar el recurso subido por
+                    {{ helpRequest.volunteer?.firstName }}:
                     <a
                       [href]="helpRequest.supportSession.s3RecordingUrl"
                       target="_blank"
