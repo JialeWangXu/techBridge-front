@@ -13,6 +13,7 @@ import { sessionMethodTranslations } from '../../../../shared/models/supportSess
   imports: [CommonModule]
 })
 export class MyRequestDetailComponent implements OnInit {
+
   constructor(private readonly helpRequestService: HelpRequestService, 
     private readonly route:ActivatedRoute,
     private readonly authService: AuthService,
@@ -37,6 +38,7 @@ export class MyRequestDetailComponent implements OnInit {
   role:string ='';
   public RequestStatus = RequestStatus;
   public sessionMethodTranslations = sessionMethodTranslations;
+  isGenerating: boolean = false;
 
   statusConfig: any = {
   'OPEN': { color: '#28a745', icon: 'bi-door-open-fill', text: 'Abierta' },

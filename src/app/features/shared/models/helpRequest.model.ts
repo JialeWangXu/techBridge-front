@@ -1,3 +1,4 @@
+import { AiTutorial } from "./aiTutorial.model";
 import { SupportSession } from "./supportSession.model";
 import { UserDto } from "./userDto.model";
 
@@ -11,6 +12,7 @@ export interface HelpRequest extends HelpRequestCreate {
   id: string;
   createdAt: Date;
   updatedAt: Date;
+  aiTutorial?: AiTutorial;
   supportSession?:SupportSession;
   senior:UserDto;
   volunteer?:UserDto;

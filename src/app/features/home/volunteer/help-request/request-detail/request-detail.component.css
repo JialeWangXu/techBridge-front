@@ -73,3 +73,11 @@
 .bg-light {
   background-color: #f8f9fa !important;
 }
+
+.fs-4 {
+  line-height: 1.4;
+}
+
+.border-warning {
+  border-color: #ffc107 !important;
+}
