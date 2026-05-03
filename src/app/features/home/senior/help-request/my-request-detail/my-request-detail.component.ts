@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { HelpRequestService } from '../../../help-requests/help-request.service';
+import { HelpRequestService, SupportSessionService } from '../../../help-requests/help-request.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { HelpRequest, RequestStatus } from '../../../../shared/models/helpRequest.model';
@@ -15,6 +15,7 @@ import { sessionMethodTranslations } from '../../../../shared/models/supportSess
 export class MyRequestDetailComponent implements OnInit {
 
   constructor(private readonly helpRequestService: HelpRequestService, 
+    private readonly supportSessionService: SupportSessionService,
     private readonly route:ActivatedRoute,
     private readonly authService: AuthService,
     private readonly router: Router) { }
@@ -105,6 +106,27 @@ export class MyRequestDetailComponent implements OnInit {
           console.error('Error al actualizar la solicitud de ayuda:', err);
         }
       });
+    }
+  }
+
+  downloadResource() {
+    if(this.helpRequest.supportSession?.s3RecordingUrl){
+      const newTab = window.open('', '_blank');
+      if(newTab){
+        newTab.document.body.innerHTML = '<h2>Preparando la descarga...</h2>';
+      }else{
+        alert('No se pudo abrir una nueva pestaña para descargar el recurso. Por favor, revisa tu configuración de ventanas emergentes.');
+        return;
+      }
+      
+      this.supportSessionService.downloadResource(this.helpRequest.supportSession.id!).subscribe({
+        next: (url) => {
+          newTab.location.href = url; 
+        },
+        error: (err) => {
+          console.error('Error al descargar el recurso:', err);
+        }
+      }); 
     }
   }
 
