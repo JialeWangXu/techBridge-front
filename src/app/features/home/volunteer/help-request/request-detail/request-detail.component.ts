@@ -1,34 +1,44 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HelpRequestService, SupportSessionService } from '../../../help-requests/help-request.service';
+import {
+  HelpRequestService,
+  SupportSessionService,
+} from '../../../help-requests/help-request.service';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HelpRequest, RequestStatus } from '../../../../shared/models/helpRequest.model';
-import { HelpStatus, SessionMethods, sessionMethodTranslations } from '../../../../shared/models/supportSession.model';
+import {
+  HelpStatus,
+  SessionMethods,
+  sessionMethodTranslations,
+} from '../../../../shared/models/supportSession.model';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../../../../../shared/modal/modal.component';
+import { ToastComponent } from '../../../../../shared/toast/toast.component';
 
 @Component({
   selector: 'app-request-detail',
   templateUrl: './request-detail.component.html',
   styleUrls: ['./request-detail.component.css'],
-  imports: [CommonModule, FormsModule, ModalComponent]
+  imports: [CommonModule, FormsModule, ModalComponent, ToastComponent],
 })
 export class RequestDetailComponent implements OnInit {
   @ViewChild(ModalComponent) confirmModal!: ModalComponent;
+  @ViewChild(ToastComponent) toast!: ToastComponent;
 
-
-  constructor(private readonly helpRequestService: HelpRequestService,
-    private readonly route:ActivatedRoute, private readonly authService: AuthService,
+  constructor(
+    private readonly helpRequestService: HelpRequestService,
+    private readonly route: ActivatedRoute,
+    private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly supportSessionService: SupportSessionService
+    private readonly supportSessionService: SupportSessionService,
   ) {
-      this.cameFrom = history.state?.cameFrom || 'available-requests';
-      console.log('Came from:', this.cameFrom);
+    this.cameFrom = history.state?.cameFrom || 'available-requests';
+    console.log('Came from:', this.cameFrom);
   }
 
-  requestId:string = '';
-  helpRequest:HelpRequest = {
+  requestId: string = '';
+  helpRequest: HelpRequest = {
     id: '',
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -36,45 +46,52 @@ export class RequestDetailComponent implements OnInit {
       firstName: '',
       lastName: '',
       email: '',
-      role: 'SENIOR'
+      role: 'SENIOR',
     },
     title: '',
     description: '',
     status: RequestStatus.FINDING_VOLUNTEER,
-    }; 
-  meetUrl: string = '';  
+  };
+  meetUrl: string = '';
   statusConfig: any = {
-    'OPEN': { color: '#28a745', icon: 'bi-door-open-fill', text: 'Abierta' },
-    'FINDING_VOLUNTEER': { color: '#0d6efd', icon: 'bi-person-check-fill', text: 'Encontrando voluntario' },
-    'IN_PROGRESS': { color: '#ffc107', icon: 'bi-hourglass-split', text: 'En curso' },
-    'COMPLETED': { color: '#6c757d', icon: 'bi-check-circle-fill', text: 'Completada' },
-    'CANCELLED': { color: '#dc3545', icon: 'bi-x-circle-fill', text: 'Cancelada' }
+    OPEN: { color: '#28a745', icon: 'bi-door-open-fill', text: 'Abierta' },
+    FINDING_VOLUNTEER: {
+      color: '#0d6efd',
+      icon: 'bi-person-check-fill',
+      text: 'Encontrando voluntario',
+    },
+    IN_PROGRESS: { color: '#ffc107', icon: 'bi-hourglass-split', text: 'En curso' },
+    COMPLETED: { color: '#6c757d', icon: 'bi-check-circle-fill', text: 'Completada' },
+    CANCELLED: { color: '#dc3545', icon: 'bi-x-circle-fill', text: 'Cancelada' },
   };
 
   public sessionMethodTranslations = sessionMethodTranslations;
-  currentView: 'TUTORIAL'|'MANAGE' = 'MANAGE';
-  selectedSessionMethod: SessionMethods= SessionMethods.TELEPHONE;
+  currentView: 'TUTORIAL' | 'MANAGE' = 'MANAGE';
+  selectedSessionMethod: SessionMethods = SessionMethods.TELEPHONE;
   public SessionMethods = SessionMethods;
-  public HelpStatus = HelpStatus; 
+  public HelpStatus = HelpStatus;
   public RequestStatus = RequestStatus;
   modalConfig = {
-  title: '',
-  message: '',
-  type: 'info' as 'danger' | 'success' | 'info'
+    title: '',
+    message: '',
+    type: 'info' as 'danger' | 'success' | 'info',
   };
+  toastMessage: string = '';
   isNotesEditable: boolean = false;
   selectedFile: File | null = null;
   fileErrorMessage: string | null = null;
   volunteerNotes: string = this.helpRequest.supportSession?.volunteerNotes || '';
-  cameFrom:string = '';
+  cameFrom: string = '';
 
   hasMethod(req: HelpRequest): boolean {
-  let hasMethod = !!( req.supportSession?.sessionMethod && req.supportSession?.sessionMethod.trim() !== '');
-  return hasMethod;
+    let hasMethod = !!(
+      req.supportSession?.sessionMethod && req.supportSession?.sessionMethod.trim() !== ''
+    );
+    return hasMethod;
   }
 
   ngOnInit() {
-    if(this.authService.getUserData()?.role!== 'VOLUNTEER' ){
+    if (this.authService.getUserData()?.role !== 'VOLUNTEER') {
       this.router.navigate(['/']);
     }
     this.requestId = this.route.snapshot.params['id'];
@@ -88,7 +105,7 @@ export class RequestDetailComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al obtener el detalle de la solicitud de ayuda:', err);
-      }
+      },
     });
   }
 
@@ -101,13 +118,17 @@ export class RequestDetailComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al actualizar el estado:', err);
-      }
+      },
     });
   }
 
-  formatSeniorAddress(){
-    if(this.helpRequest.senior){
-      return [this.helpRequest.senior.province, this.helpRequest.senior.city, this.helpRequest.senior.postalCode]
+  formatSeniorAddress() {
+    if (this.helpRequest.senior) {
+      return [
+        this.helpRequest.senior.province,
+        this.helpRequest.senior.city,
+        this.helpRequest.senior.postalCode,
+      ]
         .filter((x): x is string => !!x)
         .join(', ');
     }
@@ -119,18 +140,25 @@ export class RequestDetailComponent implements OnInit {
       console.error('No hay una sesión de soporte asociada a esta solicitud de ayuda.');
       return;
     }
-    this.supportSessionService.updateSupportSession(this.helpRequest.supportSession.id!, { sessionMethod: this.selectedSessionMethod }).subscribe({
-      next: (updatedSession) => {
-        console.log('Método de sesión actualizado:', updatedSession);
-        if (this.helpRequest.supportSession) {
-          console.log('Actualizando el método de sesión en la solicitud de ayuda...', this.helpRequest.supportSession);
-          this.helpRequest.supportSession = updatedSession;
-        }
-      },
-      error: (err) => {
-        console.error('Error al actualizar el método de sesión:', err);
-      }
-    });
+    this.supportSessionService
+      .updateSupportSession(this.helpRequest.supportSession.id!, {
+        sessionMethod: this.selectedSessionMethod,
+      })
+      .subscribe({
+        next: (updatedSession) => {
+          console.log('Método de sesión actualizado:', updatedSession);
+          if (this.helpRequest.supportSession) {
+            console.log(
+              'Actualizando el método de sesión en la solicitud de ayuda...',
+              this.helpRequest.supportSession,
+            );
+            this.helpRequest.supportSession = updatedSession;
+          }
+        },
+        error: (err) => {
+          console.error('Error al actualizar el método de sesión:', err);
+        },
+      });
   }
 
   saveNotes() {
@@ -139,19 +167,27 @@ export class RequestDetailComponent implements OnInit {
       return;
     }
 
-    this.supportSessionService.updateSupportSession(this.helpRequest.supportSession.id!, { volunteerNotes: this.volunteerNotes }).subscribe({
-      next: (updatedSession) => {
-        console.log('Notas de voluntario actualizadas:', updatedSession);   
-        if (this.helpRequest.supportSession) {
-          console.log('Actualizando las notas de voluntario en la solicitud de ayuda...', this.helpRequest.supportSession);
-          this.helpRequest.supportSession = updatedSession;
-          this.volunteerNotes = updatedSession.volunteerNotes || '';
-          this.isNotesEditable = false;
-        }
-      },error: (err) => {
-        console.error('Error al actualizar las notas de voluntario:', err);
-      }
-    });   
+    this.supportSessionService
+      .updateSupportSession(this.helpRequest.supportSession.id!, {
+        volunteerNotes: this.volunteerNotes,
+      })
+      .subscribe({
+        next: (updatedSession) => {
+          console.log('Notas de voluntario actualizadas:', updatedSession);
+          if (this.helpRequest.supportSession) {
+            console.log(
+              'Actualizando las notas de voluntario en la solicitud de ayuda...',
+              this.helpRequest.supportSession,
+            );
+            this.helpRequest.supportSession = updatedSession;
+            this.volunteerNotes = updatedSession.volunteerNotes || '';
+            this.isNotesEditable = false;
+          }
+        },
+        error: (err) => {
+          console.error('Error al actualizar las notas de voluntario:', err);
+        },
+      });
   }
 
   saveRecordingConsent(consent: boolean) {
@@ -160,18 +196,23 @@ export class RequestDetailComponent implements OnInit {
       return;
     }
 
-    this.supportSessionService.updateSupportSession(this.helpRequest.supportSession.id!, { recordingConsent: consent }).subscribe({
-      next: (updatedSession) => {
-        console.log('Consentimiento de grabación actualizado:', updatedSession);  
-        if (this.helpRequest.supportSession) {
-          console.log('Actualizando el consentimiento de grabación en la solicitud de ayuda...', this.helpRequest.supportSession);
-          this.helpRequest.supportSession = updatedSession;
-        } 
-      },
-      error: (err) => {
-        console.error('Error al actualizar el consentimiento de grabación:', err);
-      }
-    });
+    this.supportSessionService
+      .updateSupportSession(this.helpRequest.supportSession.id!, { recordingConsent: consent })
+      .subscribe({
+        next: (updatedSession) => {
+          console.log('Consentimiento de grabación actualizado:', updatedSession);
+          if (this.helpRequest.supportSession) {
+            console.log(
+              'Actualizando el consentimiento de grabación en la solicitud de ayuda...',
+              this.helpRequest.supportSession,
+            );
+            this.helpRequest.supportSession = updatedSession;
+          }
+        },
+        error: (err) => {
+          console.error('Error al actualizar el consentimiento de grabación:', err);
+        },
+      });
   }
 
   onFileSelected(event: any) {
@@ -180,26 +221,33 @@ export class RequestDetailComponent implements OnInit {
     this.selectedFile = null;
 
     if (file) {
-      // Validar Tamaño (ejemplo 10MB = 10 * 1024 * 1024 bytes)
-      const maxSize = 10 * 1024 * 1024;
-      
+      // Validar Tamaño (ejemplo 25MB = 25 * 1024 * 1024 bytes)
+      const maxSize = 25 * 1024 * 1024;
+
       // Validar Tipos (MIME Types)
-      const allowedTypes = ['application/pdf', 'audio/mpeg', 'video/mp4', 'video/quicktime'];
+      const allowedTypes = [
+        'application/pdf',
+        'audio/mpeg',
+        'video/mp4',
+        'video/quicktime',
+        'image/jpeg',
+        'image/png',
+      ];
 
       if (!allowedTypes.includes(file.type)) {
-        this.fileErrorMessage = 'Formato no permitido. Usa PDF, MP3 o Video.';
+        this.fileErrorMessage = 'Formato no permitido. Usa PDF, MP3, imagen o Video.';
         return;
       }
 
       if (file.size > maxSize) {
-        this.fileErrorMessage = 'El archivo es demasiado grande (Máx. 10MB).';
+        this.fileErrorMessage = 'El archivo es demasiado grande (Máx. 25MB).';
         return;
       }
 
       // Si pasa las validaciones
       this.selectedFile = file;
     }
-  } 
+  }
 
   saveRecordingUrl(url: string) {
     if (!this.helpRequest.supportSession) {
@@ -207,18 +255,45 @@ export class RequestDetailComponent implements OnInit {
       return;
     }
 
-    this.supportSessionService.updateSupportSession(this.helpRequest.supportSession.id!, { s3RecordingUrl: url }).subscribe({
-      next: (updatedSession) => {
-        console.log('URL de grabación actualizado:', updatedSession);
+    this.supportSessionService.uploadResource(url, this.selectedFile!).subscribe({
+      next: () => {
         if (this.helpRequest.supportSession) {
-          console.log('Actualizando la URL de grabación en la solicitud de ayuda...', this.helpRequest.supportSession);
-          this.helpRequest.supportSession = updatedSession;
-        } 
+          this.helpRequest.supportSession.s3RecordingUrl = url;
+          this.toastMessage = 'Recurso subido exitosamente.';
+          this.toast.show();
+        }
       },
       error: (err) => {
         console.error('Error al actualizar la URL de grabación:', err);
-      }
+        this.toastMessage = 'Error al subir el recurso. Intentalo más tarde.';
+        this.toast.show();
+      },
     });
+  }
+
+  downloadResource() {
+    if (this.helpRequest.supportSession?.s3RecordingUrl) {
+      const newTab = window.open('', '_blank');
+      if (newTab) {
+        newTab.document.body.innerHTML = '<h2>Preparando la descarga...</h2>';
+      } else {
+        alert(
+          'No se pudo abrir una nueva pestaña para descargar el recurso. Por favor, revisa tu configuración de ventanas emergentes.',
+        );
+        return;
+      }
+
+      this.supportSessionService.downloadResource(this.helpRequest.supportSession.id!).subscribe({
+        next: (url) => {
+          newTab.location.href = url;
+        },
+        error: (err) => {
+          this.toastMessage = 'No se ha podido descargar el recurso, intentalo de nuevo.';
+          this.toast.show();
+          console.error('Error al descargar el recurso:', err);
+        },
+      });
+    }
   }
 
   saveMeetingUrl(url: string) {
@@ -226,26 +301,30 @@ export class RequestDetailComponent implements OnInit {
       console.error('No hay una sesión de soporte asociada a esta solicitud de ayuda.');
       return;
     }
-    this.supportSessionService.updateSupportSession(this.helpRequest.supportSession.id!, { meetingUrl: url }).subscribe({
-      next: (updatedSession) => {
-        console.log('URL de reunión actualizado:', updatedSession);
-        if (this.helpRequest.supportSession) {
-          console.log('Actualizando la URL de reunión en la solicitud de ayuda...', this.helpRequest.supportSession);
-          this.helpRequest.supportSession = updatedSession;
-        } 
-      },
-      error: (err) => {
-        console.error('Error al actualizar la URL de reunión:', err);
-      }
-    });
+    this.supportSessionService
+      .updateSupportSession(this.helpRequest.supportSession.id!, { meetingUrl: url })
+      .subscribe({
+        next: (updatedSession) => {
+          console.log('URL de reunión actualizado:', updatedSession);
+          if (this.helpRequest.supportSession) {
+            console.log(
+              'Actualizando la URL de reunión en la solicitud de ayuda...',
+              this.helpRequest.supportSession,
+            );
+            this.helpRequest.supportSession = updatedSession;
+          }
+        },
+        error: (err) => {
+          console.error('Error al actualizar la URL de reunión:', err);
+        },
+      });
   }
 
   generateMeetLink() {
     const roomName = `TechBridge-${this.helpRequest.id.substring(0, 8)}`;
     this.meetUrl = `https://meet.jit.si/${roomName}`;
-  
+
     this.saveMeetingUrl(this.meetUrl);
-  
   }
 
   copyToClipboard(text: string) {
@@ -254,9 +333,9 @@ export class RequestDetailComponent implements OnInit {
   }
 
   goBack() {
-    if(this.cameFrom === 'my-helps'){
+    if (this.cameFrom === 'my-helps') {
       this.router.navigate(['/my-helps']);
-    }else if(this.cameFrom === 'available-requests'){
+    } else if (this.cameFrom === 'available-requests') {
       this.router.navigate(['/available-requests']);
     }
   }
@@ -265,9 +344,8 @@ export class RequestDetailComponent implements OnInit {
     this.modalConfig = {
       title: '¿Deseas cancelar?',
       message: 'Esta acción liberará la petición para otros voluntarios.',
-      type: 'danger'
+      type: 'danger',
     };
     this.confirmModal.show();
   }
-
 }

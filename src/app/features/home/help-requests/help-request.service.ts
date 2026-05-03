@@ -59,4 +59,14 @@ export class SupportSessionService{
     return this.http.put<SupportSession>(`${this.apiUrl}/${supportSessionId}`, {sessionMethod});
   }
 
+  uploadResource(supportSessionId:string, file: File): Observable<void>{
+    const formData = new FormData();
+      formData.append('file', file, supportSessionId);
+    return this.http.post<void>(`${this.apiUrl}/${supportSessionId}`, formData);
+  }
+
+  downloadResource(supportSessionId:string): Observable<string>{
+    return this.http.get(`${this.apiUrl}/${supportSessionId}`, { responseType: 'text' });
+  }
+
 }
