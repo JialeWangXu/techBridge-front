@@ -1,122 +1,187 @@
 <div class="container-fluid 100vh d-flex align-items-center bg-light">
   <div class="row w-100 justify-content-center">
-    
     <div class="col-11 col-lg-10 bg-white shadow-lg rounded-4 overflow-hidden d-flex flex-wrap p-0">
-      
       <div class="col-md-6 d-none d-md-flex flex-column p-5 justify-content-between">
         <div>
-          <img src="images/logo-clean.png" height="50" alt="Logo">
+          <img src="images/logo-clean.png" height="50" alt="Logo" />
 
-          @if (rol==="SENIOR") {
+          @if (rol === 'SENIOR') {
             <h1 class="display-5 fw-bold mt-4">Crea tu cuenta</h1>
             <p class="text-muted">Estamos aquí para ayudarte</p>
-          }@else {
+          } @else {
             <h1 class="display-5 fw-bold mt-4">Conviértete en Voluntario</h1>
             <p class="text-muted">Tu tiempo puede marcar la diferencia.</p>
           }
         </div>
         <div class="text-center">
-          <img src="images/personaje.png" class="img-fluid w-75" alt="Personaje">
+          <img src="images/personaje.png" class="img-fluid w-75" alt="Personaje" />
         </div>
       </div>
 
-      <div class="col-12 col-md-6 p-4 p-md-5" style="background-color: #fdfdff;">
+      <div class="col-12 col-md-6 p-4 p-md-5" style="background-color: #fdfdff">
         <h3 class="mb-2">Registro</h3>
 
-        @if (rol==="SENIOR") {
+        @if (rol === 'SENIOR') {
           <p class="small">
-            ¿Quiere convertirse en Voluntario? <a (click)="setRole('VOLUNTEER')"
-            class="text-decoration-underline fw-bold" style="color: #8EBFFB; cursor: pointer;">Click aquí</a>
+            ¿Quiere convertirse en Voluntario?
+            <a
+              (click)="setRole('VOLUNTEER')"
+              class="text-decoration-underline fw-bold"
+              style="color: #8ebffb; cursor: pointer"
+              >Click aquí</a
+            >
           </p>
-        }@else {
+        } @else {
           <p class="small">
-            ¿Quiere buscar ayuda en TechBridge? <a (click)="setRole('SENIOR')"
-            class="text-decoration-underline fw-bold" style="color: #8EBFFB; cursor: pointer;">Click aquí</a>
+            ¿Quiere buscar ayuda en TechBridge?
+            <a
+              (click)="setRole('SENIOR')"
+              class="text-decoration-underline fw-bold"
+              style="color: #8ebffb; cursor: pointer"
+              >Click aquí</a
+            >
           </p>
         }
 
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="row g-3 mb-2">
-              <div class="col-md-6">
-                <label for="firstName" class="form-label text-muted small">Nombre</label>
-                <input id="firstName" type="text" formControlName="firstName"
-                      class="form-control border-0 bg-light p-3 rounded-3 shadow-none"
-                      placeholder="Ej: Juan"
-                      [class.is-invalid]="submitted && registerForm.controls['firstName'].invalid">
-              </div>
-              <div class="col-md-6">
-                <label for="lastName" class="form-label text-muted small">Apellido</label>
-                <input id="lastName" type="text" formControlName="lastName"
-                      class="form-control border-0 bg-light p-3 rounded-3 shadow-none"
-                      placeholder="Ej: Pérez"
-                      [class.is-invalid]="submitted && registerForm.controls['lastName'].invalid">
-              </div>
+            <div class="col-md-6">
+              <label for="firstName" class="form-label text-muted small">Nombre</label>
+              <input
+                id="firstName"
+                type="text"
+                formControlName="firstName"
+                class="form-control border-0 bg-light p-3 rounded-3 shadow-none"
+                placeholder="Ej: Juan"
+                [class.is-invalid]="submitted && registerForm.controls['firstName'].invalid"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="lastName" class="form-label text-muted small">Apellido</label>
+              <input
+                id="lastName"
+                type="text"
+                formControlName="lastName"
+                class="form-control border-0 bg-light p-3 rounded-3 shadow-none"
+                placeholder="Ej: Pérez"
+                [class.is-invalid]="submitted && registerForm.controls['lastName'].invalid"
+              />
+            </div>
           </div>
 
           <div class="row g-3 mb-2">
             <div class="col-md-6">
               <label class="form-label text-muted small" for="email">Email</label>
-              <input type="email" formControlName="email"  id="email"
-                    class="form-control border-0 bg-light p-3 rounded-3 shadow-none" 
-                    placeholder="juan@ejemplo.com"
-                    [class.is-invalid]="submitted && registerForm.controls['email'].invalid">
+              <input
+                type="email"
+                formControlName="email"
+                id="email"
+                class="form-control border-0 bg-light p-3 rounded-3 shadow-none"
+                placeholder="juan@ejemplo.com"
+                [class.is-invalid]="submitted && registerForm.controls['email'].invalid"
+              />
             </div>
             <div class="col-md-6">
-              <label class="form-label text-muted small" for="telephone">Teléfono (opcional)</label>
-              <input type="tel" formControlName="telephone" id="telephone" 
-                    class="form-control border-0 bg-light p-3 rounded-3 shadow-none" 
-                    placeholder="600 000 000"
-                    [class.is-invalid]="submitted && registerForm.controls['telephone'].invalid">
+              <label class="form-label text-muted small" for="telephone">Teléfono</label>
+              <input
+                type="tel"
+                formControlName="telephone"
+                id="telephone"
+                class="form-control border-0 bg-light p-3 rounded-3 shadow-none"
+                placeholder="600 000 000"
+                [class.is-invalid]="submitted && registerForm.controls['telephone'].invalid"
+              />
             </div>
           </div>
 
-          @if(rol==='SENIOR'){
+          @if (rol === 'SENIOR') {
             <div class="mb-2">
-              <label class="form-label text-muted small" for="contactPreference">Preferencia de contacto</label>
-              <select formControlName="contactPreference" id="contactPreference"
-                      class="form-select border-0 bg-light p-3 rounded-3 shadow-none"
-                      [class.is-invalid]="submitted && registerForm.controls['contactPreference'].errors">
+              <label class="form-label text-muted small" for="contactPreference"
+                >Preferencia de contacto</label
+              >
+              <select
+                formControlName="contactPreference"
+                id="contactPreference"
+                class="form-select border-0 bg-light p-3 rounded-3 shadow-none"
+                [class.is-invalid]="submitted && registerForm.controls['contactPreference'].errors"
+              >
                 <option value="" disabled selected>Selecciona una opción...</option>
-              <option value="TELEPHONE">Teléfono</option>
-              <option value="ONLINE_MEETING">Video llamada</option>
-              <option value="IN_PERSON">Presencial</option>
-            </select>
-          </div>
-        }
+                <option value="TELEPHONE">Teléfono</option>
+                <option value="ONLINE_MEETING">Video llamada</option>
+                <option value="IN_PERSON">Presencial</option>
+              </select>
+            </div>
+          }
 
           <div class="mb-2">
             <label for="password" class="form-label text-muted small">Contraseña</label>
-            <input id="password" type="password" formControlName="password" 
-            class="form-control border-0 bg-light p-3 rounded-3 shadow-none" 
-            placeholder="mínimo 6 caracteres"
-            [class.is-invalid]="submitted && registerForm.controls['password'].invalid">
+            <input
+              id="password"
+              type="password"
+              formControlName="password"
+              class="form-control border-0 bg-light p-3 rounded-3 shadow-none"
+              placeholder="mínimo 6 caracteres"
+              [class.is-invalid]="submitted && registerForm.controls['password'].invalid"
+            />
           </div>
 
           <div class="mb-2">
-            <label for="confirmPassword" class="form-label text-muted small">Confirmar contraseña</label>
-            <input id="confirmPassword" type="password" formControlName="confirmPassword" 
-            class="form-control border-0 bg-light p-3 rounded-3 shadow-none" 
-            placeholder="repite tu contraseña"
-            [class.is-invalid]="submitted&&registerForm.controls['confirmPassword'].invalid">
+            <label for="confirmPassword" class="form-label text-muted small"
+              >Confirmar contraseña</label
+            >
+            <input
+              id="confirmPassword"
+              type="password"
+              formControlName="confirmPassword"
+              class="form-control border-0 bg-light p-3 rounded-3 shadow-none"
+              placeholder="repite tu contraseña"
+              [class.is-invalid]="submitted && registerForm.controls['confirmPassword'].invalid"
+            />
           </div>
-          @if(submitted&& matchError){
-            <div class="alert alert-danger mt-2" role="alert">
-              Las contraseñas no coinciden.
-            </div>
+          @if (submitted && matchError) {
+            <div class="alert alert-danger mt-2" role="alert">Las contraseñas no coinciden.</div>
+          }@else if (submitted&& registerForm.controls['privacyConsent'].invalid) {
+            <div class="alert alert-danger mt-2" role="alert">Es necesario aceptar el termino para completar la registración.</div>
           }
-          
-          <button type="submit" class="btn w-100 p-3 fw-bold rounded-3 shadow" 
-                  style="background-color: #8EBFFB; color: #003366;">
+          <div class="mb-2">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                align-content: center;
+                justify-content: left;
+                gap: 5px;
+              "
+            >
+              <input type="checkbox" id="dataConsent" formControlName="privacyConsent"/>
+              <label for="dataConsent">
+                Acepto los
+                <a
+                  (click)="viewPrivacityPolicy()"
+                  class="link-underline-primary"
+                  target="_blank"
+                  style="cursor: pointer"
+                  >Términos de Servicio y la Política de Privacidad</a
+                >.
+              </label>
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="btn w-100 p-3 fw-bold rounded-3 shadow"
+            style="background-color: #8ebffb; color: #003366"
+          >
             REGISTRARME
           </button>
-          
+
           <p class="text-center mt-4 small">
-            ¿Ya tienes cuenta? <a href="/login" class="text-decoration-none fw-bold" 
-            style="color: #8EBFFB;">Inicia sesión</a>
+            ¿Ya tienes cuenta?
+            <a href="/login" class="text-decoration-none fw-bold" style="color: #8ebffb"
+              >Inicia sesión</a
+            >
           </p>
         </form>
       </div>
-
     </div>
   </div>
 </div>
