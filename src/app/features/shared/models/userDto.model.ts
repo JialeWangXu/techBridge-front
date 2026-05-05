@@ -8,8 +8,7 @@ export interface UserDto {
     contactPreference?: string;
     specialties?:string;
     isAvailable?:boolean;
-    active?:boolean;
-    address?: string;
+    privacyConsent?:boolean;
     city?: string;
     province?: string;
     postalCode?: number;
