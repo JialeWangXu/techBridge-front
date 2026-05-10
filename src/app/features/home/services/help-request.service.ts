@@ -43,6 +43,14 @@ export class HelpRequestService{
     return this.http.put<HelpRequest>(`${this.apiUrl}/${id}`, {status});
   }
 
+  checkVolunteerInProgressRequests():Observable<boolean>{
+    return this.http.get<boolean>(`${this.apiUrl}/inProgress/check`);
+  }
+
+  countVolunteerInProgressRequest():Observable<number>{
+    return this.http.get<number>(`${this.apiUrl}/inProgress/count`);
+  }
+
 }
 
 @Injectable({

@@ -3,12 +3,19 @@
     <button class="btn btn-outline-secondary rounded-pill px-4" (click)="goBack()">
       <i class="bi bi-arrow-left me-2"></i>Volver al listado
     </button>
-    
+
     @if (helpRequest.supportSession?.status === HelpStatus.ACTIVE) {
       <div class="d-flex gap-2">
-        <button class="btn btn-outline-danger rounded-pill px-3" (click)="handleCancel()">Cancelar Ayuda</button>
-        @if(hasMethod(helpRequest)){
-          <button class="btn btn-success rounded-pill px-4 shadow-sm" (click)="updateStatus(RequestStatus.COMPLETED)">Finalizar y Completar</button>
+        <button class="btn btn-outline-danger rounded-pill px-3" (click)="handleCancel()">
+          Cancelar Ayuda
+        </button>
+        @if (hasMethod(helpRequest)) {
+          <button
+            class="btn btn-success rounded-pill px-4 shadow-sm"
+            (click)="updateStatus(RequestStatus.COMPLETED)"
+          >
+            Finalizar y Completar
+          </button>
         }
       </div>
     }
@@ -17,34 +24,53 @@
   <div class="row g-4">
     <div class="col-lg-5">
       <div class="d-flex flex-column gap-4">
-      <div class="card shadow border-0 rounded-4 p-4 h-100">
-        <div class="border-bottom pb-3 mb-4">
-          <span class="badge rounded-pill mb-2 px-3 py-2" 
-                [style.background-color]="statusConfig[helpRequest.status].color" style="color: white;">
-            <i class="bi" [class]="statusConfig[helpRequest.status].icon + ' me-2'"></i>
-            {{ statusConfig[helpRequest.status].text }}
-          </span>
-          <h2 class="fw-bold" style="color: #003366;">{{ helpRequest.title }}</h2>
-          <p class="text-muted small"><i class="bi bi-calendar-check me-2"></i>Creado el {{ helpRequest.createdAt | date:'dd/MM/yyyy' }}</p>
+        <div class="card shadow border-0 rounded-4 p-4 h-100">
+          <div class="border-bottom pb-3 mb-4">
+            <span
+              class="badge rounded-pill mb-2 px-3 py-2"
+              [style.background-color]="statusConfig[helpRequest.status].color"
+              style="color: white"
+            >
+              <i class="bi" [class]="statusConfig[helpRequest.status].icon + ' me-2'"></i>
+              {{ statusConfig[helpRequest.status].text }}
+            </span>
+            <h2 class="fw-bold" style="color: #003366">{{ helpRequest.title }}</h2>
+            <p class="text-muted small">
+              <i class="bi bi-calendar-check me-2"></i>Creado el
+              {{ helpRequest.createdAt | date: 'dd/MM/yyyy' }}
+            </p>
+          </div>
+
+          <h5 class="fw-bold mb-3" style="color: #003366">
+            <i class="bi bi-info-circle me-2"></i>Descripción de la duda:
+          </h5>
+          <div class="p-3 rounded-3 bg-light fs-5" style="color: #333; line-height: 1.6">
+            {{ helpRequest.description }}
+          </div>
         </div>
 
-        <h5 class="fw-bold mb-3" style="color: #003366;"><i class="bi bi-info-circle me-2"></i>Descripción de la duda:</h5>
-        <div class="p-3 rounded-3 bg-light fs-5" style="color: #333; line-height: 1.6;">
-          {{ helpRequest.description }}
-        </div>
-      </div>
-
-        <div class="card shadow border-0 rounded-4 p-4 border-top border-5" style="border-top-color: #8EBFFB !important;">
-          <h5 class="fw-bold mb-3" style="color: #003366;"><i class="bi bi-person-circle me-2"></i>Datos del Senior</h5>
+        <div
+          class="card shadow border-0 rounded-4 p-4 border-top border-5"
+          style="border-top-color: #8ebffb !important"
+        >
+          <h5 class="fw-bold mb-3" style="color: #003366">
+            <i class="bi bi-person-circle me-2"></i>Datos del Senior
+          </h5>
           <div class="d-flex align-items-center mb-3">
-            <div class="avatar-circle me-3" style="width: 50px; height: 50px; font-size: 1.2rem;">{{ helpRequest.senior.firstName[0] }}</div>
+            <div class="avatar-circle me-3" style="width: 50px; height: 50px; font-size: 1.2rem">
+              {{ helpRequest.senior.firstName[0] }}
+            </div>
             <div>
-              <h6 class="mb-0 fw-bold">{{ helpRequest.senior.firstName }} {{ helpRequest.senior.lastName }}</h6>
+              <h6 class="mb-0 fw-bold">
+                {{ helpRequest.senior.firstName }} {{ helpRequest.senior.lastName }}
+              </h6>
               <p class="text-muted small mb-0">{{ formatSeniorAddress() }}</p>
-              <p class="text-muted small mb-0"><b>Preferencia de contacto:</b> {{ helpRequest.senior.contactPreference }}</p>
+              <p class="text-muted small mb-0">
+                <b>Preferencia de contacto:</b> {{ helpRequest.senior.contactPreference }}
+              </p>
             </div>
           </div>
-          
+
           @if (helpRequest.status == RequestStatus.IN_PROGRESS) {
             <div class="bg-light p-3 rounded-3">
               <p class="mb-1"><strong>Email:</strong> {{ helpRequest.senior.email }}</p>
@@ -53,7 +79,9 @@
               }
             </div>
           } @else {
-            <div class="alert alert-info py-2 small"><i class="bi bi-emoji-smile"></i> Acepta la petición para ver el contacto</div>
+            <div class="alert alert-info py-2 small">
+              <i class="bi bi-emoji-smile"></i> Acepta la petición para ver el contacto
+            </div>
           }
         </div>
       </div>
@@ -61,68 +89,119 @@
 
     <div class="col-lg-7">
       <div class="d-flex gap-3 mb-4">
-        <button class="btn btn-view-toggle flex-fill shadow-sm" 
-                [class.active]="currentView === 'MANAGE'" (click)="currentView = 'MANAGE'">
+        <button
+          class="btn btn-view-toggle flex-fill shadow-sm"
+          [class.active]="currentView === 'MANAGE'"
+          (click)="currentView = 'MANAGE'"
+        >
           <i class="bi bi-tools me-2"></i>Gestionar Ayuda
         </button>
-        <button class="btn btn-view-toggle flex-fill shadow-sm" 
-                [class.active]="currentView === 'TUTORIAL'" (click)="currentView = 'TUTORIAL'">
+        <button
+          class="btn btn-view-toggle flex-fill shadow-sm"
+          [class.active]="currentView === 'TUTORIAL'"
+          (click)="currentView = 'TUTORIAL'"
+        >
           <i class="bi bi-robot me-2"></i>Tutorial IA
         </button>
       </div>
 
       @if (currentView === 'MANAGE') {
         <div class="d-flex flex-column gap-4">
-          
-        @if (helpRequest.status == RequestStatus.FINDING_VOLUNTEER) {
+          @if (helpRequest.status == RequestStatus.FINDING_VOLUNTEER) {
             <div class="card shadow border-0 rounded-4 p-5 text-center">
               <i class="bi bi-hand-thumbs-up fs-1 text-primary mb-3"></i>
               <h4>¿Puedes ayudar con esto?</h4>
-              <p class="text-muted">Al aceptar, usted se compromete a contactar con el solicitante</p>
-              <button class="btn btn-primary btn-lg rounded-pill px-5" (click)="updateStatus(RequestStatus.IN_PROGRESS)">Aceptar Petición</button>
+              <p class="text-muted">
+                Al aceptar, usted se compromete a contactar con el solicitante
+              </p>
+              <button
+                class="btn btn-primary btn-lg rounded-pill px-5"
+                [disabled]="volunteerReachedIngProgressLimit"
+                [class.btn-disabled-limit]="volunteerReachedIngProgressLimit"
+                (click)="updateStatus(RequestStatus.IN_PROGRESS)"
+              >
+                Aceptar Petición
+              </button>
             </div>
+            @if (volunteerReachedIngProgressLimit) {
+              <div class="alert alert-info border-0 rounded-4 animate__animated animate__headShake">
+                <i class="bi bi-info-circle-fill me-2"></i>
+                <strong>Límite de ayudas en curso alcanzado:</strong>
+                <p class="small mb-0 mt-1">
+                  Para garantizar la mejor atención, permitimos un máximo de 3 ayudas simultáneas.
+                  Por favor, finaliza alguna de tus tareas actuales antes de aceptar una nueva.
+                  ¡Gracias por tu compromiso!
+                </p>
+              </div>
+            }
           }
 
           @if (helpRequest.status == RequestStatus.IN_PROGRESS && !hasMethod(helpRequest)) {
             <div class="card shadow border-0 rounded-4 p-4">
               <h5 class="fw-bold mb-3">Confirmar método de ayuda</h5>
-              <p class="small text-primary"><i class="bi bi-info-circle me-2"></i>El Senior prefiere: <strong>{{ helpRequest.senior.contactPreference }}</strong></p>
-              
+              <p class="small text-primary">
+                <i class="bi bi-info-circle me-2"></i>El Senior prefiere:
+                <strong>{{ helpRequest.senior.contactPreference }}</strong>
+              </p>
+
               <select class="form-select mb-3" [(ngModel)]="selectedSessionMethod">
                 <option [value]="SessionMethods.TELEPHONE">Por Teléfono</option>
                 <option [value]="SessionMethods.ONLINE_MEETING">Video Llamada (Jitsi Meet)</option>
                 <option [value]="SessionMethods.IN_PERSON">Presencial (Cita previa)</option>
               </select>
-              <button class="btn btn-primary w-100 rounded-pill" (click)="saveSessionMethod()">Guardar y Mostrar Contacto</button>
+              <button class="btn btn-primary w-100 rounded-pill" (click)="saveSessionMethod()">
+                Guardar y Mostrar Contacto
+              </button>
             </div>
           }
 
           @if (helpRequest.status == RequestStatus.IN_PROGRESS && hasMethod(helpRequest)) {
-            <div class="card shadow border-0 rounded-4 p-4 bg-white border-start border-5 border-primary">
-              <h5 class="fw-bold mb-3">Sesión en curso: {{ sessionMethodTranslations[helpRequest.supportSession?.sessionMethod!] }}</h5>
-              
+            <div
+              class="card shadow border-0 rounded-4 p-4 bg-white border-start border-5 border-primary"
+            >
+              <h5 class="fw-bold mb-3">
+                Sesión en curso:
+                {{ sessionMethodTranslations[helpRequest.supportSession?.sessionMethod!] }}
+              </h5>
+
               <div class="card bg-light border-0 rounded-4 p-4 mt-3 shadow-sm">
-                <h6 class="fw-bold mb-3 text-secondary text-uppercase small" style="letter-spacing: 1px;">
+                <h6
+                  class="fw-bold mb-3 text-secondary text-uppercase small"
+                  style="letter-spacing: 1px"
+                >
                   <i class="bi bi-person-video3 me-2"></i>Canal de Comunicación
                 </h6>
 
                 @switch (helpRequest.supportSession?.sessionMethod) {
-                  
                   @case ('ONLINE_MEETING') {
                     <div class="text-center py-2">
                       <p class="text-muted small mb-3">Esta ayuda se realizará de forma virtual.</p>
-                      
+
                       @if (!meetUrl && !helpRequest.supportSession?.meetingUrl) {
-                        <button class="btn btn-dark btn-lg rounded-pill px-4 shadow-sm" (click)="generateMeetLink()">
+                        <button
+                          class="btn btn-dark btn-lg rounded-pill px-4 shadow-sm"
+                          (click)="generateMeetLink()"
+                        >
                           <i class="bi bi-camera-video me-2"></i>Generar Enlace de Jitsi Meet
                         </button>
                       } @else {
-                        <div class="alert alert-success border-0 rounded-4 p-3 animate__animated animate__zoomIn">
-                          <p class="mb-2 fw-bold"><i class="bi bi-link-45deg me-1"></i>Enlace de la reunión:</p>
-                          <a [href]="meetUrl" target="_blank" class="text-decoration-none fw-bold fs-5 d-block mb-2 text-success">
+                        <div
+                          class="alert alert-success border-0 rounded-4 p-3 animate__animated animate__zoomIn"
+                        >
+                          <p class="mb-2 fw-bold">
+                            <i class="bi bi-link-45deg me-1"></i>Enlace de la reunión:
+                          </p>
+                          <a
+                            [href]="meetUrl"
+                            target="_blank"
+                            class="text-decoration-none fw-bold fs-5 d-block mb-2 text-success"
+                          >
                             {{ meetUrl }}
                           </a>
-                          <button class="btn btn-outline-success btn-sm rounded-pill" (click)="copyToClipboard(meetUrl)">
+                          <button
+                            class="btn btn-outline-success btn-sm rounded-pill"
+                            (click)="copyToClipboard(meetUrl)"
+                          >
                             <i class="bi bi-clipboard me-1"></i>Copiar enlace
                           </button>
                         </div>
@@ -144,11 +223,17 @@
 
                   @case ('IN_PERSON') {
                     <div class="bg-white p-3 rounded-4 border">
-                      <p class="mb-3">Por favor, coordina la cita con <strong>{{ helpRequest.senior.firstName }}</strong>:</p>
+                      <p class="mb-3">
+                        Por favor, coordina la cita con
+                        <strong>{{ helpRequest.senior.firstName }}</strong
+                        >:
+                      </p>
                       <div class="d-flex gap-3 mb-3">
                         <div class="p-2 flex-fill bg-light rounded-3 text-center">
                           <i class="bi bi-envelope d-block mb-1"></i>
-                          <small class="d-block text-truncate">{{ helpRequest.senior.email }}</small>
+                          <small class="d-block text-truncate">{{
+                            helpRequest.senior.email
+                          }}</small>
                         </div>
                         @if (helpRequest.senior.telephone) {
                           <div class="p-2 flex-fill bg-light rounded-3 text-center">
@@ -159,7 +244,9 @@
                       </div>
                       <div class="alert alert-warning border-0 rounded-3 mb-0 py-2">
                         <i class="bi bi-shield-check me-2 text-warning"></i>
-                        <span class="small">Recuerda avisar a un familiar de tu visita presencial.</span>
+                        <span class="small"
+                          >Recuerda avisar a un familiar de tu visita presencial.</span
+                        >
                       </div>
                     </div>
                   }
@@ -173,21 +260,26 @@
                       <i class="bi bi-pencil-square me-1"></i> Tus Notas para el solicitante:
                     </label>
                     <div class="btn-group btn-group-sm">
-                      <button class="btn btn-outline-secondary" (click)="isNotesEditable = true" [disabled]="isNotesEditable">
+                      <button
+                        class="btn btn-outline-secondary"
+                        (click)="isNotesEditable = true"
+                        [disabled]="isNotesEditable"
+                      >
                         <i class="bi bi-pencil"></i> Editar
                       </button>
                     </div>
                   </div>
-                  
-                  <textarea 
-                    class="form-control mb-2" 
-                    rows="3" 
+
+                  <textarea
+                    class="form-control mb-2"
+                    rows="3"
                     [(ngModel)]="volunteerNotes"
                     [disabled]="!isNotesEditable"
-                    placeholder="Escribe consejos o recordatorios..." 
-                    id="volunteerNotes">
+                    placeholder="Escribe consejos o recordatorios..."
+                    id="volunteerNotes"
+                  >
                   </textarea>
-                  
+
                   @if (isNotesEditable) {
                     <button class="btn btn-primary btn-sm rounded-pill px-3" (click)="saveNotes()">
                       <i class="bi bi-check2-circle me-1"></i> Guardar Notas
@@ -195,35 +287,42 @@
                   }
                 </div>
 
-                <hr class="text-muted">
+                <hr class="text-muted" />
 
                 <div class="mb-2">
                   <span class="fw-bold small d-block mb-2">
                     <i class="bi bi-file-earmark-arrow-up me-1"></i> Subir recursos (Video/PDF/MP3):
                   </span>
-                  
+
                   <div class="input-group mb-2">
-                    <input 
-                      type="file" 
-                      class="form-control" 
-                      id="fileUpload" 
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="fileUpload"
                       (change)="onFileSelected($event)"
-                      accept=".pdf, .mp3, video/*, image/*">
-                    <span class="input-group-text" for="fileUpload"><i class="bi bi-upload"></i></span>
+                      accept=".pdf, .mp3, video/*, image/*"
+                    />
+                    <span class="input-group-text" for="fileUpload"
+                      ><i class="bi bi-upload"></i
+                    ></span>
                   </div>
-                  
+
                   <div class="d-flex justify-content-between align-items-center">
-                    <p class="text-muted mb-0" style="font-size: 0.75rem;">
+                    <p class="text-muted mb-0" style="font-size: 0.75rem">
                       Máximo 25MB (PDF, MP3, Imagen o Video)
                     </p>
                     @if (selectedFile && !helpRequest.supportSession?.s3RecordingUrl) {
-                      <button class="btn btn-success btn-sm rounded-pill px-3" (click)="saveRecordingUrl(
-                        this.helpRequest.supportSession?.id!
-                      )">
+                      <button
+                        class="btn btn-success btn-sm rounded-pill px-3"
+                        (click)="saveRecordingUrl(this.helpRequest.supportSession?.id!)"
+                      >
                         <i class="bi bi-cloud-arrow-up me-1"></i> Subir Archivo
                       </button>
-                    }@else if(helpRequest.supportSession?.s3RecordingUrl){
-                      <a (click)="downloadResource()" class="btn btn-primary btn-sm rounded-pill px-3">
+                    } @else if (helpRequest.supportSession?.s3RecordingUrl) {
+                      <a
+                        (click)="downloadResource()"
+                        class="btn btn-primary btn-sm rounded-pill px-3"
+                      >
                         <i class="bi bi-eye me-1"></i> Ver Recurso Subido
                       </a>
                     }
@@ -238,105 +337,122 @@
               </div>
             </div>
           }
-          @if (helpRequest.status== RequestStatus.CANCELLED) {
-            <div class="card shadow border-0 rounded-4 p-5 text-center animate__animated animate__fadeIn">
+          @if (helpRequest.status == RequestStatus.CANCELLED) {
+            <div
+              class="card shadow border-0 rounded-4 p-5 text-center animate__animated animate__fadeIn"
+            >
               <div class="mb-4">
                 <div class="icon-box-cancelled mx-auto mb-3">
-                  <i class="bi bi-x-circle text-danger" style="font-size: 4rem;"></i>
+                  <i class="bi bi-x-circle text-danger" style="font-size: 4rem"></i>
                 </div>
               </div>
-              <h3 class="fw-bold" style="color: #003366;">Ayuda Cancelada</h3>
-              <p class="text-muted fs-5">
-                La solicitud de ayuda ha sido cancelada. <br>
-              </p>
-              
+              <h3 class="fw-bold" style="color: #003366">Ayuda Cancelada</h3>
+              <p class="text-muted fs-5">La solicitud de ayuda ha sido cancelada. <br /></p>
+
               <div class="alert alert-warning d-inline-block border-0 rounded-3 mt-3">
                 <i class="bi bi-info-circle me-2"></i>
                 Recuerda que puedes explorar otras dudas en el listado general.
               </div>
 
               <div class="mt-4">
-                <button class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm" (click)="goBack()">
+                <button
+                  class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm"
+                  (click)="goBack()"
+                >
                   Volver al listado de ayudas
                 </button>
               </div>
             </div>
           }
 
-        @if (helpRequest.status === 'COMPLETED') {
-          <div class="card shadow border-0 rounded-4 p-5 text-center animate__animated animate__fadeIn">
-            <div class="mb-4">
-              <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
-            </div>
-            <h2 class="fw-bold" style="color: #003366;">¡Ayuda Finalizada con Éxito!</h2>
-            <p class="text-muted fs-5">Gracias por tu tiempo. Has ayudado a que <strong>{{helpRequest.senior.firstName}}</strong> esté más conectado.</p>
-            
-            <div class="bg-light p-4 rounded-4 mb-4 text-start">
-              <h6 class="fw-bold"><i class="bi bi-journal-text me-2"></i>Resumen de la sesión:</h6>
-              <ul class="list-unstyled mb-0">
-                <li><i class="bi bi-dot"></i> Método: {{helpRequest.supportSession?.sessionMethod}}</li>
-                <li><i class="bi bi-dot"></i> Notas enviadas: {{helpRequest.supportSession?.volunteerNotes ? 'Sí' : 'No'}}</li>
-                <li><i class="bi bi-dot"></i> Recursos compartidos: {{helpRequest.supportSession?.s3RecordingUrl ? 'Sí' : 'No'}}</li>
-              </ul>
-            </div>
+          @if (helpRequest.status === 'COMPLETED') {
+            <div
+              class="card shadow border-0 rounded-4 p-5 text-center animate__animated animate__fadeIn"
+            >
+              <div class="mb-4">
+                <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem"></i>
+              </div>
+              <h2 class="fw-bold" style="color: #003366">¡Ayuda Finalizada con Éxito!</h2>
+              <p class="text-muted fs-5">
+                Gracias por tu tiempo. Has ayudado a que
+                <strong>{{ helpRequest.senior.firstName }}</strong> esté más conectado.
+              </p>
 
-            <button class="btn btn-primary btn-lg rounded-pill px-5" (click)="goBack()">
-              Volver al Panel Principal
-            </button>
-          </div>
-        }
+              <div class="bg-light p-4 rounded-4 mb-4 text-start">
+                <h6 class="fw-bold">
+                  <i class="bi bi-journal-text me-2"></i>Resumen de la sesión:
+                </h6>
+                <ul class="list-unstyled mb-0">
+                  <li>
+                    <i class="bi bi-dot"></i> Método:
+                    {{ helpRequest.supportSession?.sessionMethod }}
+                  </li>
+                  <li>
+                    <i class="bi bi-dot"></i> Notas enviadas:
+                    {{ helpRequest.supportSession?.volunteerNotes ? 'Sí' : 'No' }}
+                  </li>
+                  <li>
+                    <i class="bi bi-dot"></i> Recursos compartidos:
+                    {{ helpRequest.supportSession?.s3RecordingUrl ? 'Sí' : 'No' }}
+                  </li>
+                </ul>
+              </div>
+
+              <button class="btn btn-primary btn-lg rounded-pill px-5" (click)="goBack()">
+                Volver al Panel Principal
+              </button>
+            </div>
+          }
         </div>
       }
 
       @if (currentView === 'TUTORIAL') {
-          <div class="card shadow border-0 rounded-4 p-4 tutorial-container">
-            <div class="mb-4">
-              <h3 class="fw-bold" style="color: #003366">{{ helpRequest.aiTutorial?.title }}</h3>
-              <p class="fs-5 text-secondary">{{ helpRequest.aiTutorial?.generalDescription }}</p>
-            </div>
+        <div class="card shadow border-0 rounded-4 p-4 tutorial-container">
+          <div class="mb-4">
+            <h3 class="fw-bold" style="color: #003366">{{ helpRequest.aiTutorial?.title }}</h3>
+            <p class="fs-5 text-secondary">{{ helpRequest.aiTutorial?.generalDescription }}</p>
+          </div>
 
-            <div class="d-flex flex-column gap-3">
-              @for (step of helpRequest.aiTutorial?.steps; track step.number) {
-                <div class="card shadow-sm border-0 rounded-4 p-4">
-                  <div class="d-flex align-items-start">
-                    <div
-                      class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3"
-                      style="width: 40px; height: 40px; flex-shrink: 0; font-weight: bold"
-                    >
-                      {{ step.number }}
-                    </div>
+          <div class="d-flex flex-column gap-3">
+            @for (step of helpRequest.aiTutorial?.steps; track step.number) {
+              <div class="card shadow-sm border-0 rounded-4 p-4">
+                <div class="d-flex align-items-start">
+                  <div
+                    class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3"
+                    style="width: 40px; height: 40px; flex-shrink: 0; font-weight: bold"
+                  >
+                    {{ step.number }}
+                  </div>
 
-                    <div class="w-100">
-                      <p class="fs-4 mb-2" style="color: #003366; font-weight: 500">
-                        {{ step.instruction }}
-                      </p>
+                  <div class="w-100">
+                    <p class="fs-4 mb-2" style="color: #003366; font-weight: 500">
+                      {{ step.instruction }}
+                    </p>
 
-                      @if (step.advice) {
-                        <div
-                          class="mt-3 p-3 rounded-3 bg-light border-start border-4 border-warning"
-                        >
-                          <small class="text-uppercase fw-bold text-warning d-block mb-1">
-                            <i class="bi bi-lightbulb-fill me-1"></i>Consejo
-                          </small>
-                          <p class="mb-0 text-dark fs-6">{{ step.advice }}</p>
-                        </div>
-                      }
-                    </div>
+                    @if (step.advice) {
+                      <div class="mt-3 p-3 rounded-3 bg-light border-start border-4 border-warning">
+                        <small class="text-uppercase fw-bold text-warning d-block mb-1">
+                          <i class="bi bi-lightbulb-fill me-1"></i>Consejo
+                        </small>
+                        <p class="mb-0 text-dark fs-6">{{ step.advice }}</p>
+                      </div>
+                    }
                   </div>
                 </div>
-              }
-            </div>
+              </div>
+            }
           </div>
+        </div>
       }
     </div>
   </div>
 </div>
-<app-modal 
+<app-modal
   [title]="modalConfig.title"
   [message]="modalConfig.message"
   [type]="modalConfig.type"
   [confirmText]="'Sí, confirmar'"
-  (Confirm)="updateStatus(RequestStatus.CANCELLED)">
+  (Confirm)="updateStatus(RequestStatus.CANCELLED)"
+>
 </app-modal>
-<app-toast [message]="toastMessage">
-</app-toast>
+<app-toast [message]="toastMessage"> </app-toast>

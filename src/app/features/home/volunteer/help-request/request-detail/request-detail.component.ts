@@ -82,6 +82,7 @@ export class RequestDetailComponent implements OnInit {
   fileErrorMessage: string | null = null;
   volunteerNotes: string = this.helpRequest.supportSession?.volunteerNotes || '';
   cameFrom: string = '';
+  volunteerReachedIngProgressLimit: boolean = false;
 
   hasMethod(req: HelpRequest): boolean {
     let hasMethod = !!(
@@ -102,6 +103,15 @@ export class RequestDetailComponent implements OnInit {
         this.helpRequest = data;
         this.selectedSessionMethod = this.helpRequest.senior.contactPreference as SessionMethods;
         this.volunteerNotes = this.helpRequest.supportSession?.volunteerNotes || '';
+
+        this.helpRequestService.checkVolunteerInProgressRequests().subscribe({
+          next: (hasInProgress) => {
+            this.volunteerReachedIngProgressLimit = hasInProgress;
+          },
+          error: (err) => {
+            console.error('Error al verificar solicitudes en curso del voluntario:', err);
+          } 
+          });
       },
       error: (err) => {
         console.error('Error al obtener el detalle de la solicitud de ayuda:', err);
