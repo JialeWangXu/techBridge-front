@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { HelpRequestService, SupportSessionService } from '../../../help-requests/help-request.service';
+import { HelpRequestService, SupportSessionService } from '../../../services/help-request.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { HelpRequest, RequestStatus } from '../../../../shared/models/helpRequest.model';

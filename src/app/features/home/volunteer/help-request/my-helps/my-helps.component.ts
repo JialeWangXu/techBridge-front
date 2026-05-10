@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HelpRequestService } from '../../../help-requests/help-request.service';
+import { HelpRequestService } from '../../../services/help-request.service';
 import { HelpRequest } from '../../../../shared/models/helpRequest.model';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';

@@ -4,11 +4,12 @@ export const environment = {
     production: true,
     NAME: pkg.name,
     VERSION: pkg.version,
-    FRONT_END: 'https://gestion.ocanabogados.es',
-    REST_USER: 'https://gestion.ocanabogados.es/api/goa-user',
-    REST_ENGAGEMENT: 'https://gestion.ocanabogados.es/api/goa-engagement',
-    REST_BILLING: 'https://gestion.ocanabogados.es/api/goa-billing',
-    REST_SUPPORT: 'https://gestion.ocanabogados.es/api/goa-support',
-    REST_DOCUMENT: 'https://gestion.ocanabogados.es/api/goa-document',
-    SECURE_ROUTES: ['https://gestion.ocanabogados.es/api']
+    FRONT_END: 'http://techbridge-front.s3-website-eu-west-1.amazonaws.com',
+    BACK_END: 'http://34.240.99.239:8080',
+    REST_USER: 'http://34.240.99.239:8080/api/techbridge-user',
+    SECURE_ROUTES: [
+    'http://34.240.99.239:8080/api/techbridge-user/users',
+    'http://34.240.99.239:8080/api/techbridge-helprequest',
+    'http://34.240.99.239:8080/api/techbridge-aitutorial',
+    ],
 };

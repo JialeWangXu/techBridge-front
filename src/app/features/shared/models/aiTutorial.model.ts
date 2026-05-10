@@ -11,3 +11,8 @@ export interface Step{
   instruction: string;
   advice?: string;
 }
+
+export interface AiLimitCheck{
+  globalLimitReached: boolean;
+  userLimitRemaining: number;
+}

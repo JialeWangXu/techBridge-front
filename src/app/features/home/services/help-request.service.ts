@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HelpRequest, HelpRequestCreate, RequestStatus } from "../../shared/models/helpRequest.model";
 import { SessionMethods, SupportSession } from "../../shared/models/supportSession.model";
+import { environment } from "../../../../environments/environment";
 
 
 
@@ -11,7 +12,7 @@ import { SessionMethods, SupportSession } from "../../shared/models/supportSessi
 })
 export class HelpRequestService{
 
-  apiUrl = 'http://localhost:8080/api/techbridge-helprequest/helprequests';
+  apiUrl = `${environment.BACK_END}/api/techbridge-helprequest/helprequests`;
   constructor(private readonly http: HttpClient) { }
 
   create(helpRequestCreate: HelpRequestCreate): Observable<HelpRequest>{
@@ -48,7 +49,7 @@ export class HelpRequestService{
     providedIn: 'root'
 })
 export class SupportSessionService{
-  apiUrl = 'http://localhost:8080/api/techbridge-helprequest/supportsession';
+  apiUrl = `${environment.BACK_END}/api/techbridge-helprequest/supportsession`;
   constructor(private readonly http: HttpClient) { }
 
   updateSupportSession(supportSessionId:string, supportSession: SupportSession): Observable<SupportSession>{

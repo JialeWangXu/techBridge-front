@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit} from '@angular/core';
 import {  FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HelpRequestCreate } from '../../../../shared/models/helpRequest.model';
-import { HelpRequestService } from '../../../help-requests/help-request.service';
+import { HelpRequestService } from '../../../services/help-request.service';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { Router } from '@angular/router';
 

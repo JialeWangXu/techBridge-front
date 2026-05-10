@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/auth/auth.service';
 import { Router } from '@angular/router';
+import { AiTutorialService } from './services/ai-tutorial.service';
 
 @Component({
   selector: 'app-home',
@@ -8,10 +9,14 @@ import { Router } from '@angular/router';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-  constructor(private readonly authService: AuthService, private readonly router: Router) { }
+  constructor(private readonly authService: AuthService, private readonly router: Router,
+    private readonly aiTutorialService: AiTutorialService
+  ) { }
   userName: string = '';
   userRole: string = '';
   userEmail: string = '';
+  globalAiLimitReached: boolean = false;
+  userAiLimitRemaining: number = 0;
 
   ngOnInit() {
 
@@ -21,8 +26,23 @@ export class HomeComponent implements OnInit {
       this.userEmail = userData['email'];
       this.userName = userData['firstname'];
     }
-
+    
+    this.aiTutorialService.aiLimitCheck()
+    .subscribe({
+      next: (result) => {
+        this.globalAiLimitReached = result.globalLimitReached;
+        this.userAiLimitRemaining = result.userLimitRemaining;
+      },
+      error: (err) => {
+        console.error('Error al obtener el límite global de IA:', err);
+      }
+    });
+    
   };
+
+  showAiLimitWarining(){
+    return this.globalAiLimitReached || this.userAiLimitRemaining == 0;
+  }
     
   navigateTo(rute: string) {
     this.router.navigate([rute]);
