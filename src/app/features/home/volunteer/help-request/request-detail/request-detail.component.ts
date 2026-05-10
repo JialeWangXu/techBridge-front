@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   HelpRequestService,
   SupportSessionService,
-} from '../../../help-requests/help-request.service';
+} from '../../../services/help-request.service';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';

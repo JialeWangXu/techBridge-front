@@ -24,9 +24,35 @@
         </div>
 
         <div class="col-md-6">
+            <div class="ia-info-card mb-4 animate__animated animate__fadeIn">
+                @if (userRole === 'SENIOR') {
+                    @if (!showAiLimitWarining()) {
+                        <div class="quota-status available">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-lightbulb-fill me-3 fs-3 text-primary"></i>
+                            <div>
+                            <p class="mb-0 fw-bold">¡Estamos listos!</p>
+                            <p class="mb-0 small">Hoy todavía podemos prepararte <strong>{{userAiLimitRemaining}}</strong> tutoriales personalizados.</p>
+                            </div>
+                        </div>
+                        </div>
+                    } @else {
+                        <div class="quota-status finished">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-book-half me-3 fs-3 text-warning"></i>
+                            <div>
+                            <p class="mb-0 fw-bold">¡A practicar lo aprendido!</p>
+                            <p class="mb-0 small">Ya no podemos crear más guías hoy, pero puede seguir estudiando con los tutoriales que ya tiene en sus solicitudes. ¡Mañana más!</p>
+                            </div>
+                        </div>
+                        </div>
+                    }
+                }
+            </div>
             <div class="d-grid gap-4">
             @if (userRole === 'SENIOR') {
-                <button (click)="navigateTo('help-request-posting')" class="btn-option shadow-sm">
+                <button (click)="navigateTo('help-request-posting')" class="btn-option shadow-sm"
+                disabled="{{showAiLimitWarining()}}">
                     <span>Solicitar nueva Ayuda</span>
                     <i class="bi bi-plus-circle-fill"></i>
                 </button>
