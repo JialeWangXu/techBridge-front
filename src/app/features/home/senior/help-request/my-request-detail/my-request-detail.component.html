@@ -16,6 +16,14 @@
           <i class="bi bi-trash3-fill me-2"></i>Cancelar Petición
         </button>
       }
+      @if (helpRequest.status == RequestStatus.OPEN) {
+        <button
+          class="btn btn-success rounded-pill px-4 shadow-sm"
+          (click)="updateRequestStatus(RequestStatus.COMPLETED)"
+        >
+          <i class="bi bi-check2-circle me-2"></i>Me ha servido la guia IA
+        </button>
+      }
       <button class="btn btn-danger rounded-pill px-4 shadow-sm" (click)="deleteRequest()">
         <i class="bi bi-trash3-fill me-2"></i>Eliminar Petición
       </button>
@@ -125,6 +133,7 @@
       @if (currentView === 'VOLUNTEER') {
         <div class="d-flex flex-column gap-4">
           <div class="card shadow border-0 rounded-4 p-4">
+            @if(helpRequest.status!==RequestStatus.COMPLETED &&helpRequest.status!==RequestStatus.CANCELLED){
             <h5 class="fw-bold mb-3" style="color: #003366">
               <i class="bi bi-person-badge me-2"></i
               >{{
@@ -133,6 +142,7 @@
                   : 'Todavía no tiene voluntario asignado'
               }}
             </h5>
+          }
             @if (helpRequest.volunteer && helpRequest.status !== RequestStatus.CANCELLED) {
               <div class="d-flex align-items-center">
                 <div class="avatar-circle me-3">{{ helpRequest.volunteer.firstName[0] }}</div>

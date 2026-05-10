@@ -89,3 +89,11 @@
     }
   </div>
 </div>
+<app-modal
+  [showCancel]="modalConfig.showCancel"
+  [title]="modalConfig.title"
+  [message]="modalConfig.message"
+  [type]="modalConfig.type"
+  [confirmText]="modalConfig.confirmText"
+  (Confirm)="errorModal.close()"
+></app-modal>

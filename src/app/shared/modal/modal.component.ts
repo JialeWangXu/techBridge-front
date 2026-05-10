@@ -12,7 +12,8 @@ export class ModalComponent {
   @Input() message: string = '';
   @Input() type: 'success' | 'danger' | 'info' = 'info';
   @Input() confirmText: string = 'Confirmar';
-  @Input() cancelText: string = 'Cancelar';
+  @Input() cancelText?: string = 'Cancelar';
+  @Input() showCancel: boolean = true;
 
   @Output() Confirm = new EventEmitter<void>();
   @Output() Cancel = new EventEmitter<void>();
@@ -25,6 +26,11 @@ export class ModalComponent {
       this.modalInstance = new bootstrap.Modal(this.modalElement.nativeElement);
     }
     this.modalInstance.show();
+  }
+  close() {
+    if (this.modalInstance) {
+      this.modalInstance.hide();
+    }
   }
 
   constructor() { }
