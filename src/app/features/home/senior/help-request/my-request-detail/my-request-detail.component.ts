@@ -101,6 +101,7 @@ export class MyRequestDetailComponent implements OnInit {
         next: (updatedRequest) => {
           console.log('Solicitud de ayuda actualizada:', updatedRequest);
           this.helpRequest = updatedRequest;
+          this.currentView = 'VOLUNTEER';
         },
         error: (err) => {
           console.error('Error al actualizar la solicitud de ayuda:', err);

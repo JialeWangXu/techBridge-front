@@ -452,6 +452,7 @@
   [message]="modalConfig.message"
   [type]="modalConfig.type"
   [confirmText]="'Sí, confirmar'"
+  [showCancel]="true"
   (Confirm)="updateStatus(RequestStatus.CANCELLED)"
 >
 </app-modal>
