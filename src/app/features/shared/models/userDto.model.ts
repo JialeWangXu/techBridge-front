@@ -13,4 +13,5 @@ export interface UserDto {
     province?: string;
     postalCode?: number;
     role: 'SENIOR' | 'VOLUNTEER';
+    active?: boolean;
 }

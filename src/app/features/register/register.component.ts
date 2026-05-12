@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -12,22 +12,32 @@ import {
 import { RegisterService } from './register.service';
 import { UserDto } from '../shared/models/userDto.model';
 import { AuthService } from '../../core/auth/auth.service';
+import { ModalComponent } from '../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, ModalComponent],
 })
 export class RegisterComponent {
   rol: 'SENIOR' | 'VOLUNTEER' = 'SENIOR';
   submitted = false;
   matchError = false;
   userConsent: boolean = false;
+  @ViewChild(ModalComponent) errorModal!: ModalComponent;
   constructor(
     private readonly registerService: RegisterService,
-    private readonly authService: AuthService,
+    public readonly authService: AuthService,
   ) {}
+
+    modalConfig = {
+    title: 'Error al registrar el usuario',
+    message: 'Se ha intentado demasiadas veces. Inténtalo de nuevo más tarde.',
+    type: 'danger' as 'danger' | 'success' | 'info',
+    showCancel: false,
+    confirmText: 'Aceptar'
+  };
 
   registerForm = new FormGroup(
     {
@@ -89,9 +99,20 @@ export class RegisterComponent {
           this.registerForm.reset();
           this.submitted = false;
           this.authService.login();
+          this.modalConfig.title = `¡Casi listo, ${userData.firstName}!`; 
+          this.modalConfig.message = `Para activar su cuenta, haz click en el email que te acabamos de enviar: ${userDto.email}. Vaya a su bandeja de entrada y siga las instrucciones para completar el proceso de registro.`;
+          this.modalConfig.type = 'success';
+          this.errorModal.show();
         },
         error: (e) => {
           console.error('Error al registrar el usuario', e);
+          if(e.status === 409){
+            this.modalConfig.message = 'El correo electrónico ya está registrado. Por favor, utiliza otro correo o inicia sesión.';
+            this.errorModal.show();
+          }else{
+            this.modalConfig.message = 'Se ha intentado demasiadas veces. Inténtalo de nuevo más tarde.';
+            this.errorModal.show();
+          }
         },
       });
     } else {

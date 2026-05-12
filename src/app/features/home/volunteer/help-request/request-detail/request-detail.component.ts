@@ -34,7 +34,6 @@ export class RequestDetailComponent implements OnInit {
     private readonly supportSessionService: SupportSessionService,
   ) {
     this.cameFrom = history.state?.cameFrom || 'available-requests';
-    console.log('Came from:', this.cameFrom);
   }
 
   requestId: string = '';
@@ -47,10 +46,11 @@ export class RequestDetailComponent implements OnInit {
       lastName: '',
       email: '',
       role: 'SENIOR',
+      active: false,
     },
     title: '',
     description: '',
-    status: RequestStatus.FINDING_VOLUNTEER,
+    status: RequestStatus.FINDING_VOLUNTEER
   };
   meetUrl: string = '';
   statusConfig: any = {
