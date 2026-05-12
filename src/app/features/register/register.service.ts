@@ -12,6 +12,5 @@ export class RegisterService {
 
   create( user: UserDto): Observable<void>{
     return this.http.post<void>(`${environment.BACK_END}/api/techbridge-user/users`, user);
-
   }
 }

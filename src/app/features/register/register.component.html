@@ -176,7 +176,7 @@
 
           <p class="text-center mt-4 small">
             ¿Ya tienes cuenta?
-            <a href="/login" class="text-decoration-none fw-bold" style="color: #8ebffb"
+            <a class="text-decoration-none fw-bold" style="color: #8ebffb; cursor: pointer;" (click)="this.authService.login();"
               >Inicia sesión</a
             >
           </p>
@@ -185,3 +185,11 @@
     </div>
   </div>
 </div>
+<app-modal
+  [title]="modalConfig.title"
+  [message]="modalConfig.message"
+  [type]="modalConfig.type"
+  [confirmText]="modalConfig.confirmText"
+  [showCancel]="false"
+  (Confirm)="errorModal.close()"
+></app-modal>

@@ -28,7 +28,7 @@ export class MyRequestDetailComponent implements OnInit {
       firstName: '',
       lastName: '',
       email: '',
-      role: 'SENIOR'
+      role: 'SENIOR',
     },
     title: '',
     description: '',
