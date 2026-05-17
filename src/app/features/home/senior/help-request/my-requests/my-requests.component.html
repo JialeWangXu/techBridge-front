@@ -4,17 +4,27 @@
   </h2>
 
   <div class="d-flex gap-2 mb-4 overflow-auto pb-2">
-    <button (click)="updateCategortOrStatus('ALL', status)" class="btn btn-category" [class.active]="category === 'ALL'">Todas</button>
-    <button (click)="updateCategortOrStatus('AI_ONLY', status)" class="btn btn-category" [class.active]="category === 'AI_ONLY'">Solo Tutorial IA</button>
-    <button (click)="updateCategortOrStatus('VOLUNTEER', status)" class="btn btn-category" [class.active]="category === 'VOLUNTEER'">Con Voluntario</button>
+    <button (click)="updateCategoryOrStatus('ALL', status)" class="btn btn-category" [class.active]="category === 'ALL'">Todas</button>
+    <button (click)="updateCategoryOrStatus('AI_ONLY', status)" class="btn btn-category" [class.active]="category === 'AI_ONLY'">Solo Tutorial IA</button>
+    <button (click)="updateCategoryOrStatus('VOLUNTEER', status)" class="btn btn-category" [class.active]="category === 'VOLUNTEER'">Con Voluntario</button>
   </div>
 
-  <div class="d-flex gap-2 mb-5 overflow-auto pb-2 filter-row">   
-    <button (click)="updateCategortOrStatus(category, RequestStatus.OPEN)" class="btn btn-filter" [class.active]="status === RequestStatus.OPEN">Abiertas</button>
-    <button (click)="updateCategortOrStatus(category, RequestStatus.FINDING_VOLUNTEER)" class="btn btn-filter" [class.active]="status === RequestStatus.FINDING_VOLUNTEER">Encontrando voluntario</button>
-    <button (click)="updateCategortOrStatus(category, RequestStatus.IN_PROGRESS)" class="btn btn-filter" [class.active]="status === RequestStatus.IN_PROGRESS">En curso</button>
-    <button (click)="updateCategortOrStatus(category, RequestStatus.COMPLETED)" class="btn btn-filter" [class.active]="status === RequestStatus.COMPLETED">Finalizadas</button>
-    <button (click)="updateCategortOrStatus(category, RequestStatus.CANCELLED)" class="btn btn-filter" [class.active]="status === RequestStatus.CANCELLED">Canceladas</button>    
+  <div class="d-flex gap-2 mb-5 overflow-auto pb-2 filter-row">
+    @if(category == 'AI_ONLY'){
+      <button (click)="updateCategoryOrStatus(category, RequestStatus.OPEN)" class="btn btn-filter" [class.active]="status === RequestStatus.OPEN">Abiertas</button>
+      <button (click)="updateCategoryOrStatus(category, RequestStatus.FINDING_VOLUNTEER)" class="btn btn-filter" [class.active]="status === RequestStatus.FINDING_VOLUNTEER">Encontrando voluntario</button>
+      <button (click)="updateCategoryOrStatus(category, RequestStatus.COMPLETED)" class="btn btn-filter" [class.active]="status === RequestStatus.COMPLETED">Finalizadas</button>
+    }@else if(category == 'VOLUNTEER'){   
+      <button (click)="updateCategoryOrStatus(category, RequestStatus.IN_PROGRESS)" class="btn btn-filter" [class.active]="status === RequestStatus.IN_PROGRESS">En curso</button>
+      <button (click)="updateCategoryOrStatus(category, RequestStatus.CANCELLED)" class="btn btn-filter" [class.active]="status === RequestStatus.CANCELLED">Canceladas</button>
+      <button (click)="updateCategoryOrStatus(category, RequestStatus.COMPLETED)" class="btn btn-filter" [class.active]="status === RequestStatus.COMPLETED">Finalizadas</button>
+    }@else{
+      <button (click)="updateCategoryOrStatus(category, RequestStatus.OPEN)" class="btn btn-filter" [class.active]="status === RequestStatus.OPEN">Abiertas</button>
+      <button (click)="updateCategoryOrStatus(category, RequestStatus.FINDING_VOLUNTEER)" class="btn btn-filter" [class.active]="status === RequestStatus.FINDING_VOLUNTEER">Encontrando voluntario</button>
+      <button (click)="updateCategoryOrStatus(category, RequestStatus.IN_PROGRESS)" class="btn btn-filter" [class.active]="status === RequestStatus.IN_PROGRESS">En curso</button>
+      <button (click)="updateCategoryOrStatus(category, RequestStatus.CANCELLED)" class="btn btn-filter" [class.active]="status === RequestStatus.CANCELLED">Canceladas</button>
+      <button (click)="updateCategoryOrStatus(category, RequestStatus.COMPLETED)" class="btn btn-filter" [class.active]="status === RequestStatus.COMPLETED">Finalizadas</button>
+    } 
   </div>
 
   <div class="row g-3">
@@ -60,6 +70,13 @@
         </div>
       }
     }
-
   </div>
+  @if (helpRequests.length>0) {
+    <div class="d-flex justify-content-center mt-4">
+      <app-pagenation [currentPage]="currentPage" 
+      [totalPages]="totalPages" 
+      (pageChange)="onPageChange($event)">
+      </app-pagenation>
+    </div>
+  }
 </div>

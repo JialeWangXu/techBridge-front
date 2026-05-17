@@ -1,32 +1,47 @@
 import { Component, OnInit } from '@angular/core';
-import { HelpRequestService } from '../../../services/help-request.service';
+import { HelpRequestService } from '../../../../shared/services/help-request.service';
 import { HelpRequest, RequestStatus } from '../../../../shared/models/helpRequest.model';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../../../core/auth/auth.service';
+import { PagenationComponent } from "../../../../../shared/pagenation/pagenation.component";
 
 @Component({
   selector: 'app-my-help-requests',
   templateUrl: './my-requests.component.html',
   styleUrls: ['./my-requests.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule, PagenationComponent]
 })
 export class ListSeniorHelpRequestsComponent implements OnInit {
 
 
   constructor(private readonly helpRequestService: HelpRequestService, private readonly router: Router, 
-    private readonly authService:AuthService
-  ) { }
+    private readonly authService:AuthService,
+    private readonly route:ActivatedRoute
+  ) { 
+  }
 
   helpRequests: HelpRequest[] = [];
   category: 'ALL'|'AI_ONLY'|'VOLUNTEER' = 'ALL';
   status:RequestStatus = RequestStatus.OPEN;
   public RequestStatus = RequestStatus;
+  currentPage:number =1;
+  pageSize:number = 3;
+  totalPages:number = 1;
+  isFirst: boolean = false;
+  isLast: boolean = false;
+
   ngOnInit() {
     if(this.authService.getUserData()?.role!== 'SENIOR' ){
       this.router.navigate(['/']);
     }
-    this.updateCategortOrStatus('ALL', RequestStatus.OPEN);
+    this.route.queryParams.subscribe(params => {
+      this.category = params['category'] || '';
+      this.status = params['status'] || RequestStatus.OPEN;
+      this.currentPage = params['page'] ? Number(params['page']) : 1;
+      this.fetchFromBackend();
+    });
+    this.updateCategoryOrStatus(this.category, this.status, false);
   }
 
   statusConfig: any = {
@@ -37,15 +52,13 @@ export class ListSeniorHelpRequestsComponent implements OnInit {
     'CANCELLED': { color: '#dc3545', icon: 'bi-x-circle-fill', text: 'Cancelada' }
   };
 
-  updateCategortOrStatus( category: 'ALL'|'AI_ONLY'|'VOLUNTEER', status: RequestStatus) {
-
-    this.category = category;
-    this.status = status;
-
-    this.helpRequestService.getAllBySeniorEmail().subscribe({
+  fetchFromBackend(){
+    this.helpRequestService.getSeniorFilteredHelpRequests(this.status, this.category, this.currentPage, this.pageSize).subscribe({
       next: (data) => {
-        console.log('Solicitudes de ayuda obtenidas:', data);
-        this.helpRequests = this.filterByStatusAndCategory(data, status, category);
+        this.helpRequests = data.content;
+        this.totalPages = data.totalPages;
+        this.isFirst = data.first;
+        this.isLast = data.last;
       },
       error: (err) => {
         console.error('Error al obtener las solicitudes de ayuda:', err);
@@ -53,14 +66,32 @@ export class ListSeniorHelpRequestsComponent implements OnInit {
     });
   }
 
-  filterByStatusAndCategory(requests: HelpRequest[], status: RequestStatus, category: 'ALL'|'AI_ONLY'|'VOLUNTEER'): HelpRequest[] {
+  updateCategoryOrStatus(
+    category: 'ALL'|'AI_ONLY'|'VOLUNTEER',
+    status: RequestStatus,
+    resetPage: boolean = true
+  ) {
 
-    if(category === 'AI_ONLY'){
-      requests = requests.filter(request => !request.supportSession);
-    }else if(category === 'VOLUNTEER'){
-      requests = requests.filter(request => request.supportSession);
+    this.category = category;
+    this.status = status;
+    if (resetPage) {
+      this.currentPage = 1;
     }
-    return requests.filter(request => request.status === status );
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        category: this.category === 'ALL'|| this.category === null ? null : this.category,
+        status: this.status,
+        page: this.currentPage
+      },
+      queryParamsHandling: 'merge' // Mantiene otros parámetros si existieran
+    });
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.updateCategoryOrStatus(this.category, this.status, false);
   }
 
   navigateToDetail(requestId: string) {

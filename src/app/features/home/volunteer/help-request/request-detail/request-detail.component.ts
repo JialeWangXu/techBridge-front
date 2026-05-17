@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   HelpRequestService,
   SupportSessionService,
-} from '../../../services/help-request.service';
+} from '../../../../shared/services/help-request.service';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule,Location } from '@angular/common';
 import { HelpRequest, RequestStatus } from '../../../../shared/models/helpRequest.model';
 import {
   HelpStatus,
@@ -14,17 +14,16 @@ import {
 } from '../../../../shared/models/supportSession.model';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../../../../../shared/modal/modal.component';
-import { ToastComponent } from '../../../../../shared/toast/toast.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-request-detail',
   templateUrl: './request-detail.component.html',
   styleUrls: ['./request-detail.component.css'],
-  imports: [CommonModule, FormsModule, ModalComponent, ToastComponent],
+  imports: [CommonModule, FormsModule, ModalComponent],
 })
 export class RequestDetailComponent implements OnInit {
   @ViewChild(ModalComponent) confirmModal!: ModalComponent;
-  @ViewChild(ToastComponent) toast!: ToastComponent;
 
   constructor(
     private readonly helpRequestService: HelpRequestService,
@@ -32,6 +31,8 @@ export class RequestDetailComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly supportSessionService: SupportSessionService,
+    private readonly location: Location,
+    private readonly toastr: ToastrService
   ) {
     this.cameFrom = history.state?.cameFrom || 'available-requests';
   }
@@ -99,7 +100,6 @@ export class RequestDetailComponent implements OnInit {
 
     this.helpRequestService.getById(this.requestId).subscribe({
       next: (data) => {
-        console.log('Detalle de solicitud de ayuda obtenido:', data);
         this.helpRequest = data;
         this.selectedSessionMethod = this.helpRequest.senior.contactPreference as SessionMethods;
         this.volunteerNotes = this.helpRequest.supportSession?.volunteerNotes || '';
@@ -122,9 +122,7 @@ export class RequestDetailComponent implements OnInit {
   updateStatus(newStatus: RequestStatus) {
     this.helpRequestService.updateRequestStatus(this.requestId, newStatus).subscribe({
       next: (updatedRequest) => {
-        console.log('Estado actualizado:', updatedRequest);
         this.helpRequest = updatedRequest;
-        console.log('Estado actualizado en el componente:', this.helpRequest);
       },
       error: (err) => {
         console.error('Error al actualizar el estado:', err);
@@ -156,12 +154,7 @@ export class RequestDetailComponent implements OnInit {
       })
       .subscribe({
         next: (updatedSession) => {
-          console.log('Método de sesión actualizado:', updatedSession);
           if (this.helpRequest.supportSession) {
-            console.log(
-              'Actualizando el método de sesión en la solicitud de ayuda...',
-              this.helpRequest.supportSession,
-            );
             this.helpRequest.supportSession = updatedSession;
           }
         },
@@ -183,12 +176,7 @@ export class RequestDetailComponent implements OnInit {
       })
       .subscribe({
         next: (updatedSession) => {
-          console.log('Notas de voluntario actualizadas:', updatedSession);
           if (this.helpRequest.supportSession) {
-            console.log(
-              'Actualizando las notas de voluntario en la solicitud de ayuda...',
-              this.helpRequest.supportSession,
-            );
             this.helpRequest.supportSession = updatedSession;
             this.volunteerNotes = updatedSession.volunteerNotes || '';
             this.isNotesEditable = false;
@@ -210,12 +198,7 @@ export class RequestDetailComponent implements OnInit {
       .updateSupportSession(this.helpRequest.supportSession.id!, { recordingConsent: consent })
       .subscribe({
         next: (updatedSession) => {
-          console.log('Consentimiento de grabación actualizado:', updatedSession);
           if (this.helpRequest.supportSession) {
-            console.log(
-              'Actualizando el consentimiento de grabación en la solicitud de ayuda...',
-              this.helpRequest.supportSession,
-            );
             this.helpRequest.supportSession = updatedSession;
           }
         },
@@ -269,14 +252,12 @@ export class RequestDetailComponent implements OnInit {
       next: () => {
         if (this.helpRequest.supportSession) {
           this.helpRequest.supportSession.s3RecordingUrl = url;
-          this.toastMessage = 'Recurso subido exitosamente.';
-          this.toast.show();
+          this.toastr.success('Recurso subido exitosamente.', '¡Completado!');
         }
       },
       error: (err) => {
         console.error('Error al actualizar la URL de grabación:', err);
-        this.toastMessage = 'Error al subir el recurso. Intentalo más tarde.';
-        this.toast.show();
+        this.toastr.error('Error al subir el recurso. Inténtalo más tarde.', 'Error');
       },
     });
   }
@@ -298,8 +279,7 @@ export class RequestDetailComponent implements OnInit {
           newTab.location.href = url;
         },
         error: (err) => {
-          this.toastMessage = 'No se ha podido descargar el recurso, intentalo de nuevo.';
-          this.toast.show();
+          this.toastr.error('No se ha podido descargar el recurso, intentalo de nuevo.', 'Error');
           console.error('Error al descargar el recurso:', err);
         },
       });
@@ -315,12 +295,7 @@ export class RequestDetailComponent implements OnInit {
       .updateSupportSession(this.helpRequest.supportSession.id!, { meetingUrl: url })
       .subscribe({
         next: (updatedSession) => {
-          console.log('URL de reunión actualizado:', updatedSession);
           if (this.helpRequest.supportSession) {
-            console.log(
-              'Actualizando la URL de reunión en la solicitud de ayuda...',
-              this.helpRequest.supportSession,
-            );
             this.helpRequest.supportSession = updatedSession;
           }
         },
@@ -339,15 +314,11 @@ export class RequestDetailComponent implements OnInit {
 
   copyToClipboard(text: string) {
     navigator.clipboard.writeText(text);
-    alert('¡Enlace copiado al portapapeles!');
+    this.toastr.success('Enlace copiado al portapapeles.', '¡Copiado!');
   }
 
   goBack() {
-    if (this.cameFrom === 'my-helps') {
-      this.router.navigate(['/my-helps']);
-    } else if (this.cameFrom === 'available-requests') {
-      this.router.navigate(['/available-requests']);
-    }
+    this.location.back();
   }
 
   handleCancel() {

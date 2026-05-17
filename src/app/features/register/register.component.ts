@@ -95,7 +95,6 @@ export class RegisterComponent {
 
       this.registerService.create(userDto).subscribe({
         next: (response) => {
-          console.log('Usuario registrado con éxito', response);
           this.registerForm.reset();
           this.submitted = false;
           this.authService.login();

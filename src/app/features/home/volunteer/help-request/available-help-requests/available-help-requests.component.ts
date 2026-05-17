@@ -1,26 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { HelpRequestService } from '../../../services/help-request.service';
+import { HelpRequestService } from '../../../../shared/services/help-request.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { HelpRequest } from '../../../../shared/models/helpRequest.model';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { ProfileService } from '../../../profile/profile.service';
-import { UserDto } from '../../../../shared/models/userDto.model';
+import { PagenationComponent } from "../../../../../shared/pagenation/pagenation.component";
 
 @Component({
   selector: 'app-available-help-requests',
   templateUrl: './available-help-requests.component.html',
   styleUrls: ['./available-help-requests.component.css'],
-  imports:[CommonModule]
+  imports:[CommonModule, PagenationComponent]
 })
 export class AvailableHelpRequestsComponent implements OnInit {
 
   constructor( private readonly helpRequestService: HelpRequestService
     , private readonly authService: AuthService, private readonly router:Router,
-    private readonly profileService: ProfileService) { }
+    private readonly profileService: ProfileService,
+    private readonly route: ActivatedRoute
+  ) { }
 
   availableHelpRequests:HelpRequest[] = []; 
-  filteredRequests:HelpRequest[] = [];
 
   selectedMethod: 'ALL' | 'TELEPHONE' | 'ONLINE_MEETING' | 'IN_PERSON' = 'ALL';
   onlyMyZone: boolean = false;
@@ -28,6 +29,12 @@ export class AvailableHelpRequestsComponent implements OnInit {
 
   volunteerProvince: string|undefined = undefined;
   volunteerCity: string|undefined = undefined;
+
+  currentPage: number = 1;
+  pageSize: number = 5;
+  totalPages: number = 1;
+  isFirst: boolean = false;
+  isLast: boolean = false;
 
   onMethodChange(event: any) {
     this.selectedMethod = event.target.value;
@@ -45,30 +52,38 @@ export class AvailableHelpRequestsComponent implements OnInit {
   }
 
   applyFilters() {
-    this.filteredRequests = this.availableHelpRequests.filter(req => {
-      const matchesMethod = (this.selectedMethod && this.selectedMethod !== "ALL") ? req.senior.contactPreference === this.selectedMethod : true;
-      const matchesZone = this.onlyMyZone ? this.filterByZone(req.senior) : true;
-      const matchesSearch = req.title.toLowerCase().includes(this.searchingText.toLowerCase()) || 
-                            req.description.toLowerCase().includes(this.searchingText.toLowerCase());
-      return matchesMethod && matchesZone && matchesSearch;
+    // Actualizamos la URL del navegador de Angular con Router.navigate
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        contactPreference: this.selectedMethod !== "ALL" ? this.selectedMethod : null,
+        search: this.searchingText ? this.searchingText : null,
+        onlyMyZone: this.onlyMyZone ? 'true' : null,
+        page: this.currentPage
+      },
+      queryParamsHandling: 'merge' // Mantiene otros parámetros si existieran
     });
   }
 
-  private filterByZone(senior:UserDto): boolean {
-    if(this.volunteerCity && this.volunteerProvince){
-      if(senior.city && senior.province){
-        return senior.city.toLowerCase() === this.volunteerCity.toLowerCase() && senior.province === this.volunteerProvince;
-      }else if(senior.province){
-        return senior.province === this.volunteerProvince;
-      }else if(senior.city){
-        return senior.city.toLowerCase() === this.volunteerCity.toLowerCase();
+  fetchFromBackend() {
+    let method = this.selectedMethod&& this.selectedMethod !== 'ALL' ? this.selectedMethod : '';
+    let province = this.onlyMyZone && this.volunteerProvince ? this.volunteerProvince : '';
+    let city = this.onlyMyZone && this.volunteerCity ? this.volunteerCity : '';
+
+    this.helpRequestService.getAllAvailable(method, province, city, this.searchingText, this.currentPage, this.pageSize).subscribe((requests) => {
+      if(requests!==null){
+        this.availableHelpRequests = requests.content;
+        this.totalPages = requests.totalPages;
+        this.isFirst = requests.first;
+        this.isLast = requests.last;
+      }else{
+        this.availableHelpRequests = [];
+        this.totalPages = 1;
+        this.isFirst = true;
+        this.isLast = true;
       }
-    }else if(this.volunteerProvince){
-      return senior.province === this.volunteerProvince;
-    }else if(this.volunteerCity){
-      return senior.city?.toLowerCase() === this.volunteerCity.toLowerCase();
     }
-    return false;
+    );
   }
 
   goToDetail(id: string) {
@@ -79,15 +94,24 @@ export class AvailableHelpRequestsComponent implements OnInit {
     if(this.authService.getUserData()?.role !== 'VOLUNTEER'){
       this.router.navigate(['/']);
     }
-    this.helpRequestService.getAllAvailable().subscribe((requests) => {
-      console.log('Solicitudes de ayuda disponibles obtenidas:', requests);
-      this.availableHelpRequests = requests;
-      this.filteredRequests = requests;
+    this.route.queryParams.subscribe(params => {
+      this.selectedMethod = params['contactPreference'] || 'ALL';
+      this.searchingText = params['search'] || '';
+      this.onlyMyZone = params['onlyMyZone'] === 'true'; // Vienen como string
+      this.currentPage = params['page'] ? Number(params['page']) : 1;
+
+      this.fetchFromBackend();
     });
+    this.applyFilters();
     this.profileService.getProfile().subscribe(profile => {
       this.volunteerProvince = profile.province;
       this.volunteerCity = profile.city;
     });
+  }
+  
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.applyFilters();
   }
 
 }

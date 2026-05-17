@@ -103,13 +103,10 @@ export class ProfileComponent implements OnInit {
     if (this.profileForm.valid) {
       let updatedUser = this.profileForm.getRawValue();
       this.submitted = true;
-      console.log('Guardando cambios...', updatedUser);
       this.profileService.editProfile(updatedUser as UserDto).subscribe((response) => {
-        console.log('Perfil actualizado:', response);
         this.userInfo = response;
         this.initialUserInfo = response;
         this.toggleEdit();
-        console.log('Perfil actualizado y editado:', this.editable);
       });
     }
   }
@@ -120,7 +117,6 @@ export class ProfileComponent implements OnInit {
     this.profileService.getProfile().subscribe((user) => {
       this.userInfo = user;
       this.initialUserInfo = user;
-      console.log('Perfil cargado:', this.userInfo);
       this.profileForm.patchValue({
         firstName: this.userInfo.firstName,
         lastName: this.userInfo.lastName,

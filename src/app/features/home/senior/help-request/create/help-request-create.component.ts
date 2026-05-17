@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild} from '@angular/core';
 import {  FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HelpRequestCreate } from '../../../../shared/models/helpRequest.model';
-import { HelpRequestService } from '../../../services/help-request.service';
+import { HelpRequestService } from '../../../../shared/services/help-request.service';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { Router } from '@angular/router';
 import { ModalComponent } from '../../../../../shared/modal/modal.component';
@@ -50,7 +50,6 @@ export class HelpRequestCreateComponent implements OnInit {
           this.helpRequestForm.reset({ status: 'OPEN' });
           this.submitted = false;
           this.isGenerating = false;
-          console.log('Solicitud de ayuda creada:', helpRequest);
           this.router.navigate(['/my-requests', helpRequest.id]);
         },
         error: (err) => {
