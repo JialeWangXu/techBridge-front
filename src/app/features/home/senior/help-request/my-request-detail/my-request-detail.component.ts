@@ -1,25 +1,32 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { HelpRequestService, SupportSessionService } from '../../../services/help-request.service';
+import { CommonModule,Location } from '@angular/common';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { HelpRequestService, SupportSessionService } from '../../../../shared/services/help-request.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { HelpRequest, RequestStatus } from '../../../../shared/models/helpRequest.model';
 import { sessionMethodTranslations } from '../../../../shared/models/supportSession.model';
+import { ToastrService } from 'ngx-toastr';
+import { ModalComponent } from '../../../../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-help-request-detail',
   templateUrl: './my-request-detail.component.html',
   styleUrls: ['./my-request-detail.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule, ModalComponent]
 })
 export class MyRequestDetailComponent implements OnInit {
 
+  @ViewChild(ModalComponent) deleteModal!: ModalComponent; 
   constructor(private readonly helpRequestService: HelpRequestService, 
     private readonly supportSessionService: SupportSessionService,
     private readonly route:ActivatedRoute,
     private readonly authService: AuthService,
-    private readonly router: Router) { }
+    private readonly router: Router,
+    private readonly location: Location,
+    private readonly toastr: ToastrService) {
+    }
 
+  cameFrom: string ='';  
   helpRequest:HelpRequest = {
     id: '',
     createdAt: new Date(),
@@ -49,6 +56,15 @@ export class MyRequestDetailComponent implements OnInit {
   'CANCELLED': { color: '#dc3545', icon: 'bi-x-circle-fill', text: 'Cancelada' }
   };
 
+  modalConfig = {
+    title: 'Esta seguro de eliminar esta solicitud de ayuda?',
+    message: 'Esta acción no se puede deshacer.',
+    type: 'danger' as 'danger' | 'success' | 'info',
+    showCancel: true,
+    cancelText: 'Cancelar',
+    confirmText: 'Eliminar'
+  };
+
   ngOnInit() {
     this.requestId = this.route.snapshot.paramMap.get('id');
     let userData = this.authService.getUserData();
@@ -58,7 +74,6 @@ export class MyRequestDetailComponent implements OnInit {
     if(this.requestId){
       this.helpRequestService.getById(this.requestId).subscribe({
         next: (data) => {
-          console.log('Detalle de solicitud de ayuda obtenido:', data);
           this.helpRequest = data;
         },
         error: (err) => {
@@ -69,10 +84,10 @@ export class MyRequestDetailComponent implements OnInit {
   }
 
   deleteRequest(){
-    if(this.requestId && confirm('¿Estás seguro de que deseas eliminar esta solicitud de ayuda?')){
+    if(this.requestId){
       this.helpRequestService.deleteById(this.requestId).subscribe({
         next: () => {
-          alert('Solicitud de ayuda eliminada exitosamente.');
+          this.toastr.success('Solicitud de ayuda eliminada exitosamente.', '¡Completado!');
           this.router.navigate(['/my-requests']);
         },
         error: (err) => {
@@ -92,14 +107,13 @@ export class MyRequestDetailComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/my-requests']);
+    this.location.back();
   }
 
   updateRequestStatus(newStatus: RequestStatus) {
     if(this.requestId){
       this.helpRequestService.updateRequestStatus(this.requestId, newStatus).subscribe({
         next: (updatedRequest) => {
-          console.log('Solicitud de ayuda actualizada:', updatedRequest);
           this.helpRequest = updatedRequest;
           this.currentView = 'VOLUNTEER';
         },

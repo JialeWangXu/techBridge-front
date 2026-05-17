@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/auth/auth.service';
 import { Router } from '@angular/router';
-import { AiTutorialService } from './services/ai-tutorial.service';
-import { HelpRequestService } from './services/help-request.service';
+import { AiTutorialService } from '../shared/services/ai-tutorial.service';
+import { HelpRequestService } from '../shared/services/help-request.service';
 import { NgClass } from '@angular/common';
 
 @Component({

@@ -1,8 +1,8 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { HelpRequest, HelpRequestCreate, RequestStatus } from "../../shared/models/helpRequest.model";
-import { SessionMethods, SupportSession } from "../../shared/models/supportSession.model";
+import { HelpRequest, HelpRequestCreate, PageResponse, RequestStatus } from "../models/helpRequest.model";
+import { HelpStatus, SessionMethods, SupportSession } from "../models/supportSession.model";
 import { environment } from "../../../../environments/environment";
 
 
@@ -19,12 +19,23 @@ export class HelpRequestService{
     return this.http.post<HelpRequest>(this.apiUrl, helpRequestCreate);
   }
 
-  getAllBySeniorEmail():Observable<HelpRequest[]>{
-    return  this.http.get<HelpRequest[]>(this.apiUrl+'/senior/my');
+  getSeniorFilteredHelpRequests(status: RequestStatus, category: 'ALL'|'AI_ONLY'|'VOLUNTEER', page:number, pageSize:number)
+  :Observable<PageResponse<HelpRequest>>{
+      let param = new HttpParams()
+      .set('status', status.toString())
+      .set('category', category.toString())
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+    return this.http.get<PageResponse<HelpRequest>>(this.apiUrl+'/senior/my', { params: param })
   }
 
-  getAllByVolunteerEmail():Observable<HelpRequest[]>{
-    return  this.http.get<HelpRequest[]>(this.apiUrl+'/volunteer/my');
+  getVolunteerFilteredHelpRequests(status: HelpStatus, page:number, pageSize:number)
+  :Observable<PageResponse<HelpRequest>>{
+    let param = new HttpParams()
+      .set('status', status.toString())
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+    return this.http.get<PageResponse<HelpRequest>>(this.apiUrl+'/volunteer/my', { params: param });
   }
 
   getById(id:string):Observable<HelpRequest>{
@@ -35,8 +46,15 @@ export class HelpRequestService{
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  getAllAvailable():Observable<HelpRequest[]>{
-    return this.http.get<HelpRequest[]>(`${this.apiUrl}/available`);
+  getAllAvailable(method:string, province:string, city:string, search:string ,page:number, pageSize:number):Observable<PageResponse<HelpRequest>>{
+    let param = new HttpParams()
+      .set('contactPreference', method)
+      .set('province', province)
+      .set('city', city)
+      .set('search', search)
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+    return this.http.get<PageResponse<HelpRequest>>(`${this.apiUrl}/available`, { params: param });
   }
 
   updateRequestStatus(id:string, status:RequestStatus):Observable<HelpRequest>{

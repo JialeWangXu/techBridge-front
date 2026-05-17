@@ -1,6 +1,6 @@
 <div class="container py-5">
   <div class="header-section mb-5">
-    <h2 class="fw-bold" style="color: #003366;">
+    <h2 class="fw-bold" style="color: #003366">
       <i class="bi bi-search me-2"></i>Panel del Voluntario
     </h2>
     <p class="text-muted fs-5">Encuentra personas que necesitan tu ayuda cerca de ti.</p>
@@ -10,10 +10,12 @@
     <div class="col-md-6">
       <div class="search-box p-2 shadow-sm rounded-4 bg-white border d-flex align-items-center">
         <i class="bi bi-search ms-3 text-muted"></i>
-        <input type="text" 
-              class="form-control border-0 shadow-none" 
-              placeholder="Busca por tema (ej: WhatsApp, Correo, Impresora...)"
-              (input)="onSearchTextChange($event)">
+        <input
+          type="text"
+          class="form-control border-0 shadow-none"
+          placeholder="Busca por tema (ej: WhatsApp, Correo, Impresora...)"
+          (input)="onSearchTextChange($event)"
+        />
       </div>
     </div>
 
@@ -29,57 +31,87 @@
     </div>
 
     <div class="col-md-3">
-      <div class="filter-card p-2 shadow-sm rounded-4 bg-white border d-flex align-items-center justify-content-center">
+      <div
+        class="filter-card p-2 shadow-sm rounded-4 bg-white border d-flex align-items-center justify-content-center"
+      >
         <div class="form-check form-switch mb-0">
-          <input class="form-check-input" type="checkbox" id="myZone" [disabled]="!volunteerProvince&&!volunteerCity" (change)="toggleMyZone($event)">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="myZone"
+            [disabled]="!volunteerProvince && !volunteerCity"
+            (change)="toggleMyZone($event)"
+          />
           <label class="form-check-label small fw-bold" for="myZone">Solo mi provincia</label>
         </div>
-        @if(!volunteerCity && !volunteerProvince){
-          <span class="small text-muted ms-2">Para aplicar este filtro, configura tu ubicación en tu perfil.</span>
+        @if (!volunteerCity && !volunteerProvince) {
+          <span class="small text-muted ms-2"
+            >Para aplicar este filtro, configura tu ubicación en tu perfil.</span
+          >
         }
       </div>
     </div>
   </div>
 
   <div class="row g-4">
-    @for (req of filteredRequests; track req.id) {
+    @for (req of availableHelpRequests; track req.id) {
       <div class="col-12">
         <div class="card request-card-volunteer shadow-sm border-0 rounded-4 overflow-hidden">
           <div class="d-flex flex-column flex-md-row">
-            
-            <div class="method-strip p-3 d-flex flex-column align-items-center justify-content-center"
-                [style.background-color]="req.senior.contactPreference === 'PRESENTIAL' ? '#e8f5e9' : '#e3f2fd'">
-              <i class="bi fs-2" 
-                [class]="req.senior.contactPreference === 'PRESENTIAL' ? 'bi-person-walking text-success' : 'bi-laptop text-primary'"></i>
-              <span class="badge mt-2" [class]="req.senior.contactPreference === 'PRESENTIAL' ? 'bg-success' : 'bg-primary'">
+            <div
+              class="method-strip p-3 d-flex flex-column align-items-center justify-content-center"
+              [style.background-color]="
+                req.senior.contactPreference === 'PRESENTIAL' ? '#e8f5e9' : '#e3f2fd'
+              "
+            >
+              <i
+                class="bi fs-2"
+                [class]="
+                  req.senior.contactPreference === 'PRESENTIAL'
+                    ? 'bi-person-walking text-success'
+                    : 'bi-laptop text-primary'
+                "
+              ></i>
+              <span
+                class="badge mt-2"
+                [class]="
+                  req.senior.contactPreference === 'PRESENTIAL' ? 'bg-success' : 'bg-primary'
+                "
+              >
                 {{ req.senior.contactPreference }}
               </span>
             </div>
 
             <div class="p-4 flex-grow-1">
               <div class="d-flex justify-content-between align-items-start mb-2">
-                <h4 class="fw-bold mb-0" style="color: #003366;">{{ req.title }}</h4>
+                <h4 class="fw-bold mb-0" style="color: #003366">{{ req.title }}</h4>
                 <div class="text-end">
-                  <div class="fw-bold text-dark"><i class="bi bi-geo-alt-fill me-1 text-danger"></i>{{ req.senior.city }}</div>
+                  <div class="fw-bold text-dark">
+                    <i class="bi bi-geo-alt-fill me-1 text-danger"></i>{{ req.senior.city }}
+                  </div>
                   <div class="small text-muted">{{ req.senior.province }}</div>
                 </div>
               </div>
               <p class="text-secondary mb-3">{{ req.description }}</p>
-              
+
               <div class="d-flex align-items-center gap-3 pt-3 border-top">
                 <div class="senior-info d-flex align-items-center">
                   <div class="avatar-mini me-2">{{ req.senior.firstName[0] }}</div>
-                  <span class="small fw-bold">{{ req.senior.firstName }} {{ req.senior.lastName }}</span>
+                  <span class="small fw-bold"
+                    >{{ req.senior.firstName }} {{ req.senior.lastName }}</span
+                  >
                 </div>
-                <span class="small text-muted">{{ req.createdAt | date: 'dd/MM/yyyy HH:mm'}}</span>
+                <span class="small text-muted">{{ req.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
                 <div class="ms-auto">
-                  <button class="btn btn-primary rounded-pill px-4 fw-bold" (click)="goToDetail(req.id)">
+                  <button
+                    class="btn btn-primary rounded-pill px-4 fw-bold"
+                    (click)="goToDetail(req.id)"
+                  >
                     Ver Detalles
                   </button>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -90,4 +122,14 @@
       </div>
     }
   </div>
+  @if (availableHelpRequests.length > 0) {
+    <div class="d-flex justify-content-center mt-4">
+      <app-pagenation
+        [currentPage]="currentPage"
+        [totalPages]="totalPages"
+        (pageChange)="onPageChange($event)"
+      >
+      </app-pagenation>
+    </div>
+  }
 </div>

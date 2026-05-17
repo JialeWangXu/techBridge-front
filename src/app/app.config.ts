@@ -16,8 +16,9 @@ import {
 } from 'angular-auth-oidc-client';
 import { FormsModule } from '@angular/forms';
 import { environment } from '../environments/environment';
-
 import { routes } from './app.routes';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
 
 export function initAuth(oidc: OidcSecurityService) {
     return () => oidc.checkAuth();
@@ -26,6 +27,12 @@ export function initAuth(oidc: OidcSecurityService) {
 export const appConfig: ApplicationConfig = {
     providers: [
     importProvidersFrom(FormsModule),
+    provideAnimations(),
+    provideToastr({
+        timeOut: 5000,
+        positionClass: 'toast-bottom-right',
+        preventDuplicates: true,
+    }),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
