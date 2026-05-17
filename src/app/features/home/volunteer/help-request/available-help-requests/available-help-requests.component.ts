@@ -56,7 +56,7 @@ export class AvailableHelpRequestsComponent implements OnInit {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
-        contactPreference: this.selectedMethod !== "ALL" ? this.selectedMethod : null,
+        contactPreference: this.selectedMethod === "ALL" ? null : this.selectedMethod,
         search: this.searchingText ? this.searchingText : null,
         onlyMyZone: this.onlyMyZone ? 'true' : null,
         page: this.currentPage
@@ -71,16 +71,16 @@ export class AvailableHelpRequestsComponent implements OnInit {
     let city = this.onlyMyZone && this.volunteerCity ? this.volunteerCity : '';
 
     this.helpRequestService.getAllAvailable(method, province, city, this.searchingText, this.currentPage, this.pageSize).subscribe((requests) => {
-      if(requests!==null){
-        this.availableHelpRequests = requests.content;
-        this.totalPages = requests.totalPages;
-        this.isFirst = requests.first;
-        this.isLast = requests.last;
-      }else{
+      if(requests===null){
         this.availableHelpRequests = [];
         this.totalPages = 1;
         this.isFirst = true;
         this.isLast = true;
+      }else{
+        this.availableHelpRequests = requests.content;
+        this.totalPages = requests.totalPages;
+        this.isFirst = requests.first;
+        this.isLast = requests.last;
       }
     }
     );
