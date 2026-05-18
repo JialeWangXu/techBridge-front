@@ -65,6 +65,8 @@ export class MyRequestDetailComponent implements OnInit {
     confirmText: 'Eliminar'
   };
 
+  isDeleteModal:boolean = false;
+
   ngOnInit() {
     this.requestId = this.route.snapshot.paramMap.get('id');
     let userData = this.authService.getUserData();
@@ -143,6 +145,32 @@ export class MyRequestDetailComponent implements OnInit {
         }
       }); 
     }
+  }
+
+  handleDelete() {
+    this.isDeleteModal = true;
+    this.modalConfig = {
+    title: 'Esta seguro de eliminar esta solicitud de ayuda?',
+    message: 'Esta acción no se puede deshacer.',
+    type: 'danger',
+    showCancel: true,
+    cancelText: 'Cancelar',
+    confirmText: 'Eliminar'
+  };
+    this.deleteModal.show();
+  }
+
+  handleCancel(){
+    this.isDeleteModal = false;
+    this.modalConfig = {
+    title: 'Esta seguro de cancelar esta solicitud de ayuda?',
+    message: this.helpRequest.status === RequestStatus.OPEN ? 'Un voluntario podría estar en camino para ayudarte.' : 'Se dejará ayudar por el voluntario asignado.',
+    type: 'danger',
+    showCancel: true, 
+    cancelText: 'No, mantener abierta',
+    confirmText: 'Cancelar solicitud'
+    }
+    this.deleteModal.show();
   }
 
 }
