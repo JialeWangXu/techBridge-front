@@ -31,3 +31,14 @@ jobs:
 
       - name: 🏗️ Build Angular app
         run: npm run build-prod
+
+      - name: ☁️ Upload build to AWS Lightsail
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.AWS_LIGHTSAIL_IP }}
+          username: ${{ secrets.AWS_LIGHTSAIL_USER }}
+          key: ${{ secrets.AWS_LIGHTSAIL_SSH_KEY }}
+          port: 22 # SSH
+          source: "dist/techbridge-front/*" 
+          target: "/home/ubuntu/app/frontend-dist"
+          strip_components: 3
