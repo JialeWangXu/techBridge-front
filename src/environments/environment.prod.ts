@@ -5,7 +5,7 @@ export const environment = {
     NAME: pkg.name,
     VERSION: pkg.version,
     FRONT_END: 'https://jointechbridge.com',
-    BACK_END: 'https://jointechbridge.com/api',
+    BACK_END: 'https://jointechbridge.com',
     REST_USER: 'https://jointechbridge.com/api/techbridge-user',
     SECURE_ROUTES: [
     'https://jointechbridge.com/api/techbridge-user/users',
