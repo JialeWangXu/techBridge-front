@@ -1,3 +1,4 @@
+import { HelpRequest } from "./helpRequest.model";
 
 
 export interface SupportSessionCreate {
@@ -17,7 +18,6 @@ export interface SupportSession {
     status?: HelpStatus;
     createdAt?: Date;
     updatedAt?: Date;
-    helpRequest?:HelpStatus;
 }
 
 export const sessionMethodTranslations: Record<SessionMethods, string> = {

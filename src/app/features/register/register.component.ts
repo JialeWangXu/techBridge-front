@@ -25,7 +25,7 @@ export class RegisterComponent {
   submitted = false;
   matchError = false;
   userConsent: boolean = false;
-  @ViewChild(ModalComponent) errorModal!: ModalComponent;
+  @ViewChild(ModalComponent) infoModal!: ModalComponent;
   constructor(
     private readonly registerService: RegisterService,
     public readonly authService: AuthService,
@@ -97,20 +97,19 @@ export class RegisterComponent {
         next: (response) => {
           this.registerForm.reset();
           this.submitted = false;
-          this.authService.login();
           this.modalConfig.title = `¡Casi listo, ${userData.firstName}!`; 
           this.modalConfig.message = `Para activar su cuenta, haz click en el email que te acabamos de enviar: ${userDto.email}. Vaya a su bandeja de entrada y siga las instrucciones para completar el proceso de registro.`;
           this.modalConfig.type = 'success';
-          this.errorModal.show();
+          this.infoModal.show();
         },
         error: (e) => {
           console.error('Error al registrar el usuario', e);
           if(e.status === 409){
             this.modalConfig.message = 'El correo electrónico ya está registrado. Por favor, utiliza otro correo o inicia sesión.';
-            this.errorModal.show();
+            this.infoModal.show();
           }else{
             this.modalConfig.message = 'Se ha intentado demasiadas veces. Inténtalo de nuevo más tarde.';
-            this.errorModal.show();
+            this.infoModal.show();
           }
         },
       });

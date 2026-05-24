@@ -147,25 +147,32 @@
               <div class="d-flex align-items-center">
                 <div class="avatar-circle me-3">{{ helpRequest.volunteer.firstName[0] }}</div>
                 <div>
-                  <h5 class="mb-0 fw-bold">
+                  <h5 class="mb-1 fw-bold">
                     {{ helpRequest.volunteer.firstName }} {{ helpRequest.volunteer.lastName }}
                   </h5>
-                  <p class="text-muted mb-0">Correo: {{ helpRequest.volunteer.email }}</p>
+                  @if (helpRequest.status == RequestStatus.COMPLETED) {
+                  <div class="alert alert-info py-2 small">
+                    <i class="bi bi-emoji-smile"></i> 
+                      Sesión finalizada. Se ha ocultado el contacto para proteger la privacidad del voluntario.
+                  </div>
+                  }@else{
+                    <p class="text-muted mb-0">Correo: {{ helpRequest.volunteer.email }}</p>
 
-                  @if (helpRequest.volunteer.telephone) {
-                    <p class="text-muted mb-0">Telefono: {{ helpRequest.volunteer.telephone }}</p>
-                  }
-                  @if (
-                    helpRequest.volunteer.province ||
-                    helpRequest.volunteer.city ||
-                    helpRequest.volunteer.postalCode
-                  ) {
-                    <p class="text-muted mb-0">Ubicación: {{ formatVolunteerAddress() }}</p>
-                  }
+                    @if (helpRequest.volunteer.telephone) {
+                      <p class="text-muted mb-0">Telefono: {{ helpRequest.volunteer.telephone }}</p>
+                    }
+                    @if (
+                      helpRequest.volunteer.province ||
+                      helpRequest.volunteer.city ||
+                      helpRequest.volunteer.postalCode
+                    ) {
+                      <p class="text-muted mb-0">Ubicación: {{ formatVolunteerAddress() }}</p>
+                    }
 
-                  <p class="text-muted mb-0">
-                    Especialidades: {{ helpRequest.volunteer.specialties }}
-                  </p>
+                    <p class="text-muted mb-0">
+                      Especialidades: {{ helpRequest.volunteer.specialties }}
+                    </p>
+                  }
                 </div>
               </div>
             } @else {

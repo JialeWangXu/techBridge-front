@@ -3,6 +3,8 @@ import {
     provideBrowserGlobalErrorListeners,
     provideZoneChangeDetection,
     importProvidersFrom,
+    inject,
+    provideAppInitializer,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -11,17 +13,30 @@ import {
     authInterceptor,
     OidcSecurityService,
     provideAuth,
-    withAppInitializerAuthCheck,
     DefaultSessionStorageService
 } from 'angular-auth-oidc-client';
+import { catchError, of } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
+import { authExpiredInterceptor } from './core/auth/auth-expired.interceptor';
 
 export function initAuth(oidc: OidcSecurityService) {
-    return () => oidc.checkAuth();
+    return () => oidc.checkAuth().pipe(
+        catchError((error: unknown) => {
+            const message = error instanceof Error ? error.message : String(error);
+
+            if (message.includes('could not find matching config for state')) {
+                globalThis.history.replaceState(null, '', '/register');
+            } else {
+                console.error('Auth initialization failed', error);
+            }
+
+            return of(null);
+        }),
+    );
 }
 
 export const appConfig: ApplicationConfig = {
@@ -36,7 +51,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor()])),
+    provideHttpClient(withInterceptors([authInterceptor(), authExpiredInterceptor])),
     provideAuth(
     {
         config: {
@@ -46,6 +61,8 @@ export const appConfig: ApplicationConfig = {
         clientId: 'techbridge-spa',
         scope: 'openid profile',
         responseType: 'code',
+        postLoginRoute: '/home',
+        unauthorizedRoute: '/register',
         silentRenew: true,
         useRefreshToken: false,
         silentRenewUrl: `${globalThis.location.origin}/silent-renew.html`,
@@ -53,8 +70,8 @@ export const appConfig: ApplicationConfig = {
         logLevel: 3,
         },
     },
-    withAppInitializerAuthCheck(),
     ),
+    provideAppInitializer(() => initAuth(inject(OidcSecurityService))()),
 
     {
         provide: AbstractSecurityStorage,

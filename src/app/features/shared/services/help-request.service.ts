@@ -19,11 +19,11 @@ export class HelpRequestService{
     return this.http.post<HelpRequest>(this.apiUrl, helpRequestCreate);
   }
 
-  getSeniorFilteredHelpRequests(status: RequestStatus, category: 'ALL'|'AI_ONLY'|'VOLUNTEER', page:number, pageSize:number)
+  getSeniorFilteredHelpRequests(status: RequestStatus, category: ''|'AI_ONLY'|'VOLUNTEER', page:number, pageSize:number)
   :Observable<PageResponse<HelpRequest>>{
       let param = new HttpParams()
       .set('status', status.toString())
-      .set('category', category.toString())
+      .set('category', category)
       .set('page', page.toString())
       .set('pageSize', pageSize.toString());
     return this.http.get<PageResponse<HelpRequest>>(this.apiUrl+'/senior/my', { params: param })

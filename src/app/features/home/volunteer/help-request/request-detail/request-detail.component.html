@@ -80,7 +80,12 @@
             </div>
           } @else {
             <div class="alert alert-info py-2 small">
-              <i class="bi bi-emoji-smile"></i> Acepta la petición para ver el contacto
+              <i class="bi bi-emoji-smile"></i> 
+              @if(helpRequest.status == RequestStatus.COMPLETED || helpRequest.status == RequestStatus.CANCELLED) {
+                Sesión {{ helpRequest.status === 'COMPLETED' ? 'finalizada' : 'cancelada' }}. Se ha ocultado el contacto para proteger la privacidad del usuario.
+              } @else {  
+                Acepta la petición para ver el contacto
+            }
             </div>
           }
         </div>

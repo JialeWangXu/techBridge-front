@@ -4,9 +4,15 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly oidcSecurityService = inject(OidcSecurityService);
+  private loginInProgress = false;
 
   // Este método lanzará la redirección al login de Spring
   login() {
+    if (this.loginInProgress) {
+      return;
+    }
+
+    this.loginInProgress = true;
     this.oidcSecurityService.authorize();
   }
 

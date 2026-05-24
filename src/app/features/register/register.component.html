@@ -191,5 +191,5 @@
   [type]="modalConfig.type"
   [confirmText]="modalConfig.confirmText"
   [showCancel]="false"
-  (Confirm)="errorModal.close()"
+  (Confirm)="modalConfig.type === 'success' ? authService.login() : infoModal.close()"
 ></app-modal>

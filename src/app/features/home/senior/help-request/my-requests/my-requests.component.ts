@@ -22,7 +22,7 @@ export class ListSeniorHelpRequestsComponent implements OnInit {
   }
 
   helpRequests: HelpRequest[] = [];
-  category: 'ALL'|'AI_ONLY'|'VOLUNTEER' = 'ALL';
+  category: ''|'AI_ONLY'|'VOLUNTEER' = '';
   status:RequestStatus = RequestStatus.OPEN;
   public RequestStatus = RequestStatus;
   currentPage:number =1;
@@ -36,7 +36,7 @@ export class ListSeniorHelpRequestsComponent implements OnInit {
       this.router.navigate(['/']);
     }
     this.route.queryParams.subscribe(params => {
-      this.category = params['category'] || '';
+      this.category = params['category'];
       this.status = params['status'] || RequestStatus.OPEN;
       this.currentPage = params['page'] ? Number(params['page']) : 1;
       this.fetchFromBackend();
@@ -67,7 +67,7 @@ export class ListSeniorHelpRequestsComponent implements OnInit {
   }
 
   updateCategoryOrStatus(
-    category: 'ALL'|'AI_ONLY'|'VOLUNTEER',
+    category: ''|'AI_ONLY'|'VOLUNTEER',
     status: RequestStatus,
     resetPage: boolean = true
   ) {
@@ -81,7 +81,7 @@ export class ListSeniorHelpRequestsComponent implements OnInit {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
-        category: this.category === 'ALL'|| this.category === null ? null : this.category,
+        category: this.category,
         status: this.status,
         page: this.currentPage
       },

@@ -12,6 +12,7 @@ import { RequestDetailComponent } from './features/home/volunteer/help-request/r
 import { ListVolunteerHelpRequestsComponent } from './features/home/volunteer/help-request/my-helps/my-helps.component';
 
 export const routes: Routes = [
+  {path:'callback',redirectTo:'home',pathMatch:'full'},
   {
     path:'',
     component:MainLayoutComponent,

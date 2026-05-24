@@ -40,5 +40,5 @@ jobs:
           key: ${{ secrets.AWS_LIGHTSAIL_SSH_KEY }}
           port: 22 # SSH
           source: "dist/techbridge-front/*" 
-          target: "/home/ubuntu/app/frontend-dist"
+          target: "/home/ubuntu/app/frontend-dist/angular-app"
           strip_components: 3
