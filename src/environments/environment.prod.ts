@@ -4,12 +4,12 @@ export const environment = {
     production: true,
     NAME: pkg.name,
     VERSION: pkg.version,
-    FRONT_END: 'https://jointechbridge.com',
-    BACK_END: 'https://jointechbridge.com',
-    REST_USER: 'https://jointechbridge.com/api/techbridge-user',
+    FRONT_END: 'https://app.jointechbridge.com',
+    BACK_END: 'https://app.jointechbridge.com',
+    REST_USER: 'https://app.jointechbridge.com/api/techbridge-user',
     SECURE_ROUTES: [
-    'https://jointechbridge.com/api/techbridge-user/users',
-    'https://jointechbridge.com/api/techbridge-helprequest',
-    'https://jointechbridge.com/api/techbridge-aitutorial',
+    'https://app.jointechbridge.com/api/techbridge-user/users',
+    'https://app.jointechbridge.com/api/techbridge-helprequest',
+    'https://app.jointechbridge.com/api/techbridge-aitutorial',
     ],
 };
