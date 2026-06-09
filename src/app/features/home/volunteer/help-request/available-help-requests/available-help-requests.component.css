@@ -1,37 +1,205 @@
+.section-label {
+  color: var(--tb-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.filters-panel {
+  background: var(--tb-surface);
+  border: 1px solid var(--tb-border);
+  border-radius: var(--tb-radius-lg);
+  padding: 1rem;
+}
+
 .search-box {
-  background-color: #fdfdff;
-  border-color: #c9e1fd !important;
-}
-
-.method-strip {
-  width: 120px;
-  min-width: 120px;
-}
-
-.avatar-mini {
-  width: 32px;
-  height: 32px;
-  background-color: #8EBFFB;
-  color: #003366;
-  border-radius: 50%;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  font-weight: bold;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.search-box i {
+  font-size: 1.1rem;
+  margin-left: 0.25rem;
+}
+
+.search-box .form-control {
+  border: none;
+}
+
+.zone-filter {
+  align-items: center;
+  background: #fbfcfe;
+  border: 1px solid var(--tb-border);
+  border-radius: var(--tb-radius-md);
+  display: flex;
+  gap: 0.6rem;
+  min-height: 48px;
+  padding: 0.55rem 0.75rem;
+}
+
+.zone-filter label {
+  color: var(--tb-ink);
+  font-weight: 700;
+}
+
+.zone-filter span {
+  color: var(--tb-muted);
+  font-size: 0.78rem;
+  line-height: 1.2;
 }
 
 .request-card-volunteer {
-  border: 1px solid #c9e1fd !important;
-  transition: all 0.2s ease-in-out;
+  background: var(--tb-surface);
+  border: 1px solid var(--tb-border);
+  border-left: 5px solid var(--tb-volunteer);
+  border-radius: var(--tb-radius-lg);
+  box-shadow: var(--tb-shadow-sm);
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .request-card-volunteer:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 51, 102, 0.12) !important;
+  border-color: rgba(47, 111, 78, 0.35);
+  box-shadow: var(--tb-shadow-md);
+  transform: translateY(-2px);
 }
 
-.btn-primary {
-  background-color: #003366;
-  border: none;
+.method-strip {
+  align-items: center;
+  background: var(--tb-volunteer-soft);
+  color: var(--tb-volunteer-strong);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+}
+
+.method-strip.presential {
+  background: var(--tb-senior-soft);
+  color: var(--tb-senior-strong);
+}
+
+.method-strip i {
+  font-size: 1.8rem;
+}
+
+.method-strip span {
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.25rem 0.5rem;
+}
+
+.request-content {
+  padding: 1.25rem;
+}
+
+.request-header {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.request-header h4 {
+  color: var(--tb-volunteer-strong);
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 0.45rem;
+}
+
+.request-header p {
+  color: var(--tb-muted);
+  margin: 0;
+}
+
+.location {
+  color: var(--tb-ink);
+  min-width: 140px;
+  text-align: right;
+}
+
+.location span {
+  color: var(--tb-muted);
+  display: block;
+  font-size: 0.9rem;
+}
+
+.request-footer {
+  align-items: center;
+  border-top: 1px solid var(--tb-border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.senior-info {
+  align-items: center;
+  display: flex;
+  gap: 0.55rem;
+  font-weight: 750;
+}
+
+.avatar-mini {
+  align-items: center;
+  background-color: var(--tb-volunteer-soft);
+  border: 1px solid rgba(47, 111, 78, 0.18);
+  border-radius: 50%;
+  color: var(--tb-volunteer-strong);
+  display: flex;
+  font-size: 0.85rem;
+  font-weight: 800;
+  height: 36px;
+  justify-content: center;
+  width: 36px;
+}
+
+.date-text {
+  color: var(--tb-muted);
+  font-size: 0.95rem;
+}
+
+.empty-state {
+  background: var(--tb-surface);
+  border: 1px dashed var(--tb-border);
+  border-radius: var(--tb-radius-lg);
+  color: var(--tb-muted);
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.empty-state i {
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .request-card-volunteer {
+    grid-template-columns: 1fr;
+  }
+
+  .method-strip {
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .request-header {
+    flex-direction: column;
+  }
+
+  .location {
+    text-align: left;
+  }
 }

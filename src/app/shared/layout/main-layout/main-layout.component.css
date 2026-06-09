@@ -1,0 +1,51 @@
+.app-shell {
+  background:
+    linear-gradient(180deg, rgba(15, 76, 129, 0.04), rgba(245, 247, 251, 0) 280px),
+    var(--tb-page);
+}
+
+.app-header {
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid var(--tb-border);
+  box-shadow: var(--tb-shadow-sm);
+  backdrop-filter: blur(10px);
+}
+
+.brand-link {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--tb-radius-sm);
+}
+
+.brand-link:focus-visible {
+  box-shadow: var(--tb-focus);
+  outline: none;
+}
+
+.role-badge {
+  align-items: center;
+  background: var(--tb-senior-soft);
+  border: 1px solid rgba(15, 76, 129, 0.18);
+  border-radius: 999px;
+  color: var(--tb-senior-strong);
+  font-size: 0.95rem;
+  font-weight: 750;
+  min-height: 40px;
+  padding: 0.45rem 0.9rem;
+}
+
+.role-badge.volunteer {
+  background: var(--tb-volunteer-soft);
+  border-color: rgba(47, 111, 78, 0.22);
+  color: var(--tb-volunteer-strong);
+}
+
+.app-footer {
+  background: #182230;
+  color: #f8fafc;
+}
+
+.app-footer small {
+  color: #cbd5e1;
+}

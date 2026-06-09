@@ -1,87 +1,75 @@
-<div class="container py-5">
-  <div class="card shadow-sm border-0 rounded-4 p-4" style="background-color: #f2f3f5">
+<div class="container app-page">
+  <div class="request-form-shell">
     @if (isGenerating) {
-      <div class="card shadow border-0 rounded-4 p-5 text-center">
+      <div class="generation-state">
         <output class="spinner-border text-primary mb-4 spinner-status">
           <span class="visually-hidden">Cargando...</span>
         </output>
-        <h4 class="fw-bold" style="color: #003366">Generando tu guía paso a paso...</h4>
-        <p class="text-muted">
-          Estamos preparando las instrucciones para que te resulte muy fácil. Unos segundos, por
-          favor.
-        </p>
+        <h4>Generando tu gu&iacute;a paso a paso...</h4>
+        <p>Estamos preparando instrucciones claras para que te resulte f&aacute;cil. Unos segundos, por favor.</p>
       </div>
     } @else {
-      <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
-        <i class="bi bi-plus-circle-fill me-3" style="font-size: 2.5rem; color: #8ebffb"></i>
+      <div class="form-header">
+        <div class="header-icon">
+          <i class="bi bi-plus-circle"></i>
+        </div>
         <div>
-          <h2 class="fw-bold mb-0" style="color: #003366">Nueva Solicitud de Ayuda</h2>
-          <p class="text-muted mb-0">
-            Describe qué necesitas y la IA generará un tutorial para ti.
-          </p>
+          <p class="section-label mb-2">Nueva ayuda</p>
+          <h2>Nueva solicitud de ayuda</h2>
+          <p>Describe qu&eacute; necesitas y la IA generar&aacute; un tutorial inicial para ti.</p>
         </div>
       </div>
 
-      <form [formGroup]="helpRequestForm" (ngSubmit)="onSubmit()" class="p-2">
+      <form [formGroup]="helpRequestForm" (ngSubmit)="onSubmit()" class="help-form">
         <div class="mb-4">
-          <label class="form-label fw-bold" for="title" style="color: #003366">
-            <i class="bi bi-chat-left-dots me-2"></i>¿Qué necesitas resolver?
+          <label class="form-label" for="title">
+            <i class="bi bi-chat-left-dots me-2"></i>&iquest;Qu&eacute; necesitas resolver?
           </label>
           <input
             type="text"
             id="title"
             formControlName="title"
-            class="form-control form-control-lg border-0 shadow-sm rounded-3 p-3"
+            class="form-control form-control-lg"
             placeholder="Ej: No puedo ver las fotos en WhatsApp"
             [class.is-invalid]="submitted && helpRequestForm.controls['title'].invalid"
           />
-          <div class="invalid-feedback">Por favor, escribe un título breve para tu duda.</div>
+          <div class="invalid-feedback">Por favor, escribe un t&iacute;tulo breve para tu duda.</div>
         </div>
 
         <div class="mb-4">
-          <label class="form-label fw-bold" for="description" style="color: #003366">
-            <i class="bi bi-card-text me-2"></i>Cuéntanos más detalles
+          <label class="form-label" for="description">
+            <i class="bi bi-card-text me-2"></i>Cu&eacute;ntanos m&aacute;s detalles
           </label>
           <textarea
             id="description"
             formControlName="description"
             rows="5"
-            class="form-control form-control-lg border-0 shadow-sm rounded-3 p-3"
-            placeholder="Describe aquí lo que te ocurre con el mayor detalle posible..."
+            class="form-control form-control-lg"
+            placeholder="Describe aqu&iacute; lo que te ocurre con el mayor detalle posible..."
             [class.is-invalid]="submitted && helpRequestForm.controls['description'].invalid"
           ></textarea>
           <div class="invalid-feedback">
-            Danos un poco más de detalle para poder ayudarte mejor.
+            Danos un poco m&aacute;s de detalle para poder ayudarte mejor.
           </div>
         </div>
 
-        <div
-          class="alert border-0 rounded-3 mb-5"
-          style="background-color: #e3f2fd; color: #003366"
-        >
-          <i class="bi bi-info-circle-fill me-2"></i>
-          Al publicar, nuestro sistema creará automáticamente un <strong>Tutorial IA</strong> paso a
-          paso para ayudarte de inmediato.
+        <div class="info-callout">
+          <i class="bi bi-info-circle"></i>
+          <span>
+            Al publicar, nuestro sistema crear&aacute; autom&aacute;ticamente un
+            <strong>tutorial IA</strong> paso a paso para ayudarte de inmediato.
+          </span>
         </div>
 
-        <div class="d-flex gap-3 justify-content-end">
-          <button
-            type="button"
-            (click)="onCancel()"
-            class="btn btn-outline-secondary btn-lg px-4 rounded-pill"
-          >
+        <div class="form-actions">
+          <button type="button" (click)="onCancel()" class="btn btn-outline-secondary btn-lg">
             Volver
           </button>
-          <button
-            type="submit"
-            class="btn btn-lg px-5 rounded-pill shadow-sm fw-bold"
-            style="background-color: #8ebffb; color: #003366"
-            [disabled]="loading"
-          >
+          <button type="submit" class="btn btn-primary btn-lg" [disabled]="loading">
             @if (loading) {
               <span class="spinner-border spinner-border-sm me-2"></span> Procesando...
             } @else {
-              <i class="bi bi-send-check-fill me-2"></i>Publicar Petición
+              <i class="bi bi-send-check me-2"></i>Publicar solicitud
             }
           </button>
         </div>

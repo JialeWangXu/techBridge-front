@@ -1,85 +1,98 @@
-<div class="container py-5">
-    <div class="row mb-5">
-        <div class="col-12 text-center text-md-start">
-        <h1 class="display-5 fw-bold" style="color: #003366;">
-            {{greetingMessage}}<span class="text-primary">{{ userName }}</span>
-        </h1>
-        @if (userRole === "SENIOR") {
-            <p class="lead text-muted">¿Cómo le puedo ayudar hoy?</p>
-        } @else {
-            <p class="lead text-muted">¡Gracias por acercar la tecnología a todos!</p>
+<div class="container app-page home-page">
+  <div class="home-hero mb-4 mb-lg-5">
+    <div>
+      <p class="section-label mb-2">{{ userRole === 'SENIOR' ? 'Area senior' : 'Area voluntaria' }}</p>
+      <h1 class="home-title">
+        {{ greetingMessage }}<span>{{ userName }}</span>
+      </h1>
+      @if (userRole === "SENIOR") {
+        <p class="app-subtitle mb-0">&iquest;C&oacute;mo le puedo ayudar hoy?</p>
+      } @else {
+        <p class="app-subtitle mb-0">Gracias por acercar la tecnolog&iacute;a a todos.</p>
+      }
+    </div>
+  </div>
+
+  <div class="row align-items-stretch g-4 g-lg-5">
+    <div class="col-lg-5">
+      <div class="welcome-panel h-100" [class.volunteer]="userRole !== 'SENIOR'">
+        @if(userRole === 'SENIOR'){
+          <img src="images/senior.png" class="welcome-image" alt="Bienvenida senior">
+        }@else{
+          <img src="images/volunteer.png" class="welcome-image" alt="Bienvenida voluntario">
         }
-        </div>
+      </div>
     </div>
 
-    <div class="row align-items-center g-5">
-        <div class="col-md-6 text-center">
-            @if(userRole === 'SENIOR'){
-                <img src="images/senior.png" class="img-fluid rounded-5 shadow-sm" 
-                    style="max-height: 450px;" alt="Bienvenida">
-            }@else{
-                <img src="images/volunteer.png" class="img-fluid rounded-5 shadow-sm" 
-                style="max-height: 450px;" alt="Bienvenida">
-            }
-        </div>
+    <div class="col-lg-7">
+      <div class="status-panel mb-4" [class.warning]="showLimitWarning()" [class.volunteer]="userRole !== 'SENIOR'">
+        @if (showLimitWarning()) {
+          <i class="bi bi-exclamation-circle"></i>
+          <div>
+            <p class="mb-1 fw-bold">{{limitWarningTitle}}</p>
+            <p class="mb-0">{{limitWarningMessage}}</p>
+          </div>
+        } @else {
+          <i class="bi bi-lightbulb"></i>
+          <div>
+            <p class="mb-1 fw-bold">Estamos listos</p>
+            <p class="mb-0">{{HomeMessage}}</p>
+          </div>
+        }
+      </div>
 
-        <div class="col-md-6">
-            <div class="ia-info-card mb-4 animate__animated animate__fadeIn">
-                    @if (showLimitWarning()) {
-                        <div class="quota-status finished">
-                        <div class="d-flex align-items-center">
-                            <i class="bi bi-book-half me-3 fs-3 text-warning"></i>
-                            <div>
-                            <p class="mb-0 fw-bold">{{limitWarningTitle}}</p>
-                            <p class="mb-0 small">{{limitWarningMessage}}</p>
-                            </div>
-                        </div>
-                        </div>
-
-                    } @else {
-                        <div class="quota-status available">
-                        <div class="d-flex align-items-center">
-                            <i class="bi bi-lightbulb-fill me-3 fs-3 text-primary"></i>
-                            <div>
-                            <p class="mb-0 fw-bold">¡Estamos listos!</p>
-                            <p class="mb-0 small">{{HomeMessage}}</p>
-                            </div>
-                        </div>
-                        </div>
-                    }
-                
-            </div>
-            <div class="d-grid gap-4">
-            @if (userRole === 'SENIOR') {
-                <button (click)="navigateTo('help-request-posting')" class="btn-option shadow-sm"
-                [ngClass]="{'disable': showLimitWarning() }"
-                [disabled]="showLimitWarning()">
-                    <span>Solicitar nueva Ayuda</span>
-                    <i class="bi bi-plus-circle-fill"></i>
-                </button>
-                <button (click)="navigateTo('my-requests')" class="btn-option shadow-sm text-start">
-                    <span>Mis solicitudes</span>
-                    <i class="bi bi-calendar-event"></i>
-                </button>
-                <button (click)="navigateTo('profile')" class="btn-option shadow-sm text-start">
-                    <span>Mi perfil</span>
-                    <i class="bi bi-person-gear"></i>
-                </button>
-            }@else{
-                <button (click)="navigateTo('available-requests')" class="btn-option shadow-sm volunteer">
-                    <span>Ayudas disponibles</span>
-                    <i class="bi bi-search"></i>
-                </button>
-                <button (click)="navigateTo('my-helps')" class="btn-option shadow-sm volunteer">
-                    <span>Mis ayudas realizadas</span>
-                    <i class="bi bi-hand-thumbs-up"></i>
-                </button>
-                <button (click)="navigateTo('profile')" class="btn-option shadow-sm volunteer">
-                    <span>Mi perfil</span>
-                    <i class="bi bi-person-gear"></i>
-                </button>  
-            }
-            </div>
-        </div>
+      <div class="action-grid">
+        @if (userRole === 'SENIOR') {
+          <button
+            (click)="navigateTo('help-request-posting')"
+            class="action-tile"
+            [ngClass]="{'disable': showLimitWarning() }"
+            [disabled]="false"
+          >
+            <span class="action-copy">
+              <strong>Solicitar nueva ayuda</strong>
+              <small>Crear una petici&oacute;n y recibir una gu&iacute;a paso a paso.</small>
+            </span>
+            <i class="bi bi-plus-circle"></i>
+          </button>
+          <button (click)="navigateTo('my-requests')" class="action-tile">
+            <span class="action-copy">
+              <strong>Mis solicitudes</strong>
+              <small>Consultar el estado de sus ayudas y tutoriales.</small>
+            </span>
+            <i class="bi bi-calendar-event"></i>
+          </button>
+          <button (click)="navigateTo('profile')" class="action-tile">
+            <span class="action-copy">
+              <strong>Mi perfil</strong>
+              <small>Actualizar datos personales y preferencias.</small>
+            </span>
+            <i class="bi bi-person-gear"></i>
+          </button>
+        }@else{
+          <button (click)="navigateTo('available-requests')" class="action-tile volunteer">
+            <span class="action-copy">
+              <strong>Ayudas disponibles</strong>
+              <small>Encontrar solicitudes abiertas para colaborar.</small>
+            </span>
+            <i class="bi bi-search"></i>
+          </button>
+          <button (click)="navigateTo('my-helps')" class="action-tile volunteer">
+            <span class="action-copy">
+              <strong>Mis ayudas realizadas</strong>
+              <small>Revisar las ayudas aceptadas y finalizadas.</small>
+            </span>
+            <i class="bi bi-hand-thumbs-up"></i>
+          </button>
+          <button (click)="navigateTo('profile')" class="action-tile volunteer">
+            <span class="action-copy">
+              <strong>Mi perfil</strong>
+              <small>Gestionar ubicaci&oacute;n, contacto y habilidades.</small>
+            </span>
+            <i class="bi bi-person-gear"></i>
+          </button>
+        }
+      </div>
     </div>
+  </div>
 </div>
