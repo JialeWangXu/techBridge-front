@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router,ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { PagenationComponent } from "../../../../../shared/pagenation/pagenation.component";
+import { REQUEST_STATUS_CONFIG } from '../../../../shared/config/status-config';
 
 @Component({
   selector: 'app-my-help-requests',
@@ -30,6 +31,7 @@ export class ListSeniorHelpRequestsComponent implements OnInit {
   totalPages:number = 1;
   isFirst: boolean = false;
   isLast: boolean = false;
+  statusConfig = REQUEST_STATUS_CONFIG;
 
   ngOnInit() {
     if(this.authService.getUserData()?.role!== 'SENIOR' ){
@@ -43,14 +45,6 @@ export class ListSeniorHelpRequestsComponent implements OnInit {
     });
     this.updateCategoryOrStatus(this.category, this.status, false);
   }
-
-  statusConfig: any = {
-    'OPEN': { color: '#28a745', icon: 'bi-door-open-fill', text: 'Abierta' },
-    'FINDING_VOLUNTEER': { color: '#0d6efd', icon: 'bi-person-check-fill', text: 'Encontrando voluntario' },
-    'IN_PROGRESS': { color: '#ffc107', icon: 'bi-hourglass-split', text: 'En curso' },
-    'COMPLETED': { color: '#6c757d', icon: 'bi-check-circle-fill', text: 'Completada' },
-    'CANCELLED': { color: '#dc3545', icon: 'bi-x-circle-fill', text: 'Cancelada' }
-  };
 
   fetchFromBackend(){
     this.helpRequestService.getSeniorFilteredHelpRequests(this.status, this.category, this.currentPage, this.pageSize).subscribe({

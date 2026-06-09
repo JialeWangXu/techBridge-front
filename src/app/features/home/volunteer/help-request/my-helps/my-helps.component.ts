@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { HelpStatus } from '../../../../shared/models/supportSession.model';
 import { PagenationComponent } from "../../../../../shared/pagenation/pagenation.component";
+import { HELP_STATUS_CONFIG } from '../../../../shared/config/status-config';
 
 @Component({
   selector: 'app-my-help-requests',
@@ -29,6 +30,7 @@ export class ListVolunteerHelpRequestsComponent implements OnInit {
   totalPages:number = 1;
   isFirst: boolean = false;
   isLast: boolean = false;
+  statusConfig = HELP_STATUS_CONFIG;
 
   ngOnInit() {
     if(this.authService.getUserData()?.role!== 'VOLUNTEER' ){
@@ -53,14 +55,6 @@ export class ListVolunteerHelpRequestsComponent implements OnInit {
       queryParamsHandling: 'merge'
     });
   }
-
-  statusConfig: any = {
-    'ACTIVE': { color: '#28a745', icon: 'bi-door-open-fill', text: 'Abierta' },
-    'FINISHED': { color: '#6c757d', icon: 'bi-check-circle-fill', text: 'Completada' },
-    'CANCELLED': { color: '#dc3545', icon: 'bi-x-circle-fill', text: 'Cancelada' }
-  };
-
-
 
   fetchFromBackend() {
     this.helpRequestService.getVolunteerFilteredHelpRequests(this.status, this.currentPage, this.pageSize).subscribe({

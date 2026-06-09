@@ -15,6 +15,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../../../../../shared/modal/modal.component';
 import { ToastrService } from 'ngx-toastr';
+import { REQUEST_STATUS_CONFIG } from '../../../../shared/config/status-config';
 
 @Component({
   selector: 'app-request-detail',
@@ -54,17 +55,7 @@ export class RequestDetailComponent implements OnInit {
     status: RequestStatus.FINDING_VOLUNTEER
   };
   meetUrl: string = '';
-  statusConfig: any = {
-    OPEN: { color: '#28a745', icon: 'bi-door-open-fill', text: 'Abierta' },
-    FINDING_VOLUNTEER: {
-      color: '#0d6efd',
-      icon: 'bi-person-check-fill',
-      text: 'Encontrando voluntario',
-    },
-    IN_PROGRESS: { color: '#ffc107', icon: 'bi-hourglass-split', text: 'En curso' },
-    COMPLETED: { color: '#6c757d', icon: 'bi-check-circle-fill', text: 'Completada' },
-    CANCELLED: { color: '#dc3545', icon: 'bi-x-circle-fill', text: 'Cancelada' },
-  };
+  statusConfig = REQUEST_STATUS_CONFIG;
 
   public sessionMethodTranslations = sessionMethodTranslations;
   currentView: 'TUTORIAL' | 'MANAGE' = 'MANAGE';
