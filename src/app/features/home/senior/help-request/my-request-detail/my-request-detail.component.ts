@@ -8,12 +8,13 @@ import { sessionMethodTranslations } from '../../../../shared/models/supportSess
 import { ToastrService } from 'ngx-toastr';
 import { ModalComponent } from '../../../../../shared/modal/modal.component';
 import { REQUEST_STATUS_CONFIG } from '../../../../shared/config/status-config';
+import { StatusBadgeComponent } from '../../../../../shared/status-badge/status-badge.component';
 
 @Component({
   selector: 'app-help-request-detail',
   templateUrl: './my-request-detail.component.html',
   styleUrls: ['./my-request-detail.component.css'],
-  imports: [CommonModule, ModalComponent]
+  imports: [CommonModule, ModalComponent, StatusBadgeComponent]
 })
 export class MyRequestDetailComponent implements OnInit {
 

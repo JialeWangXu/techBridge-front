@@ -1,0 +1,12 @@
+<span
+  class="status-badge"
+  [class.solid]="solid"
+  [style.border-color]="config.color"
+  [style.color]="solid ? '#ffffff' : config.color"
+  [style.background-color]="solid ? config.color : '#ffffff'"
+>
+  @if (icon) {
+    <i class="bi me-2" [class]="config.icon"></i>
+  }
+  {{ config.text }}
+</span>

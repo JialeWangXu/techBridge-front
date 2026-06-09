@@ -1,0 +1,18 @@
+.section-label {
+  color: var(--tb-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.app-title {
+  align-items: center;
+  color: var(--tb-senior-strong);
+  display: flex;
+  font-weight: 850;
+}
+
+.app-title i {
+  line-height: 1;
+}

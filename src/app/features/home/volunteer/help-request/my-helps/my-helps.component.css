@@ -1,11 +1,3 @@
-.section-label {
-  color: var(--tb-muted);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .filter-group {
   display: flex;
   gap: 0.65rem;
@@ -83,16 +75,6 @@
   gap: 0.6rem;
 }
 
-.status-badge {
-  background: #ffffff;
-  border: 1px solid;
-  border-radius: 999px;
-  font-size: 0.88rem;
-  font-weight: 750;
-  padding: 0.35rem 0.75rem;
-  white-space: nowrap;
-}
-
 .btn-view {
   background: transparent;
   border: none;
@@ -100,14 +82,6 @@
   min-height: auto;
   padding: 0;
   text-decoration: none;
-}
-
-.empty-state {
-  background: var(--tb-surface);
-  border: 1px dashed var(--tb-border);
-  border-radius: var(--tb-radius-lg);
-  padding: 2rem;
-  text-align: center;
 }
 
 @media (max-width: 576px) {

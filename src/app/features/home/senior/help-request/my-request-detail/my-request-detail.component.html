@@ -34,14 +34,11 @@
     <div class="col-lg-5">
       <div class="card shadow border-0 rounded-4 p-4 h-100">
         <div class="border-bottom pb-3 mb-4">
-          <span
-            class="badge rounded-pill mb-2 px-3 py-2"
-            [style.background-color]="statusConfig[helpRequest.status].color"
-            style="color: white"
-          >
-            <i class="bi" [class]="statusConfig[helpRequest.status].icon + ' me-2'"></i>
-            {{ statusConfig[helpRequest.status].text }}
-          </span>
+          <app-status-badge
+            [config]="statusConfig[helpRequest.status]"
+            [solid]="true"
+            [icon]="true">
+          </app-status-badge>
           <h2 class="fw-bold" style="color: #003366">{{ helpRequest.title }}</h2>
           <p class="text-muted small">
             <i class="bi bi-calendar-check me-2"></i>Creado el

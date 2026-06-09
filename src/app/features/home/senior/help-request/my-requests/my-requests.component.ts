@@ -6,12 +6,15 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { PagenationComponent } from "../../../../../shared/pagenation/pagenation.component";
 import { REQUEST_STATUS_CONFIG } from '../../../../shared/config/status-config';
+import { PageHeaderComponent } from '../../../../../shared/page-header/page-header.component';
+import { EmptyStateComponent } from '../../../../../shared/empty-state/empty-state.component';
+import { StatusBadgeComponent } from '../../../../../shared/status-badge/status-badge.component';
 
 @Component({
   selector: 'app-my-help-requests',
   templateUrl: './my-requests.component.html',
   styleUrls: ['./my-requests.component.css'],
-  imports: [CommonModule, PagenationComponent]
+  imports: [CommonModule, PagenationComponent, PageHeaderComponent, EmptyStateComponent, StatusBadgeComponent]
 })
 export class ListSeniorHelpRequestsComponent implements OnInit {
 

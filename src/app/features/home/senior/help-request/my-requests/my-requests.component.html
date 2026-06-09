@@ -1,10 +1,9 @@
 <div class="container app-page">
-  <div class="page-heading mb-4">
-    <p class="section-label mb-2">Solicitudes senior</p>
-    <h2 class="app-title mb-1">
-      <i class="bi bi-calendar-event me-2"></i>Mis solicitudes de ayuda
-    </h2>
-  </div>
+  <app-page-header
+    eyebrow="Solicitudes senior"
+    title="Mis solicitudes de ayuda"
+    icon="bi-calendar-event">
+  </app-page-header>
 
   <div class="filter-group mb-3">
     <button (click)="updateCategoryOrStatus('', status)" class="btn btn-category" [class.active]="category === ''">Todas</button>
@@ -33,9 +32,7 @@
   <div class="row g-3">
     @if(helpRequests.length === 0){
       <div class="col-12">
-        <div class="empty-state">
-          <p class="text-muted mb-0">No se ha encontrado ninguna solicitud de ayuda con el filtro aplicado.</p>
-        </div>
+        <app-empty-state message="No se ha encontrado ninguna solicitud de ayuda con el filtro aplicado."></app-empty-state>
       </div>
     }@else{
       @for (req of helpRequests; track req.id) {
@@ -55,13 +52,7 @@
               </div>
 
               <div class="request-actions">
-                <span
-                  class="status-badge"
-                  [style.border-color]="statusConfig[req.status].color"
-                  [style.color]="statusConfig[req.status].color"
-                >
-                  {{statusConfig[req.status].text}}
-                </span>
+                <app-status-badge [config]="statusConfig[req.status]"></app-status-badge>
                 <button class="btn btn-view">
                   Ver detalle <i class="bi bi-arrow-right-short"></i>
                 </button>

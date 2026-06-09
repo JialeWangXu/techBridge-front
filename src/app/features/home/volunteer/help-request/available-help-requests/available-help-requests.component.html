@@ -1,11 +1,10 @@
 <div class="container app-page">
-  <div class="page-heading mb-4">
-    <p class="section-label mb-2">Panel voluntario</p>
-    <h2 class="app-title mb-1">
-      <i class="bi bi-search me-2"></i>Ayudas disponibles
-    </h2>
-    <p class="app-subtitle mb-0">Encuentra personas que necesitan tu ayuda cerca de ti.</p>
-  </div>
+  <app-page-header
+    eyebrow="Panel voluntario"
+    title="Ayudas disponibles"
+    subtitle="Encuentra personas que necesitan tu ayuda cerca de ti."
+    icon="bi-search">
+  </app-page-header>
 
   <div class="filters-panel mb-4">
     <div class="row g-3">
@@ -95,10 +94,10 @@
         </div>
       </div>
     } @empty {
-      <div class="empty-state">
-        <i class="bi bi-inbox"></i>
-        <p>No hay peticiones abiertas con esos filtros ahora mismo.</p>
-      </div>
+      <app-empty-state
+        icon="bi-inbox"
+        message="No hay peticiones abiertas con esos filtros ahora mismo.">
+      </app-empty-state>
     }
   </div>
   @if (availableHelpRequests.length > 0) {

@@ -6,12 +6,14 @@ import { HelpRequest } from '../../../../shared/models/helpRequest.model';
 import { Router,ActivatedRoute } from '@angular/router';
 import { ProfileService } from '../../../profile/profile.service';
 import { PagenationComponent } from "../../../../../shared/pagenation/pagenation.component";
+import { PageHeaderComponent } from '../../../../../shared/page-header/page-header.component';
+import { EmptyStateComponent } from '../../../../../shared/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-available-help-requests',
   templateUrl: './available-help-requests.component.html',
   styleUrls: ['./available-help-requests.component.css'],
-  imports:[CommonModule, PagenationComponent]
+  imports:[CommonModule, PagenationComponent, PageHeaderComponent, EmptyStateComponent]
 })
 export class AvailableHelpRequestsComponent implements OnInit {
 
