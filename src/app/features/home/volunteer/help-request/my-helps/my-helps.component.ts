@@ -10,12 +10,20 @@ import { HELP_STATUS_CONFIG } from '../../../../shared/config/status-config';
 import { PageHeaderComponent } from '../../../../../shared/page-header/page-header.component';
 import { EmptyStateComponent } from '../../../../../shared/empty-state/empty-state.component';
 import { StatusBadgeComponent } from '../../../../../shared/status-badge/status-badge.component';
+import { FilterBarComponent, FilterOption } from '../../../../../shared/filter-bar/filter-bar.component';
 
 @Component({
   selector: 'app-my-help-requests',
   templateUrl: './my-helps.component.html',
   styleUrls: ['./my-helps.component.css'],
-  imports: [CommonModule, PagenationComponent, PageHeaderComponent, EmptyStateComponent, StatusBadgeComponent]
+  imports: [
+    CommonModule,
+    PagenationComponent,
+    PageHeaderComponent,
+    EmptyStateComponent,
+    StatusBadgeComponent,
+    FilterBarComponent
+  ]
 })
 export class ListVolunteerHelpRequestsComponent implements OnInit {
 
@@ -34,6 +42,11 @@ export class ListVolunteerHelpRequestsComponent implements OnInit {
   isFirst: boolean = false;
   isLast: boolean = false;
   statusConfig = HELP_STATUS_CONFIG;
+  statusOptions: FilterOption<HelpStatus>[] = [
+    { label: 'Abiertas', value: HelpStatus.ACTIVE },
+    { label: 'Canceladas', value: HelpStatus.CANCELLED },
+    { label: 'Completadas', value: HelpStatus.FINISHED },
+  ];
 
   ngOnInit() {
     if(this.authService.getUserData()?.role!== 'VOLUNTEER' ){

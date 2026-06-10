@@ -5,11 +5,14 @@
     icon="bi-calendar-event">
   </app-page-header>
 
-  <div class="filter-group mb-4">
-    <button (click)="updateStatus(HelpStatus.ACTIVE)" class="btn btn-filter" [class.active]="status === HelpStatus.ACTIVE">Abiertas</button>
-    <button (click)="updateStatus(HelpStatus.CANCELLED)" class="btn btn-filter" [class.active]="status === HelpStatus.CANCELLED">Canceladas</button>
-    <button (click)="updateStatus(HelpStatus.FINISHED)" class="btn btn-filter" [class.active]="status === HelpStatus.FINISHED">Completadas</button>
-  </div>
+  <app-filter-bar
+    class="d-block mb-4"
+    [options]="statusOptions"
+    [activeValue]="status"
+    variant="subtle"
+    role="volunteer"
+    (filterChange)="updateStatus($event)">
+  </app-filter-bar>
 
   <div class="row g-3">
     @if(helpRequests.length === 0){

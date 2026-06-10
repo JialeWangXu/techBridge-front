@@ -5,29 +5,23 @@
     icon="bi-calendar-event">
   </app-page-header>
 
-  <div class="filter-group mb-3">
-    <button (click)="updateCategoryOrStatus('', status)" class="btn btn-category" [class.active]="category === ''">Todas</button>
-    <button (click)="updateCategoryOrStatus('AI_ONLY', status)" class="btn btn-category" [class.active]="category === 'AI_ONLY'">Solo tutorial IA</button>
-    <button (click)="updateCategoryOrStatus('VOLUNTEER', status)" class="btn btn-category" [class.active]="category === 'VOLUNTEER'">Con voluntario</button>
-  </div>
+  <app-filter-bar
+    class="d-block mb-3"
+    [options]="categoryOptions"
+    [activeValue]="category"
+    variant="primary"
+    role="senior"
+    (filterChange)="updateCategoryOrStatus($event, status)">
+  </app-filter-bar>
 
-  <div class="filter-group subtle mb-4">
-    @if(category == 'AI_ONLY'){
-      <button (click)="updateCategoryOrStatus(category, RequestStatus.OPEN)" class="btn btn-filter" [class.active]="status === RequestStatus.OPEN">Abiertas</button>
-      <button (click)="updateCategoryOrStatus(category, RequestStatus.FINDING_VOLUNTEER)" class="btn btn-filter" [class.active]="status === RequestStatus.FINDING_VOLUNTEER">Encontrando voluntario</button>
-      <button (click)="updateCategoryOrStatus(category, RequestStatus.COMPLETED)" class="btn btn-filter" [class.active]="status === RequestStatus.COMPLETED">Finalizadas</button>
-    }@else if(category == 'VOLUNTEER'){
-      <button (click)="updateCategoryOrStatus(category, RequestStatus.IN_PROGRESS)" class="btn btn-filter" [class.active]="status === RequestStatus.IN_PROGRESS">En curso</button>
-      <button (click)="updateCategoryOrStatus(category, RequestStatus.CANCELLED)" class="btn btn-filter" [class.active]="status === RequestStatus.CANCELLED">Canceladas</button>
-      <button (click)="updateCategoryOrStatus(category, RequestStatus.COMPLETED)" class="btn btn-filter" [class.active]="status === RequestStatus.COMPLETED">Finalizadas</button>
-    }@else{
-      <button (click)="updateCategoryOrStatus(category, RequestStatus.OPEN)" class="btn btn-filter" [class.active]="status === RequestStatus.OPEN">Abiertas</button>
-      <button (click)="updateCategoryOrStatus(category, RequestStatus.FINDING_VOLUNTEER)" class="btn btn-filter" [class.active]="status === RequestStatus.FINDING_VOLUNTEER">Encontrando voluntario</button>
-      <button (click)="updateCategoryOrStatus(category, RequestStatus.IN_PROGRESS)" class="btn btn-filter" [class.active]="status === RequestStatus.IN_PROGRESS">En curso</button>
-      <button (click)="updateCategoryOrStatus(category, RequestStatus.CANCELLED)" class="btn btn-filter" [class.active]="status === RequestStatus.CANCELLED">Canceladas</button>
-      <button (click)="updateCategoryOrStatus(category, RequestStatus.COMPLETED)" class="btn btn-filter" [class.active]="status === RequestStatus.COMPLETED">Finalizadas</button>
-    }
-  </div>
+  <app-filter-bar
+    class="d-block mb-4"
+    [options]="statusOptions"
+    [activeValue]="status"
+    variant="subtle"
+    role="senior"
+    (filterChange)="updateCategoryOrStatus(category, $event)">
+  </app-filter-bar>
 
   <div class="row g-3">
     @if(helpRequests.length === 0){

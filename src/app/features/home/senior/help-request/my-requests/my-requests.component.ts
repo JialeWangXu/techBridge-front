@@ -9,12 +9,20 @@ import { REQUEST_STATUS_CONFIG } from '../../../../shared/config/status-config';
 import { PageHeaderComponent } from '../../../../../shared/page-header/page-header.component';
 import { EmptyStateComponent } from '../../../../../shared/empty-state/empty-state.component';
 import { StatusBadgeComponent } from '../../../../../shared/status-badge/status-badge.component';
+import { FilterBarComponent, FilterOption } from '../../../../../shared/filter-bar/filter-bar.component';
 
 @Component({
   selector: 'app-my-help-requests',
   templateUrl: './my-requests.component.html',
   styleUrls: ['./my-requests.component.css'],
-  imports: [CommonModule, PagenationComponent, PageHeaderComponent, EmptyStateComponent, StatusBadgeComponent]
+  imports: [
+    CommonModule,
+    PagenationComponent,
+    PageHeaderComponent,
+    EmptyStateComponent,
+    StatusBadgeComponent,
+    FilterBarComponent
+  ]
 })
 export class ListSeniorHelpRequestsComponent implements OnInit {
 
@@ -35,6 +43,37 @@ export class ListSeniorHelpRequestsComponent implements OnInit {
   isFirst: boolean = false;
   isLast: boolean = false;
   statusConfig = REQUEST_STATUS_CONFIG;
+  categoryOptions: FilterOption<'' | 'AI_ONLY' | 'VOLUNTEER'>[] = [
+    { label: 'Todas', value: '' },
+    { label: 'Solo tutorial IA', value: 'AI_ONLY' },
+    { label: 'Con voluntario', value: 'VOLUNTEER' },
+  ];
+
+  get statusOptions(): FilterOption<RequestStatus>[] {
+    if (this.category === 'AI_ONLY') {
+      return [
+        { label: 'Abiertas', value: RequestStatus.OPEN },
+        { label: 'Encontrando voluntario', value: RequestStatus.FINDING_VOLUNTEER },
+        { label: 'Finalizadas', value: RequestStatus.COMPLETED },
+      ];
+    }
+
+    if (this.category === 'VOLUNTEER') {
+      return [
+        { label: 'En curso', value: RequestStatus.IN_PROGRESS },
+        { label: 'Canceladas', value: RequestStatus.CANCELLED },
+        { label: 'Finalizadas', value: RequestStatus.COMPLETED },
+      ];
+    }
+
+    return [
+      { label: 'Abiertas', value: RequestStatus.OPEN },
+      { label: 'Encontrando voluntario', value: RequestStatus.FINDING_VOLUNTEER },
+      { label: 'En curso', value: RequestStatus.IN_PROGRESS },
+      { label: 'Canceladas', value: RequestStatus.CANCELLED },
+      { label: 'Finalizadas', value: RequestStatus.COMPLETED },
+    ];
+  }
 
   ngOnInit() {
     if(this.authService.getUserData()?.role!== 'SENIOR' ){

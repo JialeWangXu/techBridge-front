@@ -1,26 +1,3 @@
-.filter-group {
-  display: flex;
-  gap: 0.65rem;
-  overflow-x: auto;
-  padding-bottom: 0.25rem;
-}
-
-.btn-filter {
-  background: var(--tb-surface);
-  border: 1px solid var(--tb-border);
-  color: var(--tb-muted);
-  flex: 0 0 auto;
-  min-height: 44px;
-  padding: 0.55rem 1rem;
-  white-space: nowrap;
-}
-
-.btn-filter.active {
-  background: var(--tb-volunteer-soft);
-  border-color: rgba(47, 111, 78, 0.35);
-  color: var(--tb-volunteer-strong);
-}
-
 .request-card {
   align-items: center;
   background: var(--tb-surface);
