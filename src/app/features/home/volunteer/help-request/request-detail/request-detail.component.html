@@ -90,22 +90,12 @@
     </div>
 
     <div class="col-lg-7">
-      <div class="d-flex gap-3 mb-4">
-        <button
-          class="btn btn-view-toggle flex-fill shadow-sm"
-          [class.active]="currentView === 'MANAGE'"
-          (click)="currentView = 'MANAGE'"
-        >
-          <i class="bi bi-tools me-2"></i>Gestionar Ayuda
-        </button>
-        <button
-          class="btn btn-view-toggle flex-fill shadow-sm"
-          [class.active]="currentView === 'TUTORIAL'"
-          (click)="currentView = 'TUTORIAL'"
-        >
-          <i class="bi bi-robot me-2"></i>Tutorial IA
-        </button>
-      </div>
+      <app-detail-tabs
+        [tabs]="detailTabs"
+        [activeValue]="currentView"
+        role="volunteer"
+        (tabChange)="currentView = $event">
+      </app-detail-tabs>
 
       @if (currentView === 'MANAGE') {
         <div class="d-flex flex-column gap-4">
@@ -321,12 +311,10 @@
                         <i class="bi bi-cloud-arrow-up me-1"></i> Subir Archivo
                       </button>
                     } @else if (helpRequest.supportSession?.s3RecordingUrl) {
-                      <a
-                        (click)="downloadResource()"
-                        class="btn btn-primary btn-sm resource-button px-3"
-                      >
-                        <i class="bi bi-eye me-1"></i> Ver Recurso Subido
-                      </a>
+                      <app-resource-button
+                        size="small"
+                        (resourceClick)="downloadResource()">
+                      </app-resource-button>
                     }
                   </div>
 

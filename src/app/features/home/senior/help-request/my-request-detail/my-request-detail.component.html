@@ -56,22 +56,12 @@
     </div>
 
     <div class="col-lg-7">
-      <div class="d-flex gap-3 mb-4">
-        <button
-          class="btn btn-view-toggle flex-fill shadow-sm"
-          [class.active]="currentView === 'TUTORIAL'"
-          (click)="currentView = 'TUTORIAL'"
-        >
-          <i class="bi bi-robot me-2"></i>Ver Tutorial IA
-        </button>
-        <button
-          class="btn btn-view-toggle flex-fill shadow-sm"
-          [class.active]="currentView === 'VOLUNTEER'"
-          (click)="currentView = 'VOLUNTEER'"
-        >
-          <i class="bi bi-people-fill me-2"></i>Ayuda Voluntaria
-        </button>
-      </div>
+      <app-detail-tabs
+        [tabs]="detailTabs"
+        [activeValue]="currentView"
+        role="senior"
+        (tabChange)="currentView = $event">
+      </app-detail-tabs>
 
       @if (currentView === 'TUTORIAL') {
         <app-ai-tutorial-panel
@@ -288,14 +278,11 @@
                   <div class="col-12 mt-3 pt-3 border-top">
                     <i class="bi bi-archive me-2"></i>Descargar el recurso subido por
                     {{ helpRequest.volunteer?.firstName }}:
-                    <a
-                      [href]="helpRequest.supportSession.s3RecordingUrl"
-                      target="_blank"
-                      class="btn btn-primary resource-button w-100 mt-2"
-                      (click)="downloadResource()"
-                    >
-                      <i class="bi bi-eye me-1"></i>Ver Recurso Subido
-                    </a>
+                    <app-resource-button
+                      class="d-block mt-2"
+                      [fullWidth]="true"
+                      (resourceClick)="downloadResource()">
+                    </app-resource-button>
                   </div>
                 }
                 @if (helpRequest.supportSession.volunteerNotes) {

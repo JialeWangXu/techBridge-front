@@ -1,0 +1,20 @@
+.resource-button {
+  align-items: center;
+  border-radius: 999px;
+  display: inline-flex;
+  gap: 0.5rem;
+  justify-content: center;
+  line-height: 1;
+  min-height: 52px;
+  padding: 0.85rem 1.25rem;
+  text-align: center;
+}
+
+.resource-button.small {
+  min-height: 44px;
+  padding: 0.7rem 1.1rem;
+}
+
+.resource-button i {
+  line-height: 1;
+}

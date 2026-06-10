@@ -18,12 +18,22 @@ import { ToastrService } from 'ngx-toastr';
 import { REQUEST_STATUS_CONFIG } from '../../../../shared/config/status-config';
 import { StatusBadgeComponent } from '../../../../../shared/status-badge/status-badge.component';
 import { AiTutorialPanelComponent } from '../../../../../shared/ai-tutorial-panel/ai-tutorial-panel.component';
+import { DetailTabsComponent, DetailTabOption } from '../../../../../shared/detail-tabs/detail-tabs.component';
+import { ResourceButtonComponent } from '../../../../../shared/resource-button/resource-button.component';
 
 @Component({
   selector: 'app-request-detail',
   templateUrl: './request-detail.component.html',
   styleUrls: ['./request-detail.component.css'],
-  imports: [CommonModule, FormsModule, ModalComponent, StatusBadgeComponent, AiTutorialPanelComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ModalComponent,
+    StatusBadgeComponent,
+    AiTutorialPanelComponent,
+    DetailTabsComponent,
+    ResourceButtonComponent
+  ],
 })
 export class RequestDetailComponent implements OnInit {
   @ViewChild(ModalComponent) confirmModal!: ModalComponent;
@@ -61,6 +71,10 @@ export class RequestDetailComponent implements OnInit {
 
   public sessionMethodTranslations = sessionMethodTranslations;
   currentView: 'TUTORIAL' | 'MANAGE' = 'MANAGE';
+  detailTabs: DetailTabOption<'TUTORIAL' | 'MANAGE'>[] = [
+    { label: 'Gestionar Ayuda', value: 'MANAGE', icon: 'bi-tools' },
+    { label: 'Tutorial IA', value: 'TUTORIAL', icon: 'bi-robot' },
+  ];
   selectedSessionMethod: SessionMethods = SessionMethods.TELEPHONE;
   public SessionMethods = SessionMethods;
   public HelpStatus = HelpStatus;

@@ -10,12 +10,21 @@ import { ModalComponent } from '../../../../../shared/modal/modal.component';
 import { REQUEST_STATUS_CONFIG } from '../../../../shared/config/status-config';
 import { StatusBadgeComponent } from '../../../../../shared/status-badge/status-badge.component';
 import { AiTutorialPanelComponent } from '../../../../../shared/ai-tutorial-panel/ai-tutorial-panel.component';
+import { DetailTabsComponent, DetailTabOption } from '../../../../../shared/detail-tabs/detail-tabs.component';
+import { ResourceButtonComponent } from '../../../../../shared/resource-button/resource-button.component';
 
 @Component({
   selector: 'app-help-request-detail',
   templateUrl: './my-request-detail.component.html',
   styleUrls: ['./my-request-detail.component.css'],
-  imports: [CommonModule, ModalComponent, StatusBadgeComponent, AiTutorialPanelComponent]
+  imports: [
+    CommonModule,
+    ModalComponent,
+    StatusBadgeComponent,
+    AiTutorialPanelComponent,
+    DetailTabsComponent,
+    ResourceButtonComponent
+  ]
 })
 export class MyRequestDetailComponent implements OnInit {
 
@@ -46,6 +55,10 @@ export class MyRequestDetailComponent implements OnInit {
   };
   requestId:string|null = null;
   currentView: 'TUTORIAL'|'VOLUNTEER' = 'TUTORIAL';
+  detailTabs: DetailTabOption<'TUTORIAL'|'VOLUNTEER'>[] = [
+    { label: 'Ver Tutorial IA', value: 'TUTORIAL', icon: 'bi-robot' },
+    { label: 'Ayuda Voluntaria', value: 'VOLUNTEER', icon: 'bi-people-fill' },
+  ];
   role:string ='';
   public RequestStatus = RequestStatus;
   public sessionMethodTranslations = sessionMethodTranslations;

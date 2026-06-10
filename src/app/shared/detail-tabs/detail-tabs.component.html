@@ -1,0 +1,15 @@
+<div class="detail-tabs" [class.volunteer]="role === 'volunteer'">
+  @for (tab of tabs; track tab.value) {
+    <button
+      type="button"
+      class="btn detail-tab"
+      [class.active]="activeValue === tab.value"
+      (click)="tabChange.emit(tab.value)"
+    >
+      @if (tab.icon) {
+        <i class="bi me-2" [class]="tab.icon"></i>
+      }
+      {{ tab.label }}
+    </button>
+  }
+</div>
