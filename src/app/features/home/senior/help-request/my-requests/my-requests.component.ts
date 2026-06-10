@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { HelpRequestService } from '../../../../shared/services/help-request.service';
 import { HelpRequest, RequestStatus } from '../../../../shared/models/helpRequest.model';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { Router,ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { PagenationComponent } from "../../../../../shared/pagenation/pagenation.component";
 import { REQUEST_STATUS_CONFIG } from '../../../../shared/config/status-config';
 import { PageHeaderComponent } from '../../../../../shared/page-header/page-header.component';
 import { EmptyStateComponent } from '../../../../../shared/empty-state/empty-state.component';
-import { StatusBadgeComponent } from '../../../../../shared/status-badge/status-badge.component';
 import { FilterBarComponent, FilterOption } from '../../../../../shared/filter-bar/filter-bar.component';
+import {
+  RequestListCardComponent,
+  RequestListMetaLine
+} from '../../../../../shared/request-list-card/request-list-card.component';
 
 @Component({
   selector: 'app-my-help-requests',
@@ -20,8 +23,8 @@ import { FilterBarComponent, FilterOption } from '../../../../../shared/filter-b
     PagenationComponent,
     PageHeaderComponent,
     EmptyStateComponent,
-    StatusBadgeComponent,
-    FilterBarComponent
+    FilterBarComponent,
+    RequestListCardComponent
   ]
 })
 export class ListSeniorHelpRequestsComponent implements OnInit {
@@ -128,6 +131,15 @@ export class ListSeniorHelpRequestsComponent implements OnInit {
   onPageChange(page: number) {
     this.currentPage = page;
     this.updateCategoryOrStatus(this.category, this.status, false);
+  }
+
+  getRequestMetaLines(req: HelpRequest): RequestListMetaLine[] {
+    return [
+      {
+        icon: 'bi-clock',
+        text: `Publicado: ${formatDate(req.createdAt, 'dd/MM/yyyy HH:mm', 'es-ES')}`,
+      },
+    ];
   }
 
   navigateToDetail(requestId: string) {

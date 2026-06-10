@@ -17,12 +17,13 @@ import { ModalComponent } from '../../../../../shared/modal/modal.component';
 import { ToastrService } from 'ngx-toastr';
 import { REQUEST_STATUS_CONFIG } from '../../../../shared/config/status-config';
 import { StatusBadgeComponent } from '../../../../../shared/status-badge/status-badge.component';
+import { AiTutorialPanelComponent } from '../../../../../shared/ai-tutorial-panel/ai-tutorial-panel.component';
 
 @Component({
   selector: 'app-request-detail',
   templateUrl: './request-detail.component.html',
   styleUrls: ['./request-detail.component.css'],
-  imports: [CommonModule, FormsModule, ModalComponent, StatusBadgeComponent],
+  imports: [CommonModule, FormsModule, ModalComponent, StatusBadgeComponent, AiTutorialPanelComponent],
 })
 export class RequestDetailComponent implements OnInit {
   @ViewChild(ModalComponent) confirmModal!: ModalComponent;

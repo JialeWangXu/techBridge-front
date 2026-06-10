@@ -55,14 +55,6 @@
   width: 65px;
 }
 
-.tutorial-container {
-  border-top: 5px solid var(--detail-main) !important;
-}
-
-.tutorial-container .rounded-circle.bg-primary {
-  background-color: var(--detail-main) !important;
-}
-
 .btn-primary {
   background-color: var(--detail-main) !important;
   border-color: var(--detail-main) !important;
@@ -113,21 +105,6 @@
   height: 86px;
   justify-content: center;
   width: 86px;
-}
-
-.fs-4 {
-  line-height: 1.4;
-}
-
-.border-warning {
-  border-color: #d99a20 !important;
-}
-
-.spinner-status {
-  display: block;
-  height: 3rem;
-  margin: 0 auto;
-  width: 3rem;
 }
 
 @media (max-width: 768px) {

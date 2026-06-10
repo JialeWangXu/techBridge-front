@@ -22,39 +22,13 @@
     }@else{
       @for (req of helpRequests; track req.id) {
         <div class="col-12">
-          <a (click)="navigateToDetail(req.id)" class="text-decoration-none">
-            <div class="request-card">
-              <div class="status-indicator" [style.background-color]="statusConfig[req.supportSession?.status!].color">
-                <i class="bi" [class]="statusConfig[req.supportSession?.status!].icon"></i>
-              </div>
-
-              <div class="request-main">
-                <h4>{{req.title}}</h4>
-                <p class="mb-1">
-                  <i class="bi bi-person-fill me-1"></i>
-                  Solicitante: {{req.senior.firstName}} {{req.senior.lastName}}
-                </p>
-                <p>
-                  @if (req.supportSession?.createdAt && req.supportSession?.status == 'ACTIVE') {
-                    <i class="bi bi-clock me-1"></i> Aceptado en: {{req.supportSession?.createdAt | date:'dd/MM/yyyy HH:mm'}}
-                  }
-                  @if(req.supportSession?.updatedAt && req.supportSession?.status == 'CANCELLED') {
-                    <i class="bi bi-clock me-1"></i> Cancelado en: {{req.supportSession?.updatedAt | date:'dd/MM/yyyy HH:mm'}}
-                  }
-                  @if(req.supportSession?.updatedAt && req.supportSession?.status == 'FINISHED') {
-                    <i class="bi bi-clock me-1"></i> Completado en: {{req.supportSession?.updatedAt | date:'dd/MM/yyyy HH:mm'}}
-                  }
-                </p>
-              </div>
-
-              <div class="request-actions">
-                <app-status-badge [config]="statusConfig[req.supportSession?.status!]"></app-status-badge>
-                <button class="btn btn-view">
-                  Ver detalle <i class="bi bi-arrow-right-short"></i>
-                </button>
-              </div>
-            </div>
-          </a>
+          <app-request-list-card
+            [title]="req.title"
+            [statusConfig]="statusConfig[req.supportSession?.status!]"
+            [metaLines]="getRequestMetaLines(req)"
+            role="volunteer"
+            (viewDetail)="navigateToDetail(req.id)">
+          </app-request-list-card>
         </div>
       }
     }

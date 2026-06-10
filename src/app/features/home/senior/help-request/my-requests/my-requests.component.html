@@ -31,28 +31,13 @@
     }@else{
       @for (req of helpRequests; track req.id) {
         <div class="col-12">
-          <a (click)="navigateToDetail(req.id)" class="text-decoration-none">
-            <div class="request-card">
-              <div class="status-indicator" [style.background-color]="statusConfig[req.status].color">
-                <i class="bi" [class]="statusConfig[req.status].icon"></i>
-              </div>
-
-              <div class="request-main">
-                <h4>{{req.title}}</h4>
-                <p>
-                  <i class="bi bi-clock me-1"></i>
-                  Publicado: {{req.createdAt | date:'dd/MM/yyyy HH:mm'}}
-                </p>
-              </div>
-
-              <div class="request-actions">
-                <app-status-badge [config]="statusConfig[req.status]"></app-status-badge>
-                <button class="btn btn-view">
-                  Ver detalle <i class="bi bi-arrow-right-short"></i>
-                </button>
-              </div>
-            </div>
-          </a>
+          <app-request-list-card
+            [title]="req.title"
+            [statusConfig]="statusConfig[req.status]"
+            [metaLines]="getRequestMetaLines(req)"
+            role="senior"
+            (viewDetail)="navigateToDetail(req.id)">
+          </app-request-list-card>
         </div>
       }
     }

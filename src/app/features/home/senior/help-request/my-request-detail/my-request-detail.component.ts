@@ -9,12 +9,13 @@ import { ToastrService } from 'ngx-toastr';
 import { ModalComponent } from '../../../../../shared/modal/modal.component';
 import { REQUEST_STATUS_CONFIG } from '../../../../shared/config/status-config';
 import { StatusBadgeComponent } from '../../../../../shared/status-badge/status-badge.component';
+import { AiTutorialPanelComponent } from '../../../../../shared/ai-tutorial-panel/ai-tutorial-panel.component';
 
 @Component({
   selector: 'app-help-request-detail',
   templateUrl: './my-request-detail.component.html',
   styleUrls: ['./my-request-detail.component.css'],
-  imports: [CommonModule, ModalComponent, StatusBadgeComponent]
+  imports: [CommonModule, ModalComponent, StatusBadgeComponent, AiTutorialPanelComponent]
 })
 export class MyRequestDetailComponent implements OnInit {
 

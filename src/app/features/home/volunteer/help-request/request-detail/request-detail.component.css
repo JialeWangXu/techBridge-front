@@ -91,14 +91,6 @@
   box-shadow: 0 0 0 4px rgba(var(--detail-rgb), 0.16) !important;
 }
 
-.tutorial-container {
-  border-top: 5px solid var(--detail-main) !important;
-}
-
-.tutorial-container .rounded-circle.bg-primary {
-  background-color: var(--detail-main) !important;
-}
-
 .icon-circle {
   align-items: center;
   border-radius: var(--tb-radius-md);
@@ -140,14 +132,6 @@
 
 .bg-light {
   background-color: var(--tb-panel) !important;
-}
-
-.fs-4 {
-  line-height: 1.4;
-}
-
-.border-warning {
-  border-color: #d99a20 !important;
 }
 
 .btn-disabled-limit {
