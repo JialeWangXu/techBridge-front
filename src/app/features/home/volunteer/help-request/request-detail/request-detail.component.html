@@ -63,7 +63,7 @@
               </h6>
               <p class="text-muted small mb-0">{{ formatSeniorAddress() }}</p>
               <p class="text-muted small mb-0">
-                <b>Preferencia de contacto:</b> {{ helpRequest.senior.contactPreference }}
+                <b>Preferencia de contacto:</b> {{ sessionMethodTranslations[helpRequest.senior.contactPreference!] }}
               </p>
             </div>
           </div>
@@ -133,7 +133,7 @@
               <h5 class="fw-bold mb-3">Confirmar método de ayuda</h5>
               <p class="small text-primary">
                 <i class="bi bi-info-circle me-2"></i>El Senior prefiere:
-                <strong>{{ helpRequest.senior.contactPreference }}</strong>
+                <strong>{{ sessionMethodTranslations[helpRequest.senior.contactPreference!] }}</strong>
               </p>
 
               <select class="form-select mb-3" [(ngModel)]="selectedSessionMethod">
@@ -375,7 +375,7 @@
                 <ul class="list-unstyled mb-0">
                   <li>
                     <i class="bi bi-dot"></i> Método:
-                    {{ helpRequest.supportSession?.sessionMethod }}
+                    {{ sessionMethodTranslations[helpRequest.supportSession?.sessionMethod!] }}
                   </li>
                   <li>
                     <i class="bi bi-dot"></i> Notas enviadas:

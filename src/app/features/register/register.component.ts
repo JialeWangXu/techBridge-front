@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -13,6 +13,7 @@ import { RegisterService } from './register.service';
 import { UserDto } from '../shared/models/userDto.model';
 import { AuthService } from '../../core/auth/auth.service';
 import { ModalComponent } from '../../shared/modal/modal.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +21,7 @@ import { ModalComponent } from '../../shared/modal/modal.component';
   styleUrls: ['./register.component.css'],
   imports: [ReactiveFormsModule, CommonModule, ModalComponent],
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   rol: 'SENIOR' | 'VOLUNTEER' = 'SENIOR';
   submitted = false;
   matchError = false;
@@ -29,15 +30,24 @@ export class RegisterComponent {
   constructor(
     private readonly registerService: RegisterService,
     public readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
   ) {}
 
-    modalConfig = {
+  modalConfig = {
     title: 'Error al registrar el usuario',
     message: 'Se ha intentado demasiadas veces. Inténtalo de nuevo más tarde.',
     type: 'danger' as 'danger' | 'success' | 'info',
     showCancel: false,
-    confirmText: 'Aceptar'
+    confirmText: 'Aceptar',
   };
+
+  ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      const rol = params['rol'] || 'SENIOR';
+      this.applyRole(rol);
+    });
+  }
 
   registerForm = new FormGroup(
     {
@@ -55,20 +65,32 @@ export class RegisterComponent {
   );
 
   setRole = (rol: 'SENIOR' | 'VOLUNTEER') => {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        rol: rol,
+      },
+      queryParamsHandling: 'merge',
+    });
+  };
+
+  private applyRole(rol: 'SENIOR' | 'VOLUNTEER') {
     this.rol = rol;
+    this.registerForm.get('role')?.setValue(rol);
+
     if (rol === 'VOLUNTEER') {
       this.registerForm.get('contactPreference')?.disable();
     } else {
       this.registerForm.get('contactPreference')?.enable();
       this.registerForm.get('contactPreference')?.setValidators(Validators.required);
     }
-  };
+  }
 
   viewPrivacityPolicy() {
     const newTab = window.open('', '_blank');
     if (newTab) {
       newTab.document.body.innerHTML = '<h2>Preparando la descarga...</h2>';
-      newTab.location.href = "/privacy-consent.html";
+      newTab.location.href = '/privacy-consent.html';
     } else {
       alert(
         'No se pudo abrir una nueva pestaña para descargar la politíca de privacidad. Por favor, revisa tu configuración de ventanas emergentes.',
@@ -97,18 +119,20 @@ export class RegisterComponent {
         next: (response) => {
           this.registerForm.reset();
           this.submitted = false;
-          this.modalConfig.title = `¡Casi listo, ${userData.firstName}!`; 
+          this.modalConfig.title = `¡Casi listo, ${userData.firstName}!`;
           this.modalConfig.message = `Para activar su cuenta, haz click en el email que te acabamos de enviar: ${userDto.email}. Vaya a su bandeja de entrada y siga las instrucciones para completar el proceso de registro.`;
           this.modalConfig.type = 'success';
           this.infoModal.show();
         },
         error: (e) => {
           console.error('Error al registrar el usuario', e);
-          if(e.status === 409){
-            this.modalConfig.message = 'El correo electrónico ya está registrado. Por favor, utiliza otro correo o inicia sesión.';
+          if (e.status === 409) {
+            this.modalConfig.message =
+              'El correo electrónico ya está registrado. Por favor, utiliza otro correo o inicia sesión.';
             this.infoModal.show();
-          }else{
-            this.modalConfig.message = 'Se ha intentado demasiadas veces. Inténtalo de nuevo más tarde.';
+          } else {
+            this.modalConfig.message =
+              'Se ha intentado demasiadas veces. Inténtalo de nuevo más tarde.';
             this.infoModal.show();
           }
         },
