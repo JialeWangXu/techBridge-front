@@ -31,7 +31,7 @@
 .detail-tab.active {
   background-color: var(--tb-senior);
   border-color: var(--tb-senior);
-  color: #ffffff;
+  color: #ffffff !important;
 }
 
 .detail-tabs.volunteer .detail-tab.active {

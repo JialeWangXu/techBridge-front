@@ -47,7 +47,7 @@
             (click)="navigateTo('help-request-posting')"
             class="action-tile"
             [ngClass]="{'disable': showLimitWarning() }"
-            [disabled]="false"
+            [disabled]="showLimitWarning()"
           >
             <span class="action-copy">
               <strong>Solicitar nueva ayuda</strong>

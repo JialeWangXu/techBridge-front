@@ -83,7 +83,7 @@ export class ListSeniorHelpRequestsComponent implements OnInit {
       this.router.navigate(['/']);
     }
     this.route.queryParams.subscribe(params => {
-      this.category = params['category'];
+      this.category = params['category']=== undefined ? '' : params['category'];
       this.status = params['status'] || RequestStatus.OPEN;
       this.currentPage = params['page'] ? Number(params['page']) : 1;
       this.fetchFromBackend();

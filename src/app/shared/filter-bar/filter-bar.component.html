@@ -4,7 +4,7 @@
       type="button"
       class="btn filter-button"
       [class.primary]="variant === 'primary'"
-      [class.active]="activeValue === option.value"
+      [class.active]="activeValue == option.value"
       (click)="filterChange.emit(option.value)"
     >
       {{ option.label }}

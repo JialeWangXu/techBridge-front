@@ -1,11 +1,14 @@
 import {
     ApplicationConfig,
+    LOCALE_ID,
     provideBrowserGlobalErrorListeners,
     provideZoneChangeDetection,
     importProvidersFrom,
     inject,
     provideAppInitializer,
 } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
@@ -22,6 +25,8 @@ import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { authExpiredInterceptor } from './core/auth/auth-expired.interceptor';
+
+registerLocaleData(localeEs);
 
 export function initAuth(oidc: OidcSecurityService) {
     return () => oidc.checkAuth().pipe(
@@ -52,6 +57,10 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor(), authExpiredInterceptor])),
+    {
+        provide: LOCALE_ID,
+        useValue: 'es-ES',
+    },
     provideAuth(
     {
         config: {
