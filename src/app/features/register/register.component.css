@@ -1,3 +1,155 @@
-.is-invalid{
-  color: red;
+.register-page {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(15, 76, 129, 0.08), rgba(47, 111, 78, 0.05)),
+    var(--tb-page);
+  display: flex;
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.register-shell {
+  background: var(--tb-surface);
+  border: 1px solid var(--tb-border);
+  border-radius: var(--tb-radius-lg);
+  box-shadow: var(--tb-shadow-md);
+  display: grid;
+  grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.1fr);
+  overflow: hidden;
+}
+
+.register-aside {
+  background:
+    linear-gradient(180deg, rgba(15, 76, 129, 0.08), rgba(15, 76, 129, 0.02)),
+    #f8fafc;
+  border-right: 1px solid var(--tb-border);
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.5rem;
+}
+
+.register-aside h1 {
+  color: var(--tb-senior-strong);
+  font-size: 2.4rem;
+  font-weight: 850;
+  line-height: 1.08;
+  margin: 2rem 0 0.75rem;
+}
+
+.register-aside p {
+  color: var(--tb-muted);
+  font-size: 1.1rem;
+  max-width: 34rem;
+}
+
+.register-visual {
+  align-items: center;
+  background:
+    radial-gradient(circle at 50% 58%, rgba(15, 76, 129, 0.1), rgba(15, 76, 129, 0) 64%);
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  max-height: 290px;
+  opacity: 0.95;
+  overflow: visible;
+  padding: 0.5rem;
+}
+
+.register-visual img {
+  max-height: 290px;
+  max-width: 82%;
+  object-fit: contain;
+}
+
+.register-form-panel {
+  padding: 2.5rem;
+}
+
+.form-heading h2 {
+  color: var(--tb-ink);
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin-bottom: 0.35rem;
+}
+
+.section-label {
+  color: var(--tb-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.role-switch,
+.login-link {
+  color: var(--tb-muted);
+}
+
+.role-switch a,
+.login-link a,
+.consent-row a {
+  color: var(--tb-senior);
+  cursor: pointer;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.role-switch a:hover,
+.login-link a:hover,
+.consent-row a:hover {
+  text-decoration: underline;
+}
+
+.form-label {
+  color: var(--tb-ink);
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.form-control,
+.form-select {
+  background-color: #fbfcfe;
+  border: 1px solid var(--tb-border);
+  box-shadow: none;
+  padding: 0.8rem 0.95rem;
+}
+
+.consent-row {
+  align-items: flex-start;
+  display: flex;
+  gap: 0.55rem;
+}
+
+.consent-row .form-check-input {
+  flex: 0 0 auto;
+  height: 1.2rem;
+  margin-left: 0;
+  margin-top: 0.2rem;
+  width: 1.2rem;
+}
+
+.register-submit {
+  font-size: 1.05rem;
+  min-height: 54px;
+  text-transform: none;
+}
+
+.is-invalid {
+  border-color: #dc3545 !important;
+}
+
+@media (max-width: 767px) {
+  .register-page {
+    align-items: flex-start;
+    padding: 1rem 0;
+  }
+
+  .register-shell {
+    display: block;
+  }
+
+  .register-form-panel {
+    padding: 1.25rem;
+  }
 }

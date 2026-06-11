@@ -1,0 +1,45 @@
+@if (isGenerating) {
+  <div class="card generation-state">
+    <output class="spinner-border text-primary mb-4 spinner-status">
+      <span class="visually-hidden">Cargando...</span>
+    </output>
+    <h4>Generando tu gu&iacute;a paso a paso...</h4>
+    <p>
+      Estamos preparando las instrucciones para que te resulte muy f&aacute;cil. Unos segundos, por favor.
+    </p>
+  </div>
+} @else {
+  <div class="card tutorial-container" [class.volunteer]="role === 'volunteer'">
+    <div class="mb-4">
+      <h3>{{ tutorial?.title }}</h3>
+      <p class="fs-5 text-secondary">{{ tutorial?.generalDescription }}</p>
+    </div>
+
+    <div class="d-flex flex-column gap-3">
+      @for (step of tutorial?.steps ?? []; track step.number) {
+        <div class="card tutorial-step">
+          <div class="d-flex align-items-start">
+            <div class="step-number">
+              {{ step.number }}
+            </div>
+
+            <div class="w-100">
+              <p class="step-instruction">
+                {{ step.instruction }}
+              </p>
+
+              @if (step.advice) {
+                <div class="step-advice">
+                  <small>
+                    <i class="bi bi-lightbulb-fill me-1"></i>Consejo
+                  </small>
+                  <p>{{ step.advice }}</p>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}

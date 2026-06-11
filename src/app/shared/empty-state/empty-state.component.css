@@ -1,0 +1,15 @@
+.empty-state {
+  background: var(--tb-surface);
+  border: 1px dashed var(--tb-border);
+  border-radius: var(--tb-radius-lg);
+  color: var(--tb-muted);
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.empty-state i {
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}

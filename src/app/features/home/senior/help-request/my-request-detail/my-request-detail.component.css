@@ -1,87 +1,17 @@
-.container {
-  min-height: 100vh;
-}
-
-.btn-view-toggle {
-  background-color: white;
-  border: 3px solid #8ebffb;
-  color: #003366;
-  border-radius: 15px;
-  padding: 1rem;
-  font-weight: 700;
-  transition: all 0.3s ease;
-}
-
-.btn-view-toggle.active {
-  background-color: #003366;
-  color: #8ebffb;
-  border-color: #003366;
-}
-
 .avatar-circle {
-  width: 65px;
-  height: 65px;
-  background-color: #8ebffb;
-  color: #003366;
-  border-radius: 50%;
-  display: flex;
   align-items: center;
-  justify-content: center;
+  background-color: var(--detail-soft);
+  border: 1px solid rgba(var(--detail-rgb), 0.22);
+  border-radius: 50%;
+  color: var(--detail-strong);
+  display: flex;
   font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.tutorial-steps {
-  white-space: pre-line;
-  line-height: 1.8;
-  color: #2c3e50;
-}
-
-.card {
-  transition: transform 0.2s ease;
-}
-
-.tutorial-container {
-  border-top: 6px solid #8ebffb !important;
+  font-weight: 800;
+  height: 65px;
+  justify-content: center;
+  width: 65px;
 }
 
 .btn-danger {
-  font-weight: 600;
-  border: none;
-}
-
-.hover-shadow:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
-  border-color: #0d6efd !important;
-  cursor: pointer;
-}
-
-.transition-all {
-  transition: all 0.3s ease;
-}
-
-.icon-box-cancelled {
-  width: 100px;
-  height: 100px;
-  background-color: #fff5f5;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.fs-4 {
-  line-height: 1.4;
-}
-
-.border-warning {
-  border-color: #ffc107 !important;
-}
-
-.spinner-status {
-  width: 3rem;
-  height: 3rem;
-  display: block;
-  margin: 0 auto;
+  font-weight: 700;
 }

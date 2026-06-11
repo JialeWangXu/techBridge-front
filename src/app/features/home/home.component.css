@@ -1,44 +1,187 @@
-.btn-option {
-  background: white;
-  border: 3px solid #8EBFFB;
-  border-radius: 20px;
-  padding: 2rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #003366;
+.home-hero {
+  align-items: flex-end;
   display: flex;
   justify-content: space-between;
+}
+
+.section-label {
+  color: var(--tb-muted);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.home-title {
+  color: var(--tb-senior-strong);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 850;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.home-title span {
+  color: var(--tb-senior);
+}
+
+.welcome-panel {
   align-items: center;
-  transition: all 0.3s ease;
+  background:
+    radial-gradient(circle at 50% 56%, rgba(15, 76, 129, 0.11), rgba(15, 76, 129, 0) 62%),
+    transparent;
+  border: none;
+  border-radius: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 360px;
+  overflow: visible;
+  padding: 0.5rem;
+}
+
+.welcome-panel.volunteer {
+  background:
+    radial-gradient(circle at 50% 56%, rgba(47, 111, 78, 0.13), rgba(47, 111, 78, 0) 62%),
+    transparent;
+}
+
+.welcome-image {
+  max-height: 360px;
+  max-width: 100%;
+  object-fit: contain;
+  width: min(100%, 420px);
+}
+
+.status-panel {
+  align-items: flex-start;
+  background: var(--tb-senior-soft);
+  border: 1px solid rgba(15, 76, 129, 0.18);
+  border-radius: var(--tb-radius-lg);
+  color: var(--tb-senior-strong);
+  display: flex;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+}
+
+.status-panel.volunteer {
+  background: var(--tb-volunteer-soft);
+  border-color: rgba(47, 111, 78, 0.2);
+  color: var(--tb-volunteer-strong);
+}
+
+.status-panel.warning {
+  background: var(--tb-warning-soft);
+  border-color: rgba(181, 113, 0, 0.22);
+  color: #7a4b00;
+}
+
+.status-panel i {
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.action-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.action-tile {
+  align-items: center;
+  background: var(--tb-surface);
+  border: 1px solid var(--tb-border);
+  border-left: 6px solid var(--tb-senior);
+  border-radius: var(--tb-radius-lg);
+  color: var(--tb-ink);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  min-height: 104px;
+  padding: 1.25rem 1.4rem;
   text-align: left;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  width: 100%;
+}
 
-  i {
-    font-size: 2rem;
-    color: #8EBFFB;
-  }
+.action-tile.volunteer {
+  border-left-color: var(--tb-volunteer);
+}
 
-  &:hover {
-    transform: translateY(-5px);
-    background-color: #f0f7ff;
-    border-color: #003366;
-  }
+.action-tile i {
+  align-items: center;
+  background: var(--tb-senior-soft);
+  border-radius: var(--tb-radius-md);
+  color: var(--tb-senior);
+  display: inline-flex;
+  flex: 0 0 52px;
+  font-size: 1.65rem;
+  height: 52px;
+  justify-content: center;
+  width: 52px;
+}
 
-  &.volunteer {
-    border-color: #a2cf6e;
-    i { color: #a2cf6e; }
-    &:hover { background-color: #f4faf0; border-color: #4e7a17; }
-  }
+.action-tile.volunteer i {
+  background: var(--tb-volunteer-soft);
+  color: var(--tb-volunteer);
+}
+
+.action-tile:hover:not(:disabled) {
+  border-color: rgba(15, 76, 129, 0.32);
+  box-shadow: var(--tb-shadow-md);
+  transform: translateY(-2px);
+}
+
+.action-tile.volunteer:hover:not(:disabled) {
+  border-color: rgba(47, 111, 78, 0.35);
+}
+
+.action-copy {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.action-copy strong {
+  color: var(--tb-senior-strong);
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.action-tile.volunteer .action-copy strong {
+  color: var(--tb-volunteer-strong);
+}
+
+.action-copy small {
+  color: var(--tb-muted);
+  font-size: 1rem;
 }
 
 .disable {
-  opacity: 0.5;
-  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 @media (max-width: 768px) {
-  .btn-option {
-    padding: 1.2rem;
+  .home-hero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .welcome-panel {
+    min-height: 240px;
+  }
+
+  .welcome-image {
+    max-height: 260px;
+  }
+
+  .action-tile {
+    min-height: 96px;
+    padding: 1rem;
+  }
+
+  .action-copy strong {
     font-size: 1.1rem;
-    i { font-size: 1.5rem; }
+  }
+
+  .action-copy small {
+    font-size: 0.95rem;
   }
 }

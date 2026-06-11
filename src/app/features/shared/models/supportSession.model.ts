@@ -1,6 +1,3 @@
-import { HelpRequest } from "./helpRequest.model";
-
-
 export interface SupportSessionCreate {
     sessionMethod:SessionMethods;
     recordingConsent: boolean;  
@@ -20,10 +17,10 @@ export interface SupportSession {
     updatedAt?: Date;
 }
 
-export const sessionMethodTranslations: Record<SessionMethods, string> = {
-    TELEPHONE: 'Teléfono',
-    ONLINE_MEETING: 'Reunión Online',
-    IN_PERSON: 'Presencial'
+export const sessionMethodTranslations: Record<string, string> = {
+    'TELEPHONE': 'Teléfono',
+    'ONLINE_MEETING': 'Reunión Online',
+    'IN_PERSON': 'Presencial'
 };
 
 export enum HelpStatus {

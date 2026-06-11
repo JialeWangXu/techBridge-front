@@ -1,0 +1,22 @@
+.modal-content {
+  border-radius: var(--tb-radius-lg);
+  box-shadow: var(--tb-shadow-md) !important;
+}
+
+.modal-icon {
+  align-items: center;
+  background: var(--tb-panel);
+  border-radius: var(--tb-radius-md);
+  display: inline-flex;
+  height: 56px;
+  justify-content: center;
+  width: 56px;
+}
+
+.modal-icon i {
+  font-size: 1.8rem;
+}
+
+h4 {
+  color: var(--tb-senior-strong);
+}

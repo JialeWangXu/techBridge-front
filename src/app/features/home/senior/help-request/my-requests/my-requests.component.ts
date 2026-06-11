@@ -1,16 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { HelpRequestService } from '../../../../shared/services/help-request.service';
 import { HelpRequest, RequestStatus } from '../../../../shared/models/helpRequest.model';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { Router,ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../../../core/auth/auth.service';
 import { PagenationComponent } from "../../../../../shared/pagenation/pagenation.component";
+import { REQUEST_STATUS_CONFIG } from '../../../../shared/config/status-config';
+import { PageHeaderComponent } from '../../../../../shared/page-header/page-header.component';
+import { EmptyStateComponent } from '../../../../../shared/empty-state/empty-state.component';
+import { FilterBarComponent, FilterOption } from '../../../../../shared/filter-bar/filter-bar.component';
+import {
+  RequestListCardComponent,
+  RequestListMetaLine
+} from '../../../../../shared/request-list-card/request-list-card.component';
 
 @Component({
   selector: 'app-my-help-requests',
   templateUrl: './my-requests.component.html',
   styleUrls: ['./my-requests.component.css'],
-  imports: [CommonModule, PagenationComponent]
+  imports: [
+    CommonModule,
+    PagenationComponent,
+    PageHeaderComponent,
+    EmptyStateComponent,
+    FilterBarComponent,
+    RequestListCardComponent
+  ]
 })
 export class ListSeniorHelpRequestsComponent implements OnInit {
 
@@ -30,27 +45,51 @@ export class ListSeniorHelpRequestsComponent implements OnInit {
   totalPages:number = 1;
   isFirst: boolean = false;
   isLast: boolean = false;
+  statusConfig = REQUEST_STATUS_CONFIG;
+  categoryOptions: FilterOption<'' | 'AI_ONLY' | 'VOLUNTEER'>[] = [
+    { label: 'Todas', value: '' },
+    { label: 'Solo tutorial IA', value: 'AI_ONLY' },
+    { label: 'Con voluntario', value: 'VOLUNTEER' },
+  ];
+
+  get statusOptions(): FilterOption<RequestStatus>[] {
+    if (this.category === 'AI_ONLY') {
+      return [
+        { label: 'Abiertas', value: RequestStatus.OPEN },
+        { label: 'Encontrando voluntario', value: RequestStatus.FINDING_VOLUNTEER },
+        { label: 'Finalizadas', value: RequestStatus.COMPLETED },
+      ];
+    }
+
+    if (this.category === 'VOLUNTEER') {
+      return [
+        { label: 'En curso', value: RequestStatus.IN_PROGRESS },
+        { label: 'Canceladas', value: RequestStatus.CANCELLED },
+        { label: 'Finalizadas', value: RequestStatus.COMPLETED },
+      ];
+    }
+
+    return [
+      { label: 'Abiertas', value: RequestStatus.OPEN },
+      { label: 'Encontrando voluntario', value: RequestStatus.FINDING_VOLUNTEER },
+      { label: 'En curso', value: RequestStatus.IN_PROGRESS },
+      { label: 'Canceladas', value: RequestStatus.CANCELLED },
+      { label: 'Finalizadas', value: RequestStatus.COMPLETED },
+    ];
+  }
 
   ngOnInit() {
     if(this.authService.getUserData()?.role!== 'SENIOR' ){
       this.router.navigate(['/']);
     }
     this.route.queryParams.subscribe(params => {
-      this.category = params['category'];
+      this.category = params['category']=== undefined ? '' : params['category'];
       this.status = params['status'] || RequestStatus.OPEN;
       this.currentPage = params['page'] ? Number(params['page']) : 1;
       this.fetchFromBackend();
     });
     this.updateCategoryOrStatus(this.category, this.status, false);
   }
-
-  statusConfig: any = {
-    'OPEN': { color: '#28a745', icon: 'bi-door-open-fill', text: 'Abierta' },
-    'FINDING_VOLUNTEER': { color: '#0d6efd', icon: 'bi-person-check-fill', text: 'Encontrando voluntario' },
-    'IN_PROGRESS': { color: '#ffc107', icon: 'bi-hourglass-split', text: 'En curso' },
-    'COMPLETED': { color: '#6c757d', icon: 'bi-check-circle-fill', text: 'Completada' },
-    'CANCELLED': { color: '#dc3545', icon: 'bi-x-circle-fill', text: 'Cancelada' }
-  };
 
   fetchFromBackend(){
     this.helpRequestService.getSeniorFilteredHelpRequests(this.status, this.category, this.currentPage, this.pageSize).subscribe({
@@ -92,6 +131,15 @@ export class ListSeniorHelpRequestsComponent implements OnInit {
   onPageChange(page: number) {
     this.currentPage = page;
     this.updateCategoryOrStatus(this.category, this.status, false);
+  }
+
+  getRequestMetaLines(req: HelpRequest): RequestListMetaLine[] {
+    return [
+      {
+        icon: 'bi-clock',
+        text: `Publicado: ${formatDate(req.createdAt, 'dd/MM/yyyy HH:mm', 'es-ES')}`,
+      },
+    ];
   }
 
   navigateToDetail(requestId: string) {

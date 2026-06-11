@@ -1,0 +1,29 @@
+<button
+  type="button"
+  class="request-card"
+  [class.volunteer]="role === 'volunteer'"
+  (click)="viewDetail.emit()"
+>
+  <div class="status-indicator" [style.background-color]="statusConfig.color">
+    <i class="bi" [class]="statusConfig.icon"></i>
+  </div>
+
+  <div class="request-main">
+    <h4>{{ title }}</h4>
+    @for (line of metaLines; track $index) {
+      <p>
+        @if (line.icon) {
+          <i class="bi me-1" [class]="line.icon"></i>
+        }
+        {{ line.text }}
+      </p>
+    }
+  </div>
+
+  <div class="request-actions">
+    <app-status-badge [config]="statusConfig"></app-status-badge>
+    <span class="btn-view">
+      {{ actionText }} <i class="bi bi-arrow-right-short"></i>
+    </span>
+  </div>
+</button>

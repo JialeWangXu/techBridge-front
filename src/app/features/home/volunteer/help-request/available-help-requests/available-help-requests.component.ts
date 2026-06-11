@@ -6,12 +6,15 @@ import { HelpRequest } from '../../../../shared/models/helpRequest.model';
 import { Router,ActivatedRoute } from '@angular/router';
 import { ProfileService } from '../../../profile/profile.service';
 import { PagenationComponent } from "../../../../../shared/pagenation/pagenation.component";
+import { PageHeaderComponent } from '../../../../../shared/page-header/page-header.component';
+import { EmptyStateComponent } from '../../../../../shared/empty-state/empty-state.component';
+import { sessionMethodTranslations } from '../../../../shared/models/supportSession.model';
 
 @Component({
   selector: 'app-available-help-requests',
   templateUrl: './available-help-requests.component.html',
   styleUrls: ['./available-help-requests.component.css'],
-  imports:[CommonModule, PagenationComponent]
+  imports:[CommonModule, PagenationComponent, PageHeaderComponent, EmptyStateComponent]
 })
 export class AvailableHelpRequestsComponent implements OnInit {
 
@@ -35,6 +38,8 @@ export class AvailableHelpRequestsComponent implements OnInit {
   totalPages: number = 1;
   isFirst: boolean = false;
   isLast: boolean = false;
+
+  public sessionMethodTranslations = sessionMethodTranslations;
 
   onMethodChange(event: any) {
     this.selectedMethod = event.target.value;

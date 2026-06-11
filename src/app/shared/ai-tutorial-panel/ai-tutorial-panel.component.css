@@ -1,0 +1,95 @@
+.generation-state {
+  border: 1px solid var(--tb-border) !important;
+  border-radius: var(--tb-radius-lg) !important;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.generation-state h4,
+.tutorial-container h3 {
+  color: var(--tb-senior-strong);
+  font-weight: 850;
+}
+
+.generation-state p {
+  color: var(--tb-muted);
+}
+
+.spinner-status {
+  display: block;
+  height: 3rem;
+  margin: 0 auto;
+  width: 3rem;
+}
+
+.tutorial-container {
+  border: 1px solid var(--tb-border) !important;
+  border-radius: var(--tb-radius-lg) !important;
+  border-top: 5px solid var(--tb-senior) !important;
+  padding: 1.5rem;
+}
+
+.tutorial-container.volunteer {
+  border-top-color: var(--tb-volunteer) !important;
+}
+
+.tutorial-container.volunteer h3 {
+  color: var(--tb-volunteer-strong);
+}
+
+.tutorial-step {
+  border: 1px solid var(--tb-border) !important;
+  border-radius: var(--tb-radius-lg) !important;
+  padding: 1.5rem;
+}
+
+.step-number {
+  align-items: center;
+  background: var(--tb-senior);
+  border-radius: 50%;
+  color: #ffffff;
+  display: flex;
+  flex: 0 0 40px;
+  font-weight: 800;
+  height: 40px;
+  justify-content: center;
+  margin-right: 1rem;
+  width: 40px;
+}
+
+.tutorial-container.volunteer .step-number {
+  background: var(--tb-volunteer);
+}
+
+.step-instruction {
+  color: var(--tb-senior-strong);
+  font-size: 1.5rem;
+  font-weight: 650;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+.tutorial-container.volunteer .step-instruction {
+  color: var(--tb-volunteer-strong);
+}
+
+.step-advice {
+  background: var(--tb-panel);
+  border-left: 4px solid #d99a20;
+  border-radius: var(--tb-radius-md);
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.step-advice small {
+  color: #946200;
+  display: block;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}
+
+.step-advice p {
+  color: var(--tb-ink);
+  margin: 0;
+}

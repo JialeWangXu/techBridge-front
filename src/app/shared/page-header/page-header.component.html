@@ -1,0 +1,14 @@
+<div class="page-heading mb-4">
+  @if (eyebrow) {
+    <p class="section-label mb-2">{{ eyebrow }}</p>
+  }
+  <h2 class="app-title mb-1">
+    @if (icon) {
+      <i class="bi me-2" [class]="icon"></i>
+    }
+    {{ title }}
+  </h2>
+  @if (subtitle) {
+    <p class="app-subtitle mb-0">{{ subtitle }}</p>
+  }
+</div>

@@ -1,3 +1,14 @@
 a{
   cursor: pointer;
+  text-align: center;
+  padding: 6px;
+  font-size: 1.1rem;
+}
+.pagination {
+  gap: 0.35rem;
+}
+
+.page-link {
+  border-radius: var(--tb-radius-sm);
+  font-weight: 750;
 }

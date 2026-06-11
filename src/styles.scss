@@ -18,6 +18,36 @@ html {
   ));
 }
 
+:root {
+  --tb-senior: #0f4c81;
+  --tb-senior-strong: #07345f;
+  --tb-senior-soft: #e8f1fa;
+  --tb-senior-accent: #5d9bd3;
+  --tb-volunteer: #2f6f4e;
+  --tb-volunteer-strong: #1f4f37;
+  --tb-volunteer-soft: #eaf4ee;
+  --tb-ink: #182230;
+  --tb-muted: #667085;
+  --tb-border: #d8dee8;
+  --tb-surface: #ffffff;
+  --tb-page: #f5f7fb;
+  --tb-panel: #eef2f6;
+  --tb-warning-soft: #fff7e6;
+  --tb-danger-soft: #fff1f1;
+  --tb-radius-sm: 8px;
+  --tb-radius-md: 12px;
+  --tb-radius-lg: 16px;
+  --tb-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+  --tb-shadow-md: 0 10px 30px rgba(16, 24, 40, 0.08);
+  --tb-focus: 0 0 0 4px rgba(15, 76, 129, 0.18);
+  --bs-primary: var(--tb-senior);
+  --bs-primary-rgb: 15, 76, 129;
+  --bs-success: var(--tb-volunteer);
+  --bs-success-rgb: 47, 111, 78;
+  --bs-body-color: var(--tb-ink);
+  --bs-body-bg: var(--tb-page);
+}
+
 body {
   // Default the application to a light color theme. This can be changed to
   // `dark` to enable the dark color theme, or to `light dark` to defer to the
@@ -27,16 +57,281 @@ body {
   // Set a default background, font and text colors for the application using
   // Angular Material's system-level CSS variables. Learn more about these
   // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
+  background-color: var(--tb-page);
+  color: var(--tb-ink);
   font: var(--mat-sys-body-medium);
 
   // Reset the user agent margin.
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
 
-  height: 100vh;
+  min-height: 100vh;
+  line-height: 1.55;
 }
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--tb-ink);
+  letter-spacing: 0;
+}
+
+.text-primary {
+  color: var(--tb-senior) !important;
+}
+
+.text-success {
+  color: var(--tb-volunteer) !important;
+}
+
+.bg-light {
+  background-color: var(--tb-panel) !important;
+}
+
+.bg-primary,
+.btn-primary {
+  background-color: var(--tb-senior) !important;
+  border-color: var(--tb-senior) !important;
+}
+
+.btn-success {
+  background-color: var(--tb-volunteer) !important;
+  border-color: var(--tb-volunteer) !important;
+}
+
+.btn {
+  border-radius: var(--tb-radius-md);
+  min-height: 44px;
+  font-weight: 650;
+}
+
+.btn-lg {
+  min-height: 52px;
+}
+
+.btn:focus-visible,
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus,
+.page-link:focus {
+  box-shadow: var(--tb-focus) !important;
+  border-color: var(--tb-senior-accent) !important;
+}
+
+.card {
+  border-color: var(--tb-border) !important;
+  border-radius: var(--tb-radius-lg) !important;
+  box-shadow: var(--tb-shadow-sm) !important;
+}
+
+.shadow,
+.shadow-sm,
+.shadow-lg {
+  box-shadow: var(--tb-shadow-sm) !important;
+}
+
+.form-control,
+.form-select {
+  border-color: var(--tb-border);
+  border-radius: var(--tb-radius-md);
+  min-height: 48px;
+}
+
+.form-control-lg,
+.form-select-lg {
+  min-height: 56px;
+  font-size: 1.05rem;
+}
+
+.badge {
+  font-weight: 700;
+}
+
+.page-link {
+  color: var(--tb-senior);
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-link.active,
+.active > .page-link {
+  background-color: var(--tb-senior) !important;
+  border-color: var(--tb-senior) !important;
+  color: #ffffff !important;
+}
+
+.app-page {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.app-title {
+  color: var(--tb-senior-strong);
+  font-weight: 800;
+}
+
+.app-subtitle {
+  color: var(--tb-muted);
+  font-size: 1.1rem;
+}
+
+.surface-panel {
+  background: var(--tb-surface);
+  border: 1px solid var(--tb-border);
+  border-radius: var(--tb-radius-lg);
+  box-shadow: var(--tb-shadow-sm);
+}
+
+.detail-page {
+  --detail-main: var(--tb-senior);
+  --detail-strong: var(--tb-senior-strong);
+  --detail-soft: var(--tb-senior-soft);
+  --detail-rgb: 15, 76, 129;
+  min-height: 100vh;
+}
+
+.detail-page.volunteer-detail {
+  --detail-main: var(--tb-volunteer);
+  --detail-strong: var(--tb-volunteer-strong);
+  --detail-soft: var(--tb-volunteer-soft);
+  --detail-rgb: 47, 111, 78;
+}
+
+.detail-page h2,
+.detail-page h3,
+.detail-page h4,
+.detail-page h5 {
+  color: var(--detail-strong) !important;
+}
+
+.detail-page .card {
+  background: var(--tb-surface);
+  border: 1px solid var(--tb-border) !important;
+  border-radius: var(--tb-radius-lg) !important;
+  box-shadow: var(--tb-shadow-sm) !important;
+}
+
+.detail-page .btn-primary,
+.detail-page .bg-primary {
+  background-color: var(--detail-main) !important;
+  border-color: var(--detail-main) !important;
+}
+
+.detail-page .text-primary {
+  color: var(--detail-main) !important;
+}
+
+.detail-page .form-select,
+.detail-page .form-control {
+  border: 1px solid var(--tb-border);
+  border-radius: var(--tb-radius-md);
+}
+
+.detail-page .form-select:focus,
+.detail-page .form-control:focus {
+  border-color: rgba(var(--detail-rgb), 0.55);
+  box-shadow: 0 0 0 4px rgba(var(--detail-rgb), 0.16) !important;
+}
+
+.detail-page .hover-shadow {
+  border-radius: var(--tb-radius-md) !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.detail-page .hover-shadow:hover {
+  border-color: rgba(var(--detail-rgb), 0.35) !important;
+  box-shadow: var(--tb-shadow-md) !important;
+  cursor: pointer;
+  transform: translateY(-2px);
+}
+
+.detail-page .transition-all {
+  transition: all 0.2s ease;
+}
+
+.detail-page .icon-box-cancelled {
+  align-items: center;
+  background-color: var(--tb-danger-soft);
+  border-radius: var(--tb-radius-lg);
+  display: flex;
+  height: 86px;
+  justify-content: center;
+  width: 86px;
+}
+
+.detail-page .icon-circle {
+  align-items: center;
+  border-radius: var(--tb-radius-md);
+  display: flex;
+  font-size: 1.2rem;
+  height: 50px;
+  justify-content: center;
+  width: 50px;
+}
+
+.detail-page .animate__animated {
+  animation-duration: 0.45s;
+}
+
+.detail-page .animate__fadeIn {
+  animation: detailFadeIn 0.45s ease-in-out;
+}
+
+@keyframes detailFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.detail-page .btn-disabled-limit {
+  background-color: #cbd5e0 !important;
+  border-color: #cbd5e0 !important;
+  box-shadow: none !important;
+  color: #718096 !important;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.detail-page .alert-info {
+  background-color: var(--detail-soft);
+  border-left: 5px solid var(--detail-main) !important;
+  color: var(--detail-strong);
+}
+
+@media (max-width: 576px) {
+  .app-page {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .btn {
+    min-height: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .detail-page > .d-flex:first-child {
+    align-items: stretch !important;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .detail-page .filter-row {
+    flex-wrap: wrap;
+    overflow: visible !important;
+  }
+}

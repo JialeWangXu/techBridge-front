@@ -1,125 +1,103 @@
-<div class="container py-5">
-  <div class="header-section mb-5">
-    <h2 class="fw-bold" style="color: #003366">
-      <i class="bi bi-search me-2"></i>Panel del Voluntario
-    </h2>
-    <p class="text-muted fs-5">Encuentra personas que necesitan tu ayuda cerca de ti.</p>
-  </div>
+<div class="container app-page">
+  <app-page-header
+    eyebrow="Panel voluntario"
+    title="Ayudas disponibles"
+    subtitle="Encuentra personas que necesitan tu ayuda cerca de ti."
+    icon="bi-search">
+  </app-page-header>
 
-  <div class="row g-3 mb-5">
-    <div class="col-md-6">
-      <div class="search-box p-2 shadow-sm rounded-4 bg-white border d-flex align-items-center">
-        <i class="bi bi-search ms-3 text-muted"></i>
-        <input
-          type="text"
-          class="form-control border-0 shadow-none"
-          placeholder="Busca por tema (ej: WhatsApp, Correo, Impresora...)"
-          (input)="onSearchTextChange($event)"
-        />
+  <div class="filters-panel mb-4">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="search-box">
+          <i class="bi bi-search text-muted"></i>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Busca por tema: WhatsApp, correo, impresora..."
+            (input)="onSearchTextChange($event)"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="col-md-3">
-      <div class="filter-card p-2 shadow-sm rounded-4 bg-white border">
-        <select class="form-select border-0 shadow-none" (change)="onMethodChange($event)">
-          <option value="ALL">Todos los métodos de contacto</option>
-          <option value="TELEPHONE">Teléfono</option>
-          <option value="ONLINE_MEETING">Reunión Online</option>
+      <div class="col-md-3">
+        <select class="form-select" (change)="onMethodChange($event)">
+          <option value="ALL">Todos los m&eacute;todos</option>
+          <option value="TELEPHONE">Tel&eacute;fono</option>
+          <option value="ONLINE_MEETING">Reuni&oacute;n online</option>
           <option value="IN_PERSON">Presencial</option>
         </select>
       </div>
-    </div>
 
-    <div class="col-md-3">
-      <div
-        class="filter-card p-2 shadow-sm rounded-4 bg-white border d-flex align-items-center justify-content-center"
-      >
-        <div class="form-check form-switch mb-0">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="myZone"
-            [disabled]="!volunteerProvince && !volunteerCity"
-            (change)="toggleMyZone($event)"
-          />
-          <label class="form-check-label small fw-bold" for="myZone">Solo mi provincia</label>
+      <div class="col-md-3">
+        <div class="zone-filter">
+          <div class="form-check form-switch mb-0">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="myZone"
+              [disabled]="!volunteerProvince && !volunteerCity"
+              (change)="toggleMyZone($event)"
+            />
+            <label class="form-check-label" for="myZone">Solo mi provincia</label>
+          </div>
+          @if (!volunteerCity && !volunteerProvince) {
+            <span>Configura tu ubicaci&oacute;n en el perfil.</span>
+          }
         </div>
-        @if (!volunteerCity && !volunteerProvince) {
-          <span class="small text-muted ms-2"
-            >Para aplicar este filtro, configura tu ubicación en tu perfil.</span
-          >
-        }
       </div>
     </div>
   </div>
 
-  <div class="row g-4">
+  <div class="row g-3">
     @for (req of availableHelpRequests; track req.id) {
       <div class="col-12">
-        <div class="card request-card-volunteer shadow-sm border-0 rounded-4 overflow-hidden">
-          <div class="d-flex flex-column flex-md-row">
-            <div
-              class="method-strip p-3 d-flex flex-column align-items-center justify-content-center"
-              [style.background-color]="
-                req.senior.contactPreference === 'PRESENTIAL' ? '#e8f5e9' : '#e3f2fd'
+        <div class="request-card-volunteer">
+          <div
+            class="method-strip"
+            [class.presential]="req.senior.contactPreference === 'PRESENTIAL'"
+          >
+            <i
+              class="bi"
+              [class]="
+                req.senior.contactPreference === 'PRESENTIAL'
+                  ? 'bi-person-walking'
+                  : 'bi-laptop'
               "
-            >
-              <i
-                class="bi fs-2"
-                [class]="
-                  req.senior.contactPreference === 'PRESENTIAL'
-                    ? 'bi-person-walking text-success'
-                    : 'bi-laptop text-primary'
-                "
-              ></i>
-              <span
-                class="badge mt-2"
-                [class]="
-                  req.senior.contactPreference === 'PRESENTIAL' ? 'bg-success' : 'bg-primary'
-                "
-              >
-                {{ req.senior.contactPreference }}
-              </span>
+            ></i>
+            <span>{{  sessionMethodTranslations[req.senior.contactPreference!] }}</span>
+          </div>
+
+          <div class="request-content">
+            <div class="request-header">
+              <div>
+                <h4>{{ req.title }}</h4>
+                <p>{{ req.description }}</p>
+              </div>
+              <div class="location">
+                <strong><i class="bi bi-geo-alt-fill me-1"></i>{{ req.senior.city }}</strong>
+                <span>{{ req.senior.province }}</span>
+              </div>
             </div>
 
-            <div class="p-4 flex-grow-1">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <h4 class="fw-bold mb-0" style="color: #003366">{{ req.title }}</h4>
-                <div class="text-end">
-                  <div class="fw-bold text-dark">
-                    <i class="bi bi-geo-alt-fill me-1 text-danger"></i>{{ req.senior.city }}
-                  </div>
-                  <div class="small text-muted">{{ req.senior.province }}</div>
-                </div>
+            <div class="request-footer">
+              <div class="senior-info">
+                <div class="avatar-mini">{{ req.senior.firstName[0] }}</div>
+                <span>{{ req.senior.firstName }} {{ req.senior.lastName }}</span>
               </div>
-              <p class="text-secondary mb-3">{{ req.description }}</p>
-
-              <div class="d-flex align-items-center gap-3 pt-3 border-top">
-                <div class="senior-info d-flex align-items-center">
-                  <div class="avatar-mini me-2">{{ req.senior.firstName[0] }}</div>
-                  <span class="small fw-bold"
-                    >{{ req.senior.firstName }} {{ req.senior.lastName }}</span
-                  >
-                </div>
-                <span class="small text-muted">{{ req.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
-                <div class="ms-auto">
-                  <button
-                    class="btn btn-primary rounded-pill px-4 fw-bold"
-                    (click)="goToDetail(req.id)"
-                  >
-                    Ver Detalles
-                  </button>
-                </div>
-              </div>
+              <span class="date-text">{{ req.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+              <button class="btn btn-success ms-md-auto" (click)="goToDetail(req.id)">
+                Ver detalles
+              </button>
             </div>
           </div>
         </div>
       </div>
     } @empty {
-      <div class="text-center py-5">
-        <i class="bi bi-emoji-slight-smile fs-1 text-muted"></i>
-        <p class="mt-3 fs-5 text-muted">No hay peticiones abiertas con esos filtros ahora mismo.</p>
-      </div>
+      <app-empty-state
+        icon="bi-inbox"
+        message="No hay peticiones abiertas con esos filtros ahora mismo.">
+      </app-empty-state>
     }
   </div>
   @if (availableHelpRequests.length > 0) {
