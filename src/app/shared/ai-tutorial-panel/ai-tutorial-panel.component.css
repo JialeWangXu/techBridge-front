@@ -37,6 +37,58 @@
   color: var(--tb-volunteer-strong);
 }
 
+.tutorial-pagination {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: -0.25rem 0 1rem;
+}
+
+.tutorial-page-btn {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--tb-border);
+  border-radius: var(--tb-radius-md);
+  color: var(--tb-senior);
+  display: inline-flex;
+  font-size: 1.35rem;
+  height: 48px;
+  justify-content: center;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+  width: 56px;
+}
+
+.tutorial-page-btn:hover:not(:disabled) {
+  background: var(--tb-senior-soft);
+  border-color: rgba(15, 76, 129, 0.35);
+  color: var(--tb-senior-strong);
+}
+
+.tutorial-page-btn:focus-visible {
+  box-shadow: var(--tb-focus);
+  outline: none;
+}
+
+.tutorial-page-btn:disabled {
+  background: var(--tb-panel);
+  color: var(--tb-muted);
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.tutorial-container.volunteer .tutorial-page-btn {
+  color: var(--tb-volunteer);
+}
+
+.tutorial-container.volunteer .tutorial-page-btn:hover:not(:disabled) {
+  background: var(--tb-volunteer-soft);
+  border-color: rgba(47, 111, 78, 0.35);
+  color: var(--tb-volunteer-strong);
+}
+
 .tutorial-step {
   border: 1px solid var(--tb-border) !important;
   border-radius: var(--tb-radius-lg) !important;

@@ -39,6 +39,58 @@ describe('AiTutorialPanelComponent', () => {
     expect(element.querySelectorAll('.tutorial-step').length).toBe(2);
   });
 
+  it('should render a maximum of three steps at a time', () => {
+    component.tutorial = {
+      id: 'tutorial-2',
+      title: 'Tutorial largo',
+      generalDescription: 'Descripcion',
+      steps: [
+        { number: 1, instruction: 'Paso 1' },
+        { number: 2, instruction: 'Paso 2' },
+        { number: 3, instruction: 'Paso 3' },
+        { number: 4, instruction: 'Paso 4' },
+      ],
+    };
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+
+    expect(element.querySelectorAll('.tutorial-step').length).toBe(3);
+    expect(element.textContent).toContain('Paso 1');
+    expect(element.textContent).not.toContain('Paso 4');
+    expect(element.querySelectorAll('.tutorial-page-btn').length).toBe(2);
+  });
+
+  it('should navigate tutorial steps with arrow buttons', () => {
+    component.tutorial = {
+      id: 'tutorial-3',
+      title: 'Tutorial largo',
+      generalDescription: 'Descripcion',
+      steps: [
+        { number: 1, instruction: 'Paso 1' },
+        { number: 2, instruction: 'Paso 2' },
+        { number: 3, instruction: 'Paso 3' },
+        { number: 4, instruction: 'Paso 4' },
+        { number: 5, instruction: 'Paso 5' },
+      ],
+    };
+    fixture.detectChanges();
+
+    const nextButton = fixture.nativeElement.querySelector(
+      '[aria-label="Ver pasos siguientes"]',
+    ) as HTMLButtonElement;
+
+    nextButton.click();
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+
+    expect(element.querySelectorAll('.tutorial-step').length).toBe(2);
+    expect(element.textContent).not.toContain('Paso 1');
+    expect(element.textContent).toContain('Paso 4');
+    expect(element.textContent).toContain('Paso 5');
+  });
+
   it('should render generation state while tutorial is being generated', () => {
     component.isGenerating = true;
     fixture.detectChanges();

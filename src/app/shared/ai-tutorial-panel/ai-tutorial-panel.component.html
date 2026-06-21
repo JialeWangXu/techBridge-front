@@ -15,8 +15,34 @@
       <p class="fs-5 text-secondary">{{ tutorial?.generalDescription }}</p>
     </div>
 
+    @if (showPaginationControls) {
+      <div class="tutorial-pagination" aria-label="Navegaci&oacute;n de pasos del tutorial">
+        <button
+          type="button"
+          class="tutorial-page-btn"
+          [disabled]="!canGoPrevious"
+          aria-label="Ver pasos anteriores"
+          title="Ver pasos anteriores"
+          (click)="goPrevious()"
+        >
+          <i class="bi bi-arrow-left" aria-hidden="true"></i>
+        </button>
+
+        <button
+          type="button"
+          class="tutorial-page-btn"
+          [disabled]="!canGoNext"
+          aria-label="Ver pasos siguientes"
+          title="Ver pasos siguientes"
+          (click)="goNext()"
+        >
+          <i class="bi bi-arrow-right" aria-hidden="true"></i>
+        </button>
+      </div>
+    }
+
     <div class="d-flex flex-column gap-3">
-      @for (step of tutorial?.steps ?? []; track step.number) {
+      @for (step of visibleSteps; track step.number) {
         <div class="card tutorial-step">
           <div class="d-flex align-items-start">
             <div class="step-number">
