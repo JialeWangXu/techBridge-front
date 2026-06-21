@@ -1,5 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { take } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -32,6 +34,14 @@ export class AuthService {
   }
 
   logout(): void {
-      this.oidcSecurityService.logoff().subscribe();
+    this.oidcSecurityService.getIdToken().pipe(take(1)).subscribe((idToken) => {
+      if (idToken) {
+        this.oidcSecurityService.logoff().subscribe();
+        return;
+      }
+
+      this.oidcSecurityService.logoffLocal();
+      globalThis.location.assign(environment.FRONT_END);
+    });
   }
 }
